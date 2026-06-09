@@ -25,7 +25,23 @@
       "sourceLabel": "Pagina offerta iliad + trasparenza tariffaria",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["5G", "nessun vincolo", "250GB", "prezzo stabile"]
+      "tags": [
+        "5G",
+        "nessun vincolo",
+        "250GB",
+        "prezzo stabile"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 9.99,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 9.99,
+        "activationOnce": 9.99,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 129.87
+      }
     },
     {
       "id": "iliad-top-300-plus",
@@ -49,7 +65,22 @@
       "sourceLabel": "Pagina offerta iliad + trasparenza tariffaria",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["5G", "300GB", "nessun vincolo"]
+      "tags": [
+        "5G",
+        "300GB",
+        "nessun vincolo"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 11.99,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 11.99,
+        "activationOnce": 9.99,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 153.87
+      }
     },
     {
       "id": "very-599-150gb",
@@ -73,7 +104,23 @@
       "sourceLabel": "Pagina offerta Very Mobile",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["5G", "150GB", "MNP", "attivazione gratuita"]
+      "tags": [
+        "5G",
+        "150GB",
+        "MNP",
+        "attivazione gratuita"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 5.99,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 5.99,
+        "activationOnce": 0,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 71.88
+      }
     },
     {
       "id": "very-799-300gb",
@@ -97,7 +144,23 @@
       "sourceLabel": "Pagina offerta Very Mobile",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["5G", "300GB", "MNP", "promo scadenza"]
+      "tags": [
+        "5G",
+        "300GB",
+        "MNP",
+        "promo scadenza"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 7.99,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 7.99,
+        "activationOnce": 0.99,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 96.87
+      }
     },
     {
       "id": "ho-495-100gb",
@@ -121,7 +184,22 @@
       "sourceLabel": "Pagina offerta ho. Mobile",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["100GB", "MNP", "low cost"]
+      "tags": [
+        "100GB",
+        "MNP",
+        "low cost"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 4.95,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 4.95,
+        "activationOnce": 4.99,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 64.39
+      }
     },
     {
       "id": "ho-895-250gb",
@@ -145,7 +223,22 @@
       "sourceLabel": "Pagina offerta ho. Mobile",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["250GB", "5G", "MNP"]
+      "tags": [
+        "250GB",
+        "5G",
+        "MNP"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 8.95,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 8.95,
+        "activationOnce": 2.99,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 110.39
+      }
     },
     {
       "id": "kena-home-799-250-350",
@@ -169,7 +262,22 @@
       "sourceLabel": "Homepage offerte Kena Mobile",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["5G", "250GB", "ricarica automatica"]
+      "tags": [
+        "5G",
+        "250GB",
+        "ricarica automatica"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 7.99,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 7.99,
+        "activationOnce": 2,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 97.88
+      }
     },
     {
       "id": "kena-dati-5g-1199-500gb",
@@ -193,7 +301,22 @@
       "sourceLabel": "Pagina prodotto Kena Mobile",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["5G", "500GB", "data heavy"]
+      "tags": [
+        "5G",
+        "500GB",
+        "data heavy"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 11.99,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 11.99,
+        "activationOnce": 3,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 146.88
+      }
     },
     {
       "id": "iliadbox-wifi7-2299",
@@ -217,7 +340,22 @@
       "sourceLabel": "Pagina fibra iliad + trasparenza tariffaria",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["FTTH", "Wi-Fi 7", "senza vincoli"]
+      "tags": [
+        "FTTH",
+        "Wi-Fi 7",
+        "senza vincoli"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 22.99,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 22.99,
+        "activationOnce": 39.99,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 315.87
+      }
     },
     {
       "id": "iliadbox-super-2999",
@@ -241,7 +379,22 @@
       "sourceLabel": "Pagina fibra iliadbox super",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["FTTH", "bundle", "Wi-Fi 7"]
+      "tags": [
+        "FTTH",
+        "bundle",
+        "Wi-Fi 7"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 29.99,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 29.99,
+        "activationOnce": 39.99,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 399.87
+      }
     },
     {
       "id": "fastweb-casa-start-2795",
@@ -265,7 +418,21 @@
       "sourceLabel": "Pagina offerte fibra Fastweb",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["fibra", "modem incluso"]
+      "tags": [
+        "fibra",
+        "modem incluso"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 27.95,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 27.95,
+        "activationOnce": 0,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 335.4
+      }
     },
     {
       "id": "fastweb-casa-pro-2995",
@@ -289,7 +456,22 @@
       "sourceLabel": "Homepage offerte Fastweb",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["fibra", "Wi-Fi 7", "chiamate incluse"]
+      "tags": [
+        "fibra",
+        "Wi-Fi 7",
+        "chiamate incluse"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 29.95,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 29.95,
+        "activationOnce": 0,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 359.4
+      }
     },
     {
       "id": "tim-wifi-casa-2490",
@@ -297,8 +479,8 @@
       "name": "TIM WiFi Casa",
       "sector": "fibra",
       "status": "active",
-      "baseMonthly": 24.90,
-      "activation": 39.90,
+      "baseMonthly": 24.9,
+      "activation": 39.9,
       "setupLabel": "Attivazione iniziale 39,90€; promo online da verificare",
       "expiryDate": null,
       "promoMonths": null,
@@ -313,7 +495,22 @@
       "sourceLabel": "Homepage TIM offerte internet casa",
       "lastChecked": "2026-06-09",
       "scrapeHint": "price_launch",
-      "tags": ["fibra", "promo", "copertura"]
+      "tags": [
+        "fibra",
+        "promo",
+        "copertura"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 24.9,
+      "costBreakdown": {
+        "commodityUnit": null,
+        "spreadUnit": null,
+        "fixedMonthly": 24.9,
+        "activationOnce": 39.9,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 338.7
+      }
     },
     {
       "id": "fastweb-luce-fix-0180",
@@ -339,7 +536,23 @@
       "sourceLabel": "Pagina Fastweb Energia Luce",
       "lastChecked": "2026-06-09",
       "scrapeHint": "energy_unit_price",
-      "tags": ["luce", "prezzo fisso", "rinnovabile"]
+      "tags": [
+        "luce",
+        "prezzo fisso",
+        "rinnovabile"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 13,
+      "unitPriceEurPerKwh": 0.18,
+      "costBreakdown": {
+        "commodityUnit": 0.18,
+        "spreadUnit": 0,
+        "fixedMonthly": 13,
+        "activationOnce": 0,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 336.0
+      }
     },
     {
       "id": "fastweb-gas-flex-psv-010",
@@ -351,7 +564,7 @@
       "activation": 0,
       "setupLabel": "Corrispettivo annuo 180€/PDR/anno; promo multiservice da verificare",
       "unitPrice": 0.493,
-      "spread": 0.10,
+      "spread": 0.1,
       "expiryDate": "2026-06-25",
       "promoMonths": 12,
       "fullPriceAfterPromo": null,
@@ -365,7 +578,23 @@
       "sourceLabel": "Pagina Fastweb Energia Luce/Gas",
       "lastChecked": "2026-06-09",
       "scrapeHint": "energy_unit_price",
-      "tags": ["gas", "PSV", "variabile"]
+      "tags": [
+        "gas",
+        "PSV",
+        "variabile"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 15,
+      "unitPriceEurPerSmc": 0.493,
+      "costBreakdown": {
+        "commodityUnit": 0.493,
+        "spreadUnit": 0.1,
+        "fixedMonthly": 15,
+        "activationOnce": 0,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 476.5
+      }
     },
     {
       "id": "enel-fix-web-luce-0139",
@@ -391,7 +620,23 @@
       "sourceLabel": "Pagina Enel Fix Web Luce e Gas",
       "lastChecked": "2026-06-09",
       "scrapeHint": "energy_unit_price",
-      "tags": ["luce", "prezzo fisso", "36 mesi"]
+      "tags": [
+        "luce",
+        "prezzo fisso",
+        "36 mesi"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 12,
+      "unitPriceEurPerKwh": 0.139,
+      "costBreakdown": {
+        "commodityUnit": 0.139,
+        "spreadUnit": 0,
+        "fixedMonthly": 12,
+        "activationOnce": 0,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 283.0
+      }
     },
     {
       "id": "enel-fix-web-gas-0490",
@@ -417,7 +662,23 @@
       "sourceLabel": "Pagina Enel Fix Web Luce e Gas",
       "lastChecked": "2026-06-09",
       "scrapeHint": "energy_unit_price",
-      "tags": ["gas", "prezzo fisso", "36 mesi"]
+      "tags": [
+        "gas",
+        "prezzo fisso",
+        "36 mesi"
+      ],
+      "hiddenCosts": [],
+      "hiddenCostFlags": [],
+      "fixedFeeMonth": 12,
+      "unitPriceEurPerSmc": 0.49,
+      "costBreakdown": {
+        "commodityUnit": 0.49,
+        "spreadUnit": 0,
+        "fixedMonthly": 12,
+        "activationOnce": 0,
+        "hiddenDetectedOnce": 0,
+        "normalizedComparison": 389.0
+      }
     }
   ]
 }

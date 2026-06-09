@@ -1,25 +1,20 @@
-name: Update all tariff data
+name: Update fiber data only
 
 on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Audit only: run importer without committing"
+        description: "Audit only: run fiber scraper without committing"
         required: true
         default: false
         type: boolean
-      limit_energy:
-        description: "Optional ARERA energy offer limit for test runs; 0 = no limit"
-        required: true
-        default: "0"
-        type: string
       delay_seconds:
         description: "Delay between requests to the same host"
         required: true
-        default: "2.5"
+        default: "3.5"
         type: string
   schedule:
-    - cron: "17 4 * * *"
+    - cron: "37 5 * * 1,3,5"
 
 permissions:
   contents: write
@@ -33,7 +28,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  update-all:
+  update-fiber:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -59,19 +54,17 @@ jobs:
             cp data/sources.example.json data/sources.json
           fi
 
-      - name: Import all sources
+      - name: Scrape official fiber sources
         env:
           TARIFF_RADAR_UA: ${{ secrets.TARIFF_RADAR_UA }}
         run: |
           mkdir -p artifacts
-          ARGS="--sources data/sources.json --output data/offers.json --commodity-output data/commodity-index.json --correlation-output data/market-correlation.json --snapshot-output data/offer-snapshots.json"
-          LIMIT="${{ github.event.inputs.limit_energy || '0' }}"
+          ARGS="--sources data/sources.json --output data/offers.json --commodity-output data/commodity-index.json --correlation-output data/market-correlation.json --snapshot-output data/offer-snapshots.json --skip-energy"
+          DELAY="${{ github.event.inputs.delay_seconds || '3.5' }}"
           DRY="${{ github.event.inputs.dry_run || 'false' }}"
-          DELAY="${{ github.event.inputs.delay_seconds || '2.5' }}"
-          if [ "$LIMIT" != "0" ] && [ -n "$LIMIT" ]; then ARGS="$ARGS --limit-energy $LIMIT"; fi
           if [ -n "$DELAY" ]; then ARGS="$ARGS --delay $DELAY"; fi
           if [ "$DRY" = "true" ]; then ARGS="$ARGS --dry-run"; fi
-          python scripts/import_sources.py $ARGS 2>&1 | tee artifacts/update-all.log
+          python scripts/import_sources.py $ARGS 2>&1 | tee artifacts/update-fiber.log
 
       - name: Validate data
         if: ${{ github.event.inputs.dry_run != 'true' }}
@@ -81,22 +74,22 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: update-all-log
-          path: artifacts/update-all.log
+          name: update-fiber-log
+          path: artifacts/update-fiber.log
           if-no-files-found: ignore
           retention-days: 14
 
-      - name: Commit updated data
+      - name: Commit updated fiber data
         if: ${{ github.event.inputs.dry_run != 'true' }}
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add data/offers.json data/commodity-index.json data/market-correlation.json data/offer-snapshots.json data/sources.json
+          git add data/offers.json data/market-correlation.json data/offer-snapshots.json data/sources.json
           if git diff --cached --quiet; then
-            echo "No tariff data changes to commit."
+            echo "No fiber data changes to commit."
             exit 0
           fi
-          git commit -m "Update all tariff radar data"
+          git commit -m "Update fiber tariff data"
           BRANCH="${GITHUB_REF_NAME:-main}"
           for i in 1 2 3; do
             git pull --rebase origin "$BRANCH" && git push origin HEAD:"$BRANCH" && exit 0

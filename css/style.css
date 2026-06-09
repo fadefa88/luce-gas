@@ -458,3 +458,40 @@ code { background: var(--ink); color: var(--acid); padding: 2px 5px; font-family
   .instrument-grid div { border-right: 0; border-bottom: 1px solid rgba(244,239,223,.25); }
   .offer-title h3 { font-size: 32px; }
 }
+
+.unit-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.unit-strip div {
+  border: 2px solid var(--ink);
+  background: #fff9e8;
+  padding: 8px;
+  min-height: 58px;
+}
+.unit-strip span {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.unit-strip strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 15px;
+  letter-spacing: -.03em;
+}
+.offer-card.has-hidden .offer-sector span { background: var(--accent); color: var(--ink); }
+.signal-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.signal-grid .wide { grid-column: 1 / -1; }
+
+@media (max-width: 1200px) {
+  .signal-grid.three { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+  .unit-strip { grid-template-columns: 1fr 1fr; }
+  .signal-grid.three { grid-template-columns: 1fr; }
+}

@@ -1,25 +1,20 @@
-# Legal and operational notes
+# Note legali operative
 
-This project is designed as a consumer information tool, not as a scraper that republishes third-party commercial pages.
+Questo progetto è impostato per minimizzare il rischio:
 
-## Safer operating principles
+- usa Open Data ufficiali per luce/gas;
+- per fibra legge solo dati essenziali da pagine pubbliche;
+- non bypassa login, CAPTCHA, blocchi anti-bot o aree riservate;
+- rispetta robots.txt di default;
+- mantiene fonte e data controllo;
+- non copia immagini, banner, layout o testi commerciali lunghi.
 
-- Import only essential factual data.
-- Keep source URL and last-check date.
-- Do not copy long marketing copy, images, banners, logos or layouts.
-- Respect robots.txt by default.
-- Do not bypass login, captcha, rate limits or anti-bot systems.
-- Allow providers to request correction of inaccurate information.
-- Clearly disclose methodology and any affiliate/sponsor relationship.
+Prima del go-live pubblico conviene:
 
-## ARERA / energy
+1. indicare una pagina contatti reale nello user-agent;
+2. pubblicare metodologia e disclaimer;
+3. evitare ranking sponsorizzati non dichiarati;
+4. conservare audit import;
+5. prevedere procedura di correzione/rimozione per operatori.
 
-For electricity and gas, use official open data whenever possible.
-
-## AGCOM / telco
-
-Italian telco operators publish offer transparency information. Use those pages as references, but keep extraction minimal and source-linked.
-
-## Disclaimer
-
-This repository is not legal advice. Before running a public commercial comparison site, review terms of use, database rights, advertising rules and consumer-protection obligations with a qualified professional.
+Non è consulenza legale.

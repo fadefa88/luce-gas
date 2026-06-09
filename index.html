@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Osservatorio indipendente per offerte luce, gas, fibra e mobile: prezzi reali, storico, scadenze, fonti e score di convenienza." />
+  <meta name="description" content="Osservatorio indipendente per offerte luce, gas e fibra: prezzo materia prima, costi nascosti, scadenze, fonti e storico prezzi." />
   <meta name="theme-color" content="#f4efdf" />
-  <title>Tariff Radar — mercato offerte, senza fuffa</title>
+  <title>Tariff Radar — costo reale offerte luce gas fibra</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Vai al contenuto</a>
 
   <div class="ticker" aria-label="Ticker dati">
-    <div id="tickerTrack">CARICAMENTO FONTI · PREZZI · SCADENZE · SNAPSHOT ·</div>
+    <div id="tickerTrack">CARICAMENTO FONTI · PREZZO MATERIA · COSTI NASCOSTI · PUN · PSV · FIBRA ·</div>
   </div>
 
   <header class="masthead">
@@ -20,12 +20,12 @@
       <span class="stamp">TR</span>
       <span>
         <strong>Tariff Radar</strong>
-        <small>market tape per luce · gas · fibra · mobile</small>
+        <small>unit economics per luce · gas · fibra</small>
       </span>
     </a>
     <nav class="nav" aria-label="Navigazione">
       <a href="#matrix">Matrice</a>
-      <a href="#signals">Segnali</a>
+      <a href="#signals">Grafici</a>
       <a href="#method">Metodo</a>
       <a href="#sources">Fonti</a>
     </nav>
@@ -35,93 +35,76 @@
   <main id="main">
     <section id="top" class="hero">
       <div class="hero-main">
-        <p class="label">OSSERVATORIO PREZZI / NO SPONSORED RANKING</p>
-        <h1>Il prezzo basso è un dato. Il momento giusto è un segnale.</h1>
+        <p class="label">OSSERVATORIO PREZZI / MATERIA PRIMA / HIDDEN COSTS</p>
+        <h1>Non confrontare famiglie. Confronta componenti di costo.</h1>
         <p class="lead">
-          Un sito statico, aggressivo sui dati e sobrio sul marketing: monitora prezzo lancio,
-          scadenza, costi iniziali, vincoli e storico delle offerte pubbliche.
+          Il sito separa prezzo materia prima, spread, quota fissa, costi una tantum, modem,
+          vincoli e scadenze. Luce e gas arrivano dagli Open Data del Portale Offerte; fibra da
+          pagine ufficiali e trasparenza tariffaria.
         </p>
         <div class="hero-actions">
           <a class="cut-button primary" href="#matrix">Apri la matrice</a>
-          <a class="cut-button" href="#sources">Vedi fonti</a>
+          <a class="cut-button" href="#signals">Vedi grafici</a>
         </div>
       </div>
       <aside class="hero-instrument" aria-label="Sintesi stato dati">
-        <div class="instrument-row">
-          <span>ULTIMO CHECK</span><strong id="lastUpdate">—</strong>
-        </div>
+        <div class="instrument-row"><span>ULTIMO CHECK</span><strong id="lastUpdate">—</strong></div>
         <div class="instrument-score">
-          <svg viewBox="0 0 220 130" role="img" aria-label="Indice mercato medio">
+          <svg viewBox="0 0 220 130" role="img" aria-label="Indice qualità dati">
             <path d="M10 120 A100 100 0 0 1 210 120" class="arc-bg"></path>
             <path id="scoreArc" d="M10 120 A100 100 0 0 1 210 120" class="arc-fg"></path>
             <line id="needle" x1="110" y1="120" x2="110" y2="32" />
             <circle cx="110" cy="120" r="6" />
           </svg>
-          <div>
-            <span>MARKET SCORE</span>
-            <strong id="marketScore">—</strong>
-          </div>
+          <div><span>DATA CONFIDENCE</span><strong id="marketScore">—</strong></div>
         </div>
         <div class="instrument-grid">
           <div><strong id="kpiOffers">—</strong><span>offerte</span></div>
-          <div><strong id="kpiExpiring">—</strong><span>scadenze</span></div>
+          <div><strong id="kpiHidden">—</strong><span>hidden flags</span></div>
           <div><strong id="kpiSources">—</strong><span>fonti</span></div>
         </div>
       </aside>
     </section>
 
     <section class="intel-strip" aria-label="Insight sintetici">
-      <article>
-        <span>BEST NOW</span>
-        <strong id="bestNow">—</strong>
-      </article>
-      <article>
-        <span>PIÙ AGGRESSIVA</span>
-        <strong id="lowestMonthly">—</strong>
-      </article>
-      <article>
-        <span>SCADENZA VICINA</span>
-        <strong id="closestExpiry">—</strong>
-      </article>
-      <article>
-        <span>DELTA BEST/MEDIA</span>
-        <strong id="deltaBestAvg">—</strong>
-      </article>
+      <article><span>LUCE PIÙ BASSA</span><strong id="bestLuce">—</strong></article>
+      <article><span>GAS PIÙ BASSO</span><strong id="bestGas">—</strong></article>
+      <article><span>FIBRA PIÙ PULITA</span><strong id="bestFiber">—</strong></article>
+      <article><span>COSTI DA LEGGERE</span><strong id="hiddenPressure">—</strong></article>
     </section>
 
     <section id="matrix" class="workspace">
       <aside class="control-panel">
-        <div class="panel-title">
-          <span>QUERY</span>
-          <strong>market.filter()</strong>
-        </div>
+        <div class="panel-title"><span>QUERY</span><strong>cost.filter()</strong></div>
         <label>
-          Profilo
-          <select id="profileSelect">
-            <option value="family_energy">Famiglia: 2700 kWh + 800 Smc</option>
-            <option value="single_light">Single: 1600 kWh + 350 Smc</option>
-            <option value="high_usage">Casa energivora: 4200 kWh + 1300 Smc</option>
-            <option value="mobile_heavy">Mobile: heavy data</option>
-            <option value="fiber_home">Fibra: casa</option>
+          Settore
+          <select id="sectorSelect">
+            <option value="all">Tutto</option>
+            <option value="luce">Luce</option>
+            <option value="gas">Gas</option>
+            <option value="fibra">Fibra</option>
+            <option value="dual">Dual fuel</option>
           </select>
         </label>
         <label>
           Cerca
-          <input id="searchInput" type="search" placeholder="iliad, 5G, fix, PSV..." />
+          <input id="searchInput" type="search" placeholder="Enel, PSV, modem, FTTH..." />
         </label>
         <label>
           Ordina
           <select id="sortSelect">
-            <option value="score">Segnale convenienza</option>
-            <option value="annualCost">Costo annuo stimato</option>
-            <option value="monthly">Canone mensile</option>
-            <option value="expiry">Scadenza</option>
+            <option value="unit">Prezzo materia/unità</option>
+            <option value="fixed">Quota fissa/canone</option>
+            <option value="hidden">Meno costi nascosti</option>
             <option value="confidence">Affidabilità dato</option>
+            <option value="expiry">Scadenza</option>
+            <option value="score">Score tecnico</option>
           </select>
         </label>
         <div class="switches">
           <label><input type="checkbox" id="onlyActive" checked /> Solo attive</label>
-          <label><input type="checkbox" id="hideLongConstraints" /> Nascondi vincoli &gt; 24 mesi</label>
+          <label><input type="checkbox" id="onlyWithUnit" /> Solo con prezzo materia/unità</label>
+          <label><input type="checkbox" id="hideHidden" /> Nascondi offerte con costi rilevati</label>
         </div>
         <div class="sector-board" id="sectorFilters" role="group" aria-label="Filtri settore"></div>
         <button id="resetFilters" class="cut-button full">Reset</button>
@@ -129,10 +112,7 @@
 
       <div class="matrix-area">
         <div class="matrix-head">
-          <div>
-            <p class="label">LIVE DATASET</p>
-            <h2>Matrice offerte</h2>
-          </div>
+          <div><p class="label">UNIT ECONOMICS</p><h2>Matrice costi reali</h2></div>
           <p id="resultsCount" class="results-count">—</p>
         </div>
         <div id="offerGrid" class="offer-grid" aria-live="polite"></div>
@@ -140,69 +120,49 @@
     </section>
 
     <section id="signals" class="signals">
-      <div class="section-head">
-        <p class="label">SIGNALS</p>
-        <h2>Prezzo, stagionalità, pressione promo</h2>
-      </div>
-      <div class="signal-grid">
+      <div class="section-head"><p class="label">SIGNALS</p><h2>Materie prime vs offerte</h2></div>
+      <div class="signal-grid three">
         <article class="terminal chart-panel">
-          <header>
-            <span>PRICE TRACE</span>
-            <select id="chartOfferSelect" aria-label="Scegli offerta per grafico"></select>
-          </header>
-          <canvas id="priceChart" height="240"></canvas>
+          <header><span>PUN / PSV</span><small>prezzi storici open data</small></header>
+          <canvas id="commodityChart" height="260"></canvas>
         </article>
         <article class="terminal chart-panel">
-          <header><span>ENERGY INDEX</span><small>PUN/PSV campione</small></header>
-          <canvas id="energyChart" height="240"></canvas>
+          <header><span>OFFERTE LUCE/GAS</span><small>media materia prima + conteggio</small></header>
+          <canvas id="correlationChart" height="260"></canvas>
         </article>
-        <article class="terminal insight-panel">
-          <header><span>AUTO READOUT</span><small>generato client-side</small></header>
+        <article class="terminal chart-panel">
+          <header><span>OFFERTA</span><select id="chartOfferSelect" aria-label="Scegli offerta per grafico"></select></header>
+          <canvas id="priceChart" height="260"></canvas>
+        </article>
+        <article class="terminal insight-panel wide">
+          <header><span>AUTO READOUT</span><small>lettura tecnica client-side</small></header>
           <ul id="insightList"></ul>
-        </article>
-        <article class="terminal season-panel">
-          <header><span>MONTH HEAT</span><small>mesi storicamente aggressivi</small></header>
-          <div id="seasonGrid" class="season-grid"></div>
         </article>
       </div>
     </section>
 
     <section id="compare" class="compare">
-      <div class="section-head">
-        <p class="label">COMPARE</p>
-        <h2>Confronto secco</h2>
-      </div>
-      <div id="compareTableWrap" class="compare-wrap">
-        <p class="empty">Aggiungi fino a 3 offerte dalla matrice.</p>
-      </div>
+      <div class="section-head"><p class="label">COMPARE</p><h2>Confronto secco</h2></div>
+      <div id="compareTableWrap" class="compare-wrap"><p class="empty">Aggiungi fino a 3 offerte dalla matrice.</p></div>
     </section>
 
     <section id="method" class="method">
-      <div class="section-head">
-        <p class="label">METHOD</p>
-        <h2>Il ranking non è un cartellone pubblicitario</h2>
-      </div>
+      <div class="section-head"><p class="label">METHOD</p><h2>Perché non uso i nuclei familiari</h2></div>
       <div class="method-grid">
-        <article><span>01</span><h3>Dati minimi</h3><p>Prezzo, attivazione, scadenza, vincolo, soglie e link alla fonte. Niente copia di testi commerciali.</p></article>
-        <article><span>02</span><h3>Fonte prima del claim</h3><p>Ogni card espone URL, data ultimo check e confidenza. Se il dato non è completo, viene marcato.</p></article>
-        <article><span>03</span><h3>Stima separata</h3><p>Per energia il costo annuo usa profilo kWh/Smc. Per fibra/mobile usa canone, promo e costi iniziali.</p></article>
-        <article><span>04</span><h3>Scraping sobrio</h3><p>Lo script legge solo dati essenziali da pagine pubbliche, rispetta robots.txt e non bypassa login/captcha.</p></article>
+        <article><span>01</span><h3>Materia prima</h3><p>Luce: €/kWh. Gas: €/Smc. Se l’offerta è indicizzata, salvo indice e spread quando presenti.</p></article>
+        <article><span>02</span><h3>Quota fissa</h3><p>Separata dal prezzo materia. Non viene nascosta dentro un costo annuo “familiare”.</p></article>
+        <article><span>03</span><h3>Costi rilevati</h3><p>Attivazione, modem, recesso, disattivazione, rate e vincoli vengono marcati come flags.</p></article>
+        <article><span>04</span><h3>Fonti ufficiali</h3><p>Luce/gas: Open Data Portale Offerte. Fibra: pagine pubbliche e prospetti trasparenza.</p></article>
       </div>
     </section>
 
     <section id="sources" class="sources">
-      <div class="section-head">
-        <p class="label">SOURCES</p>
-        <h2>Fonti e stato import</h2>
-      </div>
+      <div class="section-head"><p class="label">SOURCES</p><h2>Copertura fonti</h2></div>
       <div class="source-layout">
         <div>
-          <p>
-            Il seed dati include offerte reali da pagine ufficiali. Per energia lo script è predisposto per leggere anche gli Open Data del Portale Offerte ARERA/Acquirente Unico.
-          </p>
-          <p>
-            Prima di andare live su un dominio pubblico, sostituisci user-agent e contatto in <code>data/sources.json</code>.
-          </p>
+          <p><strong>Luce/gas:</strong> lo script non prova a inseguire singoli siti dei venditori: usa il Portale Offerte Open Data, che è la fonte strutturata più completa.</p>
+          <p><strong>Fibra:</strong> non esiste un open dataset nazionale equivalente. Il file <code>data/sources.example.json</code> contiene un registry estendibile di operatori principali e secondari.</p>
+          <p>Il report audit segnala URL non raggiungibili, pagine senza prezzi o fonti da correggere.</p>
         </div>
         <div id="sourceList" class="source-list"></div>
       </div>
@@ -210,8 +170,8 @@
   </main>
 
   <footer class="footer">
-    <span>Tariff Radar · static intelligence</span>
-    <span>Fonti pubbliche · metodologia verificabile · nessuna affiliazione nel ranking</span>
+    <span>Tariff Radar · cost intelligence</span>
+    <span>Open data · fonti pubbliche · scraping sobrio</span>
   </footer>
 
   <script src="js/app.js" defer></script>
