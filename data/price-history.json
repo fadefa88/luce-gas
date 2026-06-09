@@ -1,32 +1,14 @@
-[
-  {"offerId":"luce-verde-12-demo","date":"2026-01-01","price":0.141,"monthly":7.5},
-  {"offerId":"luce-verde-12-demo","date":"2026-02-01","price":0.136,"monthly":7.5},
-  {"offerId":"luce-verde-12-demo","date":"2026-03-01","price":0.129,"monthly":7.5},
-  {"offerId":"luce-verde-12-demo","date":"2026-04-01","price":0.121,"monthly":7.5},
-  {"offerId":"luce-verde-12-demo","date":"2026-05-01","price":0.116,"monthly":7.5},
-  {"offerId":"luce-verde-12-demo","date":"2026-06-09","price":0.112,"monthly":7.5},
-  {"offerId":"luce-fissa-family-demo","date":"2026-01-01","price":0.169,"monthly":9.9},
-  {"offerId":"luce-fissa-family-demo","date":"2026-02-01","price":0.165,"monthly":9.9},
-  {"offerId":"luce-fissa-family-demo","date":"2026-03-01","price":0.162,"monthly":9.9},
-  {"offerId":"luce-fissa-family-demo","date":"2026-04-01","price":0.159,"monthly":9.9},
-  {"offerId":"luce-fissa-family-demo","date":"2026-05-01","price":0.159,"monthly":9.9},
-  {"offerId":"luce-fissa-family-demo","date":"2026-06-09","price":0.159,"monthly":9.9},
-  {"offerId":"gas-index-smart-demo","date":"2026-01-01","price":0.462,"monthly":8.2},
-  {"offerId":"gas-index-smart-demo","date":"2026-02-01","price":0.451,"monthly":8.2},
-  {"offerId":"gas-index-smart-demo","date":"2026-03-01","price":0.429,"monthly":8.2},
-  {"offerId":"gas-index-smart-demo","date":"2026-04-01","price":0.415,"monthly":8.2},
-  {"offerId":"gas-index-smart-demo","date":"2026-05-01","price":0.405,"monthly":8.2},
-  {"offerId":"gas-index-smart-demo","date":"2026-06-09","price":0.392,"monthly":8.2},
-  {"offerId":"mobile-200gb-demo","date":"2026-01-01","price":11.99,"monthly":11.99},
-  {"offerId":"mobile-200gb-demo","date":"2026-02-01","price":10.99,"monthly":10.99},
-  {"offerId":"mobile-200gb-demo","date":"2026-03-01","price":10.99,"monthly":10.99},
-  {"offerId":"mobile-200gb-demo","date":"2026-04-01","price":9.99,"monthly":9.99},
-  {"offerId":"mobile-200gb-demo","date":"2026-05-01","price":9.99,"monthly":9.99},
-  {"offerId":"mobile-200gb-demo","date":"2026-06-09","price":9.99,"monthly":9.99},
-  {"offerId":"fibra-giga-casa-demo","date":"2026-01-01","price":29.9,"monthly":29.9},
-  {"offerId":"fibra-giga-casa-demo","date":"2026-02-01","price":27.9,"monthly":27.9},
-  {"offerId":"fibra-giga-casa-demo","date":"2026-03-01","price":24.9,"monthly":24.9},
-  {"offerId":"fibra-giga-casa-demo","date":"2026-04-01","price":24.9,"monthly":24.9},
-  {"offerId":"fibra-giga-casa-demo","date":"2026-05-01","price":24.9,"monthly":24.9},
-  {"offerId":"fibra-giga-casa-demo","date":"2026-06-09","price":24.9,"monthly":24.9}
-]
+{
+  "generatedAt": "2026-06-09",
+  "series": [
+    {"offerId":"very-599-150gb","points":[["2026-04-01",7.99],["2026-05-01",6.99],["2026-06-09",5.99]]},
+    {"offerId":"very-799-300gb","points":[["2026-04-01",9.99],["2026-05-01",8.99],["2026-06-09",7.99]]},
+    {"offerId":"iliad-top-250-plus","points":[["2026-05-28",9.99],["2026-06-09",9.99]]},
+    {"offerId":"iliad-top-300-plus","points":[["2026-05-28",11.99],["2026-06-09",11.99]]},
+    {"offerId":"ho-495-100gb","points":[["2026-05-01",5.99],["2026-06-09",4.95]]},
+    {"offerId":"iliadbox-wifi7-2299","points":[["2026-05-01",22.99],["2026-06-09",22.99]]},
+    {"offerId":"fastweb-casa-start-2795","points":[["2026-05-01",27.95],["2026-06-09",27.95]]},
+    {"offerId":"enel-fix-web-luce-0139","points":[["2026-06-05",0.149],["2026-06-09",0.139]]},
+    {"offerId":"fastweb-luce-fix-0180","points":[["2026-06-01",0.180],["2026-06-09",0.180]]}
+  ]
+}

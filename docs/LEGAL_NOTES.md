@@ -1,53 +1,25 @@
-# Note operative legali e compliance
+# Legal and operational notes
 
-Questo documento non è consulenza legale. Serve come checklist tecnica per ridurre il rischio operativo del progetto.
+This project is designed as a consumer information tool, not as a scraper that republishes third-party commercial pages.
 
-## Cosa evitare
+## Safer operating principles
 
-- Copiare testi promozionali lunghi dagli operatori.
-- Copiare immagini, loghi, banner, layout o tabelle proprietarie.
-- Aggirare captcha, login, blocchi anti-bot o paywall.
-- Usare proxy rotanti per eludere limitazioni.
-- Fare scraping ad alta frequenza.
-- Presentare ranking sponsorizzati come neutrali.
-- Dichiarare risparmi “garantiti” se sono solo stime.
+- Import only essential factual data.
+- Keep source URL and last-check date.
+- Do not copy long marketing copy, images, banners, logos or layouts.
+- Respect robots.txt by default.
+- Do not bypass login, captcha, rate limits or anti-bot systems.
+- Allow providers to request correction of inaccurate information.
+- Clearly disclose methodology and any affiliate/sponsor relationship.
 
-## Cosa fare
+## ARERA / energy
 
-- Preferire open data e fonti ufficiali quando disponibili.
-- Importare solo dati minimi e fattuali.
-- Mostrare sempre URL fonte e data ultimo controllo.
-- Conservare storico delle modifiche.
-- Dare agli operatori un canale per segnalare correzioni.
-- Indicare chiaramente la metodologia.
-- Separare offerte sponsorizzate da ranking organico, se in futuro inserisci affiliate.
+For electricity and gas, use official open data whenever possible.
 
-## Scraping leggero
+## AGCOM / telco
 
-Lo script incluso è volutamente limitato:
+Italian telco operators publish offer transparency information. Use those pages as references, but keep extraction minimal and source-linked.
 
-- fonti disabilitate di default;
-- delay tra richieste;
-- user-agent identificabile;
-- rispetto di robots.txt attivo di default;
-- nessun aggiramento tecnico;
-- log degli errori invece di parsing inventato.
+## Disclaimer
 
-## Privacy
-
-Il template non raccoglie dati personali reali. Il modulo alert è solo demo frontend.
-
-Se colleghi un modulo reale devi aggiungere:
-
-- privacy policy;
-- finalità trattamento;
-- base giuridica;
-- conservazione dati;
-- meccanismo di unsubscribe per alert/newsletter;
-- eventuale gestione consensi marketing.
-
-## Disclaimer consigliato nel sito reale
-
-```text
-I prezzi sono stime basate sui dati disponibili alla data indicata. Prima di sottoscrivere un'offerta, verifica sempre condizioni economiche, contrattuali e disponibilità sul sito ufficiale del fornitore.
-```
+This repository is not legal advice. Before running a public commercial comparison site, review terms of use, database rights, advertising rules and consumer-protection obligations with a qualified professional.

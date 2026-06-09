@@ -4,11 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: "Run importer without committing changes"
-        type: boolean
-        default: false
+        description: 'Run importer without committing'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
   schedule:
-    - cron: "17 5 * * *"
+    - cron: '17 6 * * *'
 
 permissions:
   contents: write
@@ -20,43 +22,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.12'
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Prepare sources config
+      - name: Prepare sources file
         run: |
           if [ ! -f data/sources.json ]; then
             cp data/sources.example.json data/sources.json
-            echo "Created data/sources.json from example. Enable sources manually before production import."
           fi
 
-      - name: Import offers
-        run: |
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
-            python scripts/import_sources.py --sources data/sources.json --dry-run
-          else
-            python scripts/import_sources.py --sources data/sources.json
-          fi
+      - name: Import sources
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: python scripts/import_sources.py --sources data/sources.json --output data/offers.json
+
+      - name: Dry run import
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        run: python scripts/import_sources.py --sources data/sources.json --dry-run
 
       - name: Validate data
-        if: ${{ github.event.inputs.dry_run != 'true' }}
         run: python scripts/validate_data.py
 
-      - name: Commit data changes
+      - name: Commit changes
         if: ${{ github.event.inputs.dry_run != 'true' }}
         run: |
-          if git diff --quiet; then
+          if git diff --quiet -- data/offers.json data/price-history.json data/energy-index.json; then
             echo "No offer changes to commit."
             exit 0
           fi
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add data/offers.json data/price-history.json data/last-import-report.json data/sources.json
-          git commit -m "Update tariff offers data"
-          git pull --rebase origin "$GITHUB_REF_NAME"
+          git add data/offers.json data/price-history.json data/energy-index.json
+          git commit -m "Update tariff offer data"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
           git push

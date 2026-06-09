@@ -1,162 +1,106 @@
-# RadarTariffe
+# Tariff Radar
 
-Sito statico per confrontare offerte luce, gas, fibra e mobile con storico prezzi, scadenze promo, costo annuo stimato e metodologia trasparente.
+Static intelligence site for Italian public offers: mobile, fiber, electricity and gas.
 
-Il progetto è pensato per essere pubblicato su GitHub Pages o Cloudflare Pages senza backend. I dati sono JSON nel repository e possono essere aggiornati manualmente o tramite GitHub Actions.
+This version intentionally avoids the usual soft SaaS look: hard grid, market tape, sharp cards, terminal panels, source-first layout.
 
-## Cosa include
+## What is included
 
-- Homepage production-ready responsive.
-- Motore filtri per settore, profilo di consumo, ricerca e ordinamento.
-- Ranking per costo annuo stimato, score, scadenza e confidenza dato.
-- Grafici Canvas senza librerie esterne per storico prezzi e indice energia demo.
-- Confronto rapido fino a 3 offerte.
-- Alert demo lato frontend.
-- Script Python per importare prezzo lancio e dati minimi da fonti configurate.
-- GitHub Action giornaliera per aggiornare `data/offers.json` e `data/price-history.json`.
-- Documentazione su metodologia, fonti e note legali operative.
+- Production-ready static site: `index.html`, `css/style.css`, `js/app.js`
+- Real initial seed dataset in `data/offers.json`
+- Official-source links on every offer
+- Price history and energy index sample series
+- Importer script for:
+  - ARERA / Portale Offerte Open Data discovery
+  - light extraction of price launch from official telco/energy pages
+- GitHub Actions for scheduled update and data validation
+- Legal/methodology documentation
 
-## Struttura
+## Important
 
-```text
-.
-├── index.html
-├── css/style.css
-├── js/app.js
-├── data/
-│   ├── offers.json
-│   ├── price-history.json
-│   ├── energy-index.json
-│   └── sources.example.json
-├── scripts/
-│   ├── import_sources.py
-│   └── validate_data.py
-├── docs/
-│   ├── METHODOLOGY.md
-│   ├── LEGAL_NOTES.md
-│   └── SOURCE_TEMPLATE.md
-├── .github/workflows/
-│   ├── update-offers.yml
-│   └── quality-check.yml
-├── _headers
-├── robots.txt
-└── sitemap.xml
-```
+The seed dataset is based on public official pages captured on `2026-06-09`. Prices can change. The site is designed to show **source, last check and confidence** so that users verify the official page before signing anything.
 
-## Pubblicazione rapida su GitHub
-
-1. Crea un nuovo repository GitHub, per esempio `radar-tariffe`.
-2. Carica tutti i file di questa cartella nel repository.
-3. Vai su **Settings → Pages**.
-4. Source: **Deploy from a branch**.
-5. Branch: `main`.
-6. Folder: `/root`.
-7. Salva.
-
-Dopo il primo deploy il sito sarà visibile all'URL GitHub Pages.
-
-## Pubblicazione su Cloudflare Pages
-
-1. Cloudflare dashboard → **Workers & Pages**.
-2. **Create application** → **Pages**.
-3. Collega il repository GitHub.
-4. Framework preset: **None**.
-5. Build command: lascia vuoto.
-6. Build output directory: `/`.
-7. Deploy.
-
-Il file `_headers` è già incluso per header di sicurezza base e cache differenziata su dati/statici.
-
-## Aggiornare offerte manualmente
-
-Modifica `data/offers.json`.
-
-Campi minimi consigliati:
-
-```json
-{
-  "id": "provider-offerta",
-  "sector": "mobile",
-  "provider": "Provider",
-  "name": "Nome offerta",
-  "status": "active",
-  "priceLabel": "9,99 €/mese",
-  "baseMonthly": 9.99,
-  "activation": 10,
-  "promoMonths": 12,
-  "fullPriceAfterPromo": 12.99,
-  "expiryDate": "2026-12-31",
-  "sourceUrl": "https://...",
-  "lastChecked": "2026-06-09",
-  "confidence": 80,
-  "score": 75,
-  "tags": ["promo"]
-}
-```
-
-Poi esegui:
+## Local preview
 
 ```bash
-python scripts/validate_data.py
+python -m http.server 8080
 ```
 
-## Import automatico fonti
+Open:
 
-Copia l'esempio:
+```text
+http://localhost:8080
+```
+
+## Update real sources
+
+Copy the example source configuration:
 
 ```bash
 cp data/sources.example.json data/sources.json
 ```
 
-Abilita una fonte impostando:
+Edit:
 
 ```json
-"enabled": true
+"userAgent": "TariffRadarBot/0.2 (+https://yourdomain.example/method; contact: you@example.com)"
 ```
 
-Poi testa senza scrivere dati:
+Dry run:
 
 ```bash
 pip install -r requirements.txt
 python scripts/import_sources.py --sources data/sources.json --dry-run
 ```
 
-Se il risultato è corretto:
+Write output:
 
 ```bash
-python scripts/import_sources.py --sources data/sources.json
+python scripts/import_sources.py --sources data/sources.json --output data/offers.json
 python scripts/validate_data.py
 ```
 
-## GitHub Action giornaliera
+## GitHub Pages
 
-Il workflow `.github/workflows/update-offers.yml` gira ogni giorno alle 05:17 UTC e può essere lanciato manualmente da **Actions → Update offers data → Run workflow**.
+Use repository root as Pages source.
 
-Se `data/sources.json` non esiste, copia l'esempio e non importa nulla perché le fonti demo sono disabilitate.
+## Cloudflare Pages
 
-## Regole pratiche di scraping responsabile
+- Framework preset: None
+- Build command: empty
+- Output directory: `/`
 
-Il progetto non è pensato per scraping aggressivo. La configurazione e lo script seguono questi principi:
+## Data model
 
-- fonti disabilitate di default;
-- rispetto opzionale di `robots.txt` attivo di default;
-- user-agent dichiarato;
-- delay tra richieste;
-- nessun login, captcha bypass, proxy rotation o aggiramento tecnico;
-- import solo di dati essenziali: prezzo, attivazione, scadenza, durata promo, fonte;
-- revisione manuale consigliata quando la confidenza è bassa.
+Each offer has:
 
-Per energia luce/gas, quando possibile, preferisci open data e fonti istituzionali. Per telefonia, usa solo pagine pubbliche ufficiali e dati minimi.
+```json
+{
+  "id": "very-599-150gb",
+  "provider": "Very Mobile",
+  "name": "Very 5,99",
+  "sector": "mobile",
+  "baseMonthly": 5.99,
+  "activation": 0,
+  "expiryDate": "2026-06-25",
+  "allowance": "150 GB 5G, minuti e SMS illimitati",
+  "sourceUrl": "https://...",
+  "lastChecked": "2026-06-09",
+  "score": 92,
+  "confidence": 84
+}
+```
 
-## Dati demo
+## Scraping rules
 
-I dati inclusi sono dimostrativi. Prima di andare online con un servizio reale devi sostituirli con dati verificati, indicare metodologia e aggiornare link fonte.
+The importer is deliberately conservative:
 
-## Prossimi step consigliati
+- respects robots.txt by default;
+- no login;
+- no captcha bypass;
+- no proxy rotation;
+- no image/banner copy;
+- only essential commercial data;
+- source link retained.
 
-1. Scegli nome e dominio.
-2. Sostituisci `tuodominio.it` in `robots.txt`, `sitemap.xml` e README.
-3. Inserisci dati reali o fonti configurate.
-4. Aggiungi privacy policy e termini d'uso.
-5. Collega un modulo reale per alert email.
-6. Aggiungi un flusso di revisione manuale per offerte importate automaticamente.
+For energy, prefer ARERA / Acquirente Unico open data where possible.

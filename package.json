@@ -1,13 +1,10 @@
 {
-  "name": "radar-tariffe",
-  "version": "1.0.0",
+  "name": "tariff-radar",
+  "version": "0.2.0",
   "private": true,
-  "description": "Sito statico per confronto intelligente offerte energia e telefonia.",
+  "description": "Static tariff intelligence site with real-source seed data and conservative importer.",
   "scripts": {
-    "validate:data": "python scripts/validate_data.py",
-    "import:dry": "python scripts/import_sources.py --sources data/sources.json --dry-run",
-    "import": "python scripts/import_sources.py --sources data/sources.json"
-  },
-  "keywords": ["tariffe", "energia", "gas", "telefonia", "comparatore", "static-site"],
-  "license": "MIT"
+    "serve": "python -m http.server 8080",
+    "validate": "python scripts/validate_data.py && node --check js/app.js"
+  }
 }

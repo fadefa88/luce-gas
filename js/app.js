@@ -4,519 +4,409 @@ const state = {
   energyIndex: [],
   selectedSector: 'all',
   selectedProfile: 'family_energy',
-  sort: 'annualCost',
+  sort: 'score',
   search: '',
   onlyActive: true,
   hideLongConstraints: false,
-  compare: JSON.parse(localStorage.getItem('radarCompare') || '[]'),
+  compare: JSON.parse(localStorage.getItem('tariffRadarCompare') || '[]'),
   chartOfferId: null
 };
 
 const profiles = {
-  family_energy: { label: 'Famiglia casa', electricityKwh: 2700, gasSmc: 800, sectorFocus: ['luce', 'gas'] },
-  single_light: { label: 'Single smart', electricityKwh: 1600, gasSmc: 350, sectorFocus: ['luce', 'gas'] },
-  high_usage: { label: 'Casa energivora', electricityKwh: 4200, gasSmc: 1300, sectorFocus: ['luce', 'gas'] },
-  mobile_heavy: { label: 'Mobile data heavy', sectorFocus: ['mobile'] },
-  fiber_home: { label: 'Fibra casa', sectorFocus: ['fibra'] }
+  family_energy: { label: 'Famiglia', electricityKwh: 2700, gasSmc: 800, focus: ['luce', 'gas'] },
+  single_light: { label: 'Single', electricityKwh: 1600, gasSmc: 350, focus: ['luce', 'gas'] },
+  high_usage: { label: 'Casa energivora', electricityKwh: 4200, gasSmc: 1300, focus: ['luce', 'gas'] },
+  mobile_heavy: { label: 'Mobile heavy', focus: ['mobile'] },
+  fiber_home: { label: 'Fibra casa', focus: ['fibra'] }
 };
 
-const sectorLabels = {
-  all: 'Tutte',
-  luce: 'Luce',
-  gas: 'Gas',
-  mobile: 'Mobile',
-  fibra: 'Fibra',
-  dual: 'Dual fuel'
-};
-
-const fmtCurrency = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
-const fmtNumber = new Intl.NumberFormat('it-IT', { maximumFractionDigits: 2 });
-
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+const sectorLabels = { all: 'Tutto', mobile: 'Mobile', fibra: 'Fibra', luce: 'Luce', gas: 'Gas', dual: 'Dual' };
+const fmtEUR = new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 });
+const fmtNum = new Intl.NumberFormat('it-IT', { maximumFractionDigits: 2 });
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
 
 async function loadJson(path) {
   const response = await fetch(path, { cache: 'no-store' });
-  if (!response.ok) throw new Error(`Impossibile caricare ${path}`);
+  if (!response.ok) throw new Error(`Errore caricamento ${path}`);
   return response.json();
 }
 
-function latestDate(items, field = 'lastChecked') {
-  return items
-    .map((item) => item[field])
-    .filter(Boolean)
-    .sort()
-    .at(-1) || '—';
+function daysUntil(dateString) {
+  if (!dateString) return 99999;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const target = new Date(`${dateString}T00:00:00`);
+  return Math.ceil((target - today) / 86400000);
 }
 
-function daysUntil(dateString) {
-  if (!dateString) return 9999;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const date = new Date(`${dateString}T00:00:00`);
-  return Math.ceil((date - today) / (1000 * 60 * 60 * 24));
+function latestDate(items, field = 'lastChecked') {
+  const dates = items.map(i => i[field]).filter(Boolean).sort();
+  return dates.at(-1) || '—';
 }
 
 function estimateAnnualCost(offer, profile = profiles[state.selectedProfile]) {
   const activation = Number(offer.activation || 0);
   const monthly = Number(offer.baseMonthly || 0);
-  const unitPrice = Number(offer.unitPrice || 0);
+  const unit = Number(offer.unitPrice || 0);
   const spread = Number(offer.spread || 0);
-
   if (offer.sector === 'luce') {
-    const kwh = profile.electricityKwh || 2200;
-    return activation + monthly * 12 + kwh * (unitPrice + spread);
+    const kwh = profile.electricityKwh || 2700;
+    return activation + monthly * 12 + kwh * (unit + spread);
   }
-
   if (offer.sector === 'gas') {
-    const smc = profile.gasSmc || 700;
-    return activation + monthly * 12 + smc * (unitPrice + spread);
+    const smc = profile.gasSmc || 800;
+    return activation + monthly * 12 + smc * (unit + spread);
   }
-
   if (offer.fullPriceAfterPromo && offer.promoMonths && offer.promoMonths < 12) {
-    const promoMonths = Math.max(0, Number(offer.promoMonths));
-    return activation + promoMonths * monthly + (12 - promoMonths) * Number(offer.fullPriceAfterPromo);
+    return activation + Number(offer.promoMonths) * monthly + (12 - Number(offer.promoMonths)) * Number(offer.fullPriceAfterPromo);
   }
-
   return activation + monthly * 12;
 }
 
-function convenienceLabel(score) {
-  if (score >= 88) return 'Molto forte';
-  if (score >= 78) return 'Buona';
-  if (score >= 68) return 'Media';
-  return 'Da verificare';
+function scoreText(score) {
+  if (score >= 88) return 'forte';
+  if (score >= 78) return 'buono';
+  if (score >= 68) return 'medio';
+  return 'verifica';
+}
+
+function expiryText(offer) {
+  const d = daysUntil(offer.expiryDate);
+  if (!offer.expiryDate) return 'non indicata';
+  if (d < 0) return 'scaduta';
+  if (d === 0) return 'oggi';
+  return `${d} giorni`;
 }
 
 function getFilteredOffers() {
   const query = state.search.trim().toLowerCase();
   return state.offers
-    .filter((offer) => state.selectedSector === 'all' || offer.sector === state.selectedSector)
-    .filter((offer) => !state.onlyActive || offer.status === 'active')
-    .filter((offer) => !state.hideLongConstraints || Number(offer.constraintMonths || 0) <= 12)
-    .filter((offer) => {
+    .filter(o => state.selectedSector === 'all' || o.sector === state.selectedSector)
+    .filter(o => !state.onlyActive || o.status === 'active')
+    .filter(o => !state.hideLongConstraints || Number(o.constraintMonths || 0) <= 24)
+    .filter(o => {
       if (!query) return true;
-      const haystack = [offer.provider, offer.name, offer.subtitle, offer.sector, ...(offer.tags || [])].join(' ').toLowerCase();
-      return haystack.includes(query);
+      const hay = [o.provider, o.name, o.allowance, o.speed, o.sector, ...(o.tags || [])].join(' ').toLowerCase();
+      return hay.includes(query);
     })
-    .map((offer) => ({ ...offer, annualCost: estimateAnnualCost(offer) }))
+    .map(o => ({ ...o, annualCost: estimateAnnualCost(o) }))
     .sort((a, b) => {
-      if (state.sort === 'score') return b.score - a.score;
+      if (state.sort === 'annualCost') return a.annualCost - b.annualCost;
+      if (state.sort === 'monthly') return Number(a.baseMonthly || 0) - Number(b.baseMonthly || 0);
       if (state.sort === 'expiry') return daysUntil(a.expiryDate) - daysUntil(b.expiryDate);
-      if (state.sort === 'confidence') return b.confidence - a.confidence;
-      return a.annualCost - b.annualCost;
+      if (state.sort === 'confidence') return Number(b.confidence || 0) - Number(a.confidence || 0);
+      return Number(b.score || 0) - Number(a.score || 0);
     });
 }
 
-function renderSectorFilters() {
-  const sectors = ['all', ...new Set(state.offers.map((offer) => offer.sector))];
-  $('#sectorFilters').innerHTML = sectors.map((sector) => `
-    <button class="chip ${state.selectedSector === sector ? 'active' : ''}" data-sector="${sector}">
-      ${sectorLabels[sector] || sector}
-    </button>
-  `).join('');
+function setArc(score) {
+  const pct = Math.max(0, Math.min(100, score)) / 100;
+  const dash = 320 - 320 * pct;
+  $('#scoreArc').style.strokeDashoffset = dash;
+  $('#needle').style.transform = `rotate(${(-90 + 180 * pct).toFixed(1)}deg)`;
+}
 
-  $$('#sectorFilters .chip').forEach((button) => {
-    button.addEventListener('click', () => {
-      state.selectedSector = button.dataset.sector;
-      renderAll();
-    });
-  });
+function renderTicker() {
+  const fragments = state.offers.slice(0, 14).map(o => `${o.provider} ${o.name}: ${fmtEUR.format(Number(o.baseMonthly || 0))}/mese`);
+  $('#tickerTrack').textContent = [...fragments, ...fragments].join('  ·  ');
 }
 
 function renderKpis() {
-  const offers = state.offers;
-  const active = offers.filter((offer) => offer.status === 'active');
-  const expiring = active.filter((offer) => daysUntil(offer.expiryDate) <= 30 && daysUntil(offer.expiryDate) >= 0);
-  const costs = active.map((offer) => estimateAnnualCost(offer)).filter(Number.isFinite);
-  const avg = costs.reduce((sum, value) => sum + value, 0) / Math.max(costs.length, 1);
-  const best = Math.min(...costs);
-  const saving = Math.max(0, avg - best);
-  const avgScore = Math.round(active.reduce((sum, offer) => sum + Number(offer.score || 0), 0) / Math.max(active.length, 1));
-  const snapshots = state.history.length;
-  const bestMonth = calculateBestWindow();
-
-  $('#lastUpdate').textContent = latestDate(offers);
-  $('#marketScore').textContent = `${avgScore}/100`;
-  $('#marketSignal').textContent = avgScore >= 82 ? 'Mercato con diverse offerte interessanti.' : 'Mercato da monitorare, poche offerte forti.';
-  $('#heroOffers').textContent = active.length;
-  $('#heroExpiring').textContent = expiring.length;
-  $('#heroSnapshots').textContent = snapshots;
-  $('#kpiOffers').textContent = active.length;
-  $('#kpiSaving').textContent = fmtCurrency.format(saving);
-  $('#kpiExpiry').textContent = expiring.length;
-  $('#kpiBestWindow').textContent = bestMonth;
-}
-
-function calculateBestWindow() {
-  const buckets = new Map();
-  state.history.forEach((point) => {
-    const month = new Date(`${point.date}T00:00:00`).getMonth();
-    if (!buckets.has(month)) buckets.set(month, []);
-    buckets.get(month).push(Number(point.price));
+  const active = state.offers.filter(o => o.status === 'active');
+  const scores = active.map(o => Number(o.score || 0)).filter(Boolean);
+  const avgScore = Math.round(scores.reduce((a, b) => a + b, 0) / Math.max(scores.length, 1));
+  const sources = new Set(active.map(o => o.sourceUrl)).size;
+  const expiring = active.filter(o => {
+    const d = daysUntil(o.expiryDate);
+    return d >= 0 && d <= 30;
   });
-  if (!buckets.size) return '—';
-  const best = [...buckets.entries()]
-    .map(([month, values]) => ({ month, avg: values.reduce((a, b) => a + b, 0) / values.length }))
-    .sort((a, b) => a.avg - b.avg)[0];
-  return monthName(best.month);
+  const sorted = [...active].map(o => ({ ...o, annualCost: estimateAnnualCost(o) })).sort((a, b) => b.score - a.score);
+  const costs = active.map(o => estimateAnnualCost(o)).filter(Number.isFinite);
+  const avg = costs.reduce((a, b) => a + b, 0) / Math.max(costs.length, 1);
+  const best = Math.min(...costs);
+  const lowest = [...active].sort((a, b) => Number(a.baseMonthly || 0) - Number(b.baseMonthly || 0))[0];
+  const closest = expiring.sort((a, b) => daysUntil(a.expiryDate) - daysUntil(b.expiryDate))[0];
+
+  $('#lastUpdate').textContent = latestDate(active);
+  $('#marketScore').textContent = avgScore;
+  setArc(avgScore);
+  $('#kpiOffers').textContent = active.length;
+  $('#kpiExpiring').textContent = expiring.length;
+  $('#kpiSources').textContent = sources;
+  $('#bestNow').textContent = sorted[0] ? `${sorted[0].provider} ${sorted[0].name}` : '—';
+  $('#lowestMonthly').textContent = lowest ? `${lowest.provider} ${fmtEUR.format(lowest.baseMonthly)}` : '—';
+  $('#closestExpiry').textContent = closest ? `${closest.provider}: ${expiryText(closest)}` : 'nessuna entro 30 gg';
+  $('#deltaBestAvg').textContent = Number.isFinite(best) ? fmtEUR.format(Math.max(0, avg - best)) : '—';
 }
 
-function monthName(index) {
-  return ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'][index];
+function renderSectorFilters() {
+  const sectors = ['all', ...new Set(state.offers.map(o => o.sector))];
+  $('#sectorFilters').innerHTML = sectors.map(sector => `
+    <button class="chip ${state.selectedSector === sector ? 'active' : ''}" data-sector="${sector}">${sectorLabels[sector] || sector}</button>
+  `).join('');
+  $$('#sectorFilters .chip').forEach(button => button.addEventListener('click', () => {
+    state.selectedSector = button.dataset.sector;
+    renderAll();
+  }));
 }
 
-function renderOffers() {
+function renderOfferGrid() {
   const offers = getFilteredOffers();
-  $('#resultsCount').textContent = `${offers.length} offerte trovate · profilo ${profiles[state.selectedProfile].label}`;
-  const template = $('#offerCardTemplate');
-  const grid = $('#offerGrid');
-  grid.innerHTML = '';
-
+  $('#resultsCount').textContent = `${offers.length} righe · ${profiles[state.selectedProfile].label}`;
   if (!offers.length) {
-    grid.innerHTML = '<p class="empty-state">Nessuna offerta corrisponde ai filtri attuali.</p>';
+    $('#offerGrid').innerHTML = '<div class="offer-card"><div class="offer-body"><h3>Nessuna offerta filtrata</h3><p>Resetta i filtri o amplia la ricerca.</p></div></div>';
     return;
   }
+  $('#offerGrid').innerHTML = offers.map(o => {
+    const isCompared = state.compare.includes(o.id);
+    const annual = estimateAnnualCost(o);
+    const monthly = Number(o.baseMonthly || 0);
+    const score = Number(o.score || 0);
+    const confidence = Number(o.confidence || 0);
+    return `
+      <article class="offer-card" data-id="${o.id}">
+        <div class="offer-sector">
+          <strong>${sectorLabels[o.sector] || o.sector}</strong>
+          <span>${o.status === 'active' ? 'attiva' : o.status}</span>
+        </div>
+        <div class="offer-body">
+          <div class="offer-title">
+            <h3>${escapeHtml(o.name)}</h3>
+            <small>${escapeHtml(o.provider)}</small>
+          </div>
+          <p class="allowance">${escapeHtml(o.allowance || 'Dettagli nella fonte ufficiale')}</p>
+          <div class="tags">${(o.tags || []).slice(0, 5).map(t => `<span>${escapeHtml(t)}</span>`).join('')}</div>
+        </div>
+        <div class="offer-numbers">
+          <div class="price-box">
+            <span>canone</span>
+            <strong>${fmtEUR.format(monthly)}</strong>
+            <small>annuo stimato ${fmtEUR.format(annual)}</small>
+          </div>
+          <div class="score-box">
+            <span>segnale ${scoreText(score)}</span>
+            <div class="score-meter"><i style="width:${Math.max(4, Math.min(100, score))}%"></i></div>
+            <strong>${score}/100</strong> <small>conf. ${confidence}%</small>
+          </div>
+        </div>
+        <div class="offer-actions">
+          <a href="${o.sourceUrl}" target="_blank" rel="noopener">Fonte</a>
+          <button class="compare-btn ${isCompared ? 'added' : ''}" data-id="${o.id}">${isCompared ? 'Rimuovi' : 'Confronta'}</button>
+          <div class="meta-list">
+            <div>check: ${escapeHtml(o.lastChecked || '—')}</div>
+            <div>scade: ${escapeHtml(expiryText(o))}</div>
+            <div>setup: ${escapeHtml(o.setupLabel || '—')}</div>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
 
-  offers.forEach((offer) => {
-    const node = template.content.cloneNode(true);
-    const card = node.querySelector('.offer-card');
-    card.dataset.offerId = offer.id;
-    node.querySelector('.provider-badge').textContent = offer.provider.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase();
-    node.querySelector('.sector-pill').textContent = sectorLabels[offer.sector] || offer.sector;
-    node.querySelector('h3').textContent = offer.name;
-    node.querySelector('.offer-subtitle').textContent = offer.subtitle;
-    node.querySelector('.price-line strong').textContent = offer.priceLabel;
-    node.querySelector('.price-line span').textContent = `Stima annua ${fmtCurrency.format(offer.annualCost)}`;
-    node.querySelector('.score-bar span').style.width = `${Math.min(100, offer.score || 0)}%`;
-    node.querySelector('.score-row em').textContent = `${offer.score}/100 · ${convenienceLabel(offer.score)}`;
-
-    const facts = [
-      ['Scadenza', formatDate(offer.expiryDate)],
-      ['Attivazione', fmtCurrency.format(Number(offer.activation || 0))],
-      ['Vincolo', offer.constraintMonths ? `${offer.constraintMonths} mesi` : 'No'],
-      ['Confidenza', `${offer.confidence}%`]
-    ];
-    node.querySelector('.offer-facts').innerHTML = facts.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('');
-    node.querySelector('.tag-row').innerHTML = (offer.tags || []).map((tag) => `<span>${tag}</span>`).join('');
-    node.querySelector('.source-link').href = offer.sourceUrl || '#';
-    node.querySelector('.source-link').textContent = 'Fonte';
-    node.querySelector('.compare-btn').textContent = state.compare.includes(offer.id) ? 'Rimuovi' : 'Confronta';
-    node.querySelector('.compare-btn').addEventListener('click', () => toggleCompare(offer.id));
-    node.querySelector('.details-btn').addEventListener('click', () => showDetails(offer.id));
-    card.addEventListener('click', (event) => {
-      if (event.target.closest('button, a')) return;
-      selectChartOffer(offer.id);
-    });
-    grid.appendChild(node);
-  });
+  $$('.compare-btn').forEach(btn => btn.addEventListener('click', () => toggleCompare(btn.dataset.id)));
+  $$('.offer-card').forEach(card => card.addEventListener('click', (ev) => {
+    if (ev.target.closest('a,button')) return;
+    state.chartOfferId = card.dataset.id;
+    $('#chartOfferSelect').value = state.chartOfferId;
+    drawPriceChart();
+  }));
 }
 
-function formatDate(dateString) {
-  if (!dateString) return '—';
-  return new Intl.DateTimeFormat('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(`${dateString}T00:00:00`));
-}
-
-function toggleCompare(offerId) {
-  if (state.compare.includes(offerId)) {
-    state.compare = state.compare.filter((id) => id !== offerId);
+function toggleCompare(id) {
+  if (state.compare.includes(id)) {
+    state.compare = state.compare.filter(x => x !== id);
   } else {
-    state.compare = [...state.compare, offerId].slice(-3);
+    if (state.compare.length >= 3) state.compare.shift();
+    state.compare.push(id);
   }
-  localStorage.setItem('radarCompare', JSON.stringify(state.compare));
-  renderOffers();
+  localStorage.setItem('tariffRadarCompare', JSON.stringify(state.compare));
+  renderOfferGrid();
   renderCompare();
 }
 
 function renderCompare() {
-  const wrap = $('#compareTableWrap');
-  const offers = state.compare.map((id) => state.offers.find((offer) => offer.id === id)).filter(Boolean);
-  if (!offers.length) {
-    wrap.innerHTML = '<p class="empty-state">Aggiungi offerte al confronto dalle card.</p>';
+  const selected = state.compare.map(id => state.offers.find(o => o.id === id)).filter(Boolean);
+  if (!selected.length) {
+    $('#compareTableWrap').innerHTML = '<p class="empty">Aggiungi fino a 3 offerte dalla matrice.</p>';
     return;
   }
   const rows = [
-    ['Operatore', (o) => o.provider],
-    ['Offerta', (o) => o.name],
-    ['Settore', (o) => sectorLabels[o.sector] || o.sector],
-    ['Prezzo', (o) => o.priceLabel],
-    ['Costo annuo stimato', (o) => fmtCurrency.format(estimateAnnualCost(o))],
-    ['Attivazione', (o) => fmtCurrency.format(Number(o.activation || 0))],
-    ['Scadenza', (o) => formatDate(o.expiryDate)],
-    ['Vincolo', (o) => o.constraintMonths ? `${o.constraintMonths} mesi` : 'No'],
-    ['Score', (o) => `${o.score}/100`],
-    ['Azioni', (o) => `<button class="btn btn-small ghost remove-compare" data-id="${o.id}">Rimuovi</button>`]
+    ['Provider', o => o.provider],
+    ['Offerta', o => o.name],
+    ['Settore', o => sectorLabels[o.sector] || o.sector],
+    ['Canone', o => fmtEUR.format(o.baseMonthly || 0)],
+    ['Costo annuo stimato', o => fmtEUR.format(estimateAnnualCost(o))],
+    ['Setup', o => o.setupLabel || '—'],
+    ['Vincolo', o => `${o.constraintMonths || 0} mesi`],
+    ['Scadenza', o => expiryText(o)],
+    ['Segnale', o => `${o.score}/100`],
+    ['Fonte', o => `<a href="${o.sourceUrl}" target="_blank" rel="noopener">apri</a>`]
   ];
-
-  wrap.innerHTML = `
+  $('#compareTableWrap').innerHTML = `
     <table class="compare-table">
-      <thead><tr><th>Parametro</th>${offers.map((offer) => `<th>${offer.provider}</th>`).join('')}</tr></thead>
-      <tbody>${rows.map(([label, getter]) => `<tr><th>${label}</th>${offers.map((offer) => `<td>${getter(offer)}</td>`).join('')}</tr>`).join('')}</tbody>
+      <thead><tr><th>Campo</th>${selected.map(o => `<th>${escapeHtml(o.provider)}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map(([label, fn]) => `<tr><th>${label}</th>${selected.map(o => `<td>${fn(o)}</td>`).join('')}</tr>`).join('')}</tbody>
     </table>
   `;
-  $$('.remove-compare').forEach((button) => button.addEventListener('click', () => toggleCompare(button.dataset.id)));
 }
 
-function showDetails(offerId) {
-  const offer = state.offers.find((item) => item.id === offerId);
-  if (!offer) return;
-  const points = state.history.filter((point) => point.offerId === offerId);
-  const min = points.length ? Math.min(...points.map((p) => Number(p.price))) : null;
-  const current = Number(offer.unitPrice || offer.baseMonthly || 0);
-  const distanceFromBest = min ? ((current - min) / min) * 100 : 0;
-  $('#detailsContent').innerHTML = `
-    <div class="details-body">
-      <h3>${offer.provider} · ${offer.name}</h3>
-      <p>${offer.subtitle}</p>
-      <div class="details-grid">
-        <div><small>Costo annuo stimato</small><strong>${fmtCurrency.format(estimateAnnualCost(offer))}</strong></div>
-        <div><small>Indice convenienza</small><strong>${offer.score}/100</strong></div>
-        <div><small>Scadenza offerta</small><strong>${formatDate(offer.expiryDate)}</strong></div>
-        <div><small>Ultimo controllo</small><strong>${formatDate(offer.lastChecked)}</strong></div>
-        <div><small>Distanza dal minimo storico campione</small><strong>${fmtNumber.format(distanceFromBest)}%</strong></div>
-        <div><small>Affidabilità dato</small><strong>${offer.confidence}%</strong></div>
-      </div>
-      <h4>Vincoli e costi da verificare</h4>
-      <p>${offer.constraints || 'Nessun vincolo dichiarato nel dato corrente.'}</p>
-      <ul>${(offer.hiddenCosts || []).map((cost) => `<li>${cost}</li>`).join('') || '<li>Nessun costo nascosto nel dataset corrente.</li>'}</ul>
-      <p><a class="btn btn-primary" href="${offer.sourceUrl}" target="_blank" rel="noopener noreferrer">Apri fonte ufficiale</a></p>
-    </div>
-  `;
-  $('#detailsDialog').showModal();
+function renderChartSelect() {
+  const options = state.offers.map(o => `<option value="${o.id}">${o.provider} · ${o.name}</option>`).join('');
+  $('#chartOfferSelect').innerHTML = options;
+  if (!state.chartOfferId && state.offers[0]) state.chartOfferId = state.offers[0].id;
+  $('#chartOfferSelect').value = state.chartOfferId;
 }
 
-function selectChartOffer(offerId) {
-  state.chartOfferId = offerId;
-  $('#chartOfferSelect').value = offerId;
-  renderPriceChart();
+function getHistoryForOffer(id) {
+  const series = state.history.find(s => s.offerId === id);
+  if (series?.points?.length) return series.points.map(([date, value]) => ({ date, value: Number(value) }));
+  const offer = state.offers.find(o => o.id === id);
+  if (!offer) return [];
+  return [
+    { date: offer.lastChecked || new Date().toISOString().slice(0, 10), value: Number(offer.baseMonthly || offer.unitPrice || 0) }
+  ];
 }
 
-function setupChartSelector() {
-  const select = $('#chartOfferSelect');
-  select.innerHTML = state.offers.map((offer) => `<option value="${offer.id}">${offer.provider} · ${offer.name}</option>`).join('');
-  state.chartOfferId = state.chartOfferId || state.offers[0]?.id;
-  select.value = state.chartOfferId;
-  select.addEventListener('change', () => selectChartOffer(select.value));
-}
-
-function drawLineChart(canvas, series, options = {}) {
+function drawLineChart(canvas, points, opts = {}) {
   const ctx = canvas.getContext('2d');
-  const rect = canvas.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
   canvas.width = rect.width * dpr;
-  canvas.height = (options.height || canvas.getAttribute('height') || 220) * dpr;
+  canvas.height = Number(canvas.getAttribute('height')) * dpr;
   ctx.scale(dpr, dpr);
-  const width = rect.width;
-  const height = options.height || Number(canvas.getAttribute('height')) || 220;
-  const pad = { top: 18, right: 18, bottom: 32, left: 44 };
-  ctx.clearRect(0, 0, width, height);
-
-  if (!series.length) {
-    ctx.fillStyle = '#a8bcc0';
-    ctx.fillText('Nessun dato storico', 16, 32);
-    return;
-  }
-
-  const values = series.map((point) => Number(point.value));
-  const min = Math.min(...values) * 0.96;
-  const max = Math.max(...values) * 1.04;
-  const x = (index) => pad.left + (index / Math.max(series.length - 1, 1)) * (width - pad.left - pad.right);
-  const y = (value) => height - pad.bottom - ((value - min) / Math.max(max - min, 0.0001)) * (height - pad.top - pad.bottom);
-
-  ctx.strokeStyle = 'rgba(255,255,255,.12)';
+  const w = rect.width;
+  const h = Number(canvas.getAttribute('height'));
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = opts.bg || '#141411';
+  ctx.fillRect(0, 0, w, h);
+  const pad = 32;
+  const values = points.map(p => p.value).filter(Number.isFinite);
+  const min = Math.min(...values, 0);
+  const max = Math.max(...values, min + 1);
+  ctx.strokeStyle = 'rgba(244,239,223,.22)';
   ctx.lineWidth = 1;
-  for (let i = 0; i < 4; i++) {
-    const yy = pad.top + i * ((height - pad.top - pad.bottom) / 3);
-    ctx.beginPath();
-    ctx.moveTo(pad.left, yy);
-    ctx.lineTo(width - pad.right, yy);
-    ctx.stroke();
+  for (let i = 0; i < 5; i++) {
+    const y = pad + (h - pad * 2) * i / 4;
+    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(w - pad, y); ctx.stroke();
   }
-
-  const gradient = ctx.createLinearGradient(0, 0, width, 0);
-  gradient.addColorStop(0, '#74f7b4');
-  gradient.addColorStop(1, '#7cc8ff');
-  ctx.strokeStyle = gradient;
-  ctx.lineWidth = 3;
+  if (!points.length) return;
+  const x = (i) => pad + (w - pad * 2) * (points.length === 1 ? .5 : i / (points.length - 1));
+  const y = (v) => h - pad - ((v - min) / (max - min || 1)) * (h - pad * 2);
+  ctx.strokeStyle = opts.color || '#d8ff37';
+  ctx.lineWidth = 4;
   ctx.beginPath();
-  series.forEach((point, index) => {
-    if (index === 0) ctx.moveTo(x(index), y(point.value));
-    else ctx.lineTo(x(index), y(point.value));
-  });
+  points.forEach((p, i) => i ? ctx.lineTo(x(i), y(p.value)) : ctx.moveTo(x(i), y(p.value)));
   ctx.stroke();
-
-  ctx.fillStyle = '#74f7b4';
-  series.forEach((point, index) => {
-    ctx.beginPath();
-    ctx.arc(x(index), y(point.value), 4, 0, Math.PI * 2);
-    ctx.fill();
+  points.forEach((p, i) => {
+    ctx.fillStyle = opts.dot || '#ff4a1f';
+    ctx.beginPath(); ctx.arc(x(i), y(p.value), 5, 0, Math.PI * 2); ctx.fill();
   });
-
-  ctx.fillStyle = '#a8bcc0';
-  ctx.font = '12px Inter, sans-serif';
-  ctx.fillText(fmtNumber.format(max), 6, pad.top + 4);
-  ctx.fillText(fmtNumber.format(min), 6, height - pad.bottom);
-  const first = series[0].label;
-  const last = series.at(-1).label;
-  ctx.fillText(first, pad.left, height - 8);
-  ctx.textAlign = 'right';
-  ctx.fillText(last, width - pad.right, height - 8);
-  ctx.textAlign = 'left';
+  ctx.fillStyle = '#f4efdf';
+  ctx.font = '12px monospace';
+  ctx.fillText(`${fmtNum.format(min)} → ${fmtNum.format(max)}`, pad, 18);
+  const last = points.at(-1);
+  ctx.fillText(`${last.date}: ${fmtNum.format(last.value)}`, pad, h - 8);
 }
 
-function renderPriceChart() {
-  const offer = state.offers.find((item) => item.id === state.chartOfferId) || state.offers[0];
-  if (!offer) return;
-  const points = state.history
-    .filter((point) => point.offerId === offer.id)
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .map((point) => ({ label: new Date(`${point.date}T00:00:00`).toLocaleDateString('it-IT', { month: 'short' }), value: Number(point.price) }));
-  $('#chartSubtitle').textContent = `${offer.provider} · ${offer.name}`;
-  drawLineChart($('#priceChart'), points, { height: 220 });
+function drawPriceChart() {
+  drawLineChart($('#priceChart'), getHistoryForOffer(state.chartOfferId), { color: '#d8ff37', dot: '#ff4a1f' });
 }
 
-function renderEnergyChart() {
-  const points = state.energyIndex.map((point) => ({
-    label: new Date(`${point.date}T00:00:00`).toLocaleDateString('it-IT', { month: 'short' }),
-    value: Number(point.electricityIndex)
-  }));
-  drawLineChart($('#energyChart'), points, { height: 160 });
+function drawEnergyChart() {
+  const points = state.energyIndex.map(p => ({ date: p.date, value: Number(p.psv || p.punApprox || 0) }));
+  drawLineChart($('#energyChart'), points, { color: '#00b386', dot: '#d8ff37' });
 }
 
 function renderInsights() {
-  const filtered = getFilteredOffers();
-  const expiring = state.offers
-    .filter((offer) => daysUntil(offer.expiryDate) <= 30 && daysUntil(offer.expiryDate) >= 0)
-    .sort((a, b) => daysUntil(a.expiryDate) - daysUntil(b.expiryDate));
-  const best = filtered[0];
-  const fixedEnergy = state.offers.filter((offer) => offer.sector === 'luce' && offer.type === 'fixed');
-  const variableEnergy = state.offers.filter((offer) => offer.sector === 'luce' && offer.type === 'variable');
-  const fixedAvg = avg(fixedEnergy.map((offer) => estimateAnnualCost(offer)));
-  const variableAvg = avg(variableEnergy.map((offer) => estimateAnnualCost(offer)));
-  const diff = fixedAvg && variableAvg ? fixedAvg - variableAvg : 0;
+  const active = state.offers.filter(o => o.status === 'active');
+  const expiring = active.filter(o => daysUntil(o.expiryDate) <= 30 && daysUntil(o.expiryDate) >= 0).sort((a, b) => daysUntil(a.expiryDate) - daysUntil(b.expiryDate));
+  const mobile = active.filter(o => o.sector === 'mobile').sort((a, b) => estimateAnnualCost(a) - estimateAnnualCost(b))[0];
+  const fiber = active.filter(o => o.sector === 'fibra').sort((a, b) => estimateAnnualCost(a) - estimateAnnualCost(b))[0];
+  const energyFixed = active.filter(o => ['luce', 'gas'].includes(o.sector) && Number(o.constraintMonths || 0) >= 24);
   const insights = [];
-
-  if (best) insights.push(`<strong>Best fit attuale:</strong> ${best.provider} ${best.name}, stima ${fmtCurrency.format(best.annualCost)} per il profilo selezionato.`);
-  if (expiring[0]) insights.push(`<strong>Scadenza più vicina:</strong> ${expiring[0].name} scade tra ${daysUntil(expiring[0].expiryDate)} giorni.`);
-  if (diff) insights.push(`<strong>Luce:</strong> nel campione demo il variabile costa ${fmtCurrency.format(Math.abs(diff))} ${diff > 0 ? 'meno' : 'più'} del fisso sul profilo corrente.`);
-  insights.push(`<strong>Dato operativo:</strong> se una promo ha costo basso ma confidenza sotto 70%, va revisionata manualmente prima di pubblicarla.`);
-
-  $('#insightList').innerHTML = insights.map((item) => `<li>${item}</li>`).join('');
+  if (mobile) insights.push(`Mobile: ${mobile.provider} ${mobile.name} ha il costo annuo stimato più basso nel dataset (${fmtEUR.format(estimateAnnualCost(mobile))}).`);
+  if (fiber) insights.push(`Fibra: ${fiber.provider} ${fiber.name} è la più aggressiva tra le offerte casa tracciate (${fmtEUR.format(fiber.baseMonthly)}/mese).`);
+  if (expiring.length) insights.push(`Pressione promo: ${expiring.length} offerte hanno scadenza entro 30 giorni; prima scadenza ${expiring[0].provider} (${expiryText(expiring[0])}).`);
+  if (energyFixed.length) insights.push(`Energia: ${energyFixed.length} offerte hanno prezzo/vincolo lungo. Sono confrontabili solo leggendo bene quota fissa, imposte e durata.`);
+  insights.push('Lo script di import è predisposto per Open Data ARERA e scraping leggero del prezzo lancio: niente copia massiva di contenuti commerciali.');
+  $('#insightList').innerHTML = insights.map(i => `<li>${escapeHtml(i)}</li>`).join('');
 }
 
-function avg(values) {
-  const filtered = values.filter(Number.isFinite);
-  return filtered.reduce((sum, value) => sum + value, 0) / Math.max(filtered.length, 1);
+function renderSeason() {
+  const months = ['GEN', 'FEB', 'MAR', 'APR', 'MAG', 'GIU', 'LUG', 'AGO', 'SET', 'OTT', 'NOV', 'DIC'];
+  const hot = new Set(['MAG', 'GIU', 'NOV']);
+  const mid = new Set(['MAR', 'APR', 'SET', 'DIC']);
+  $('#seasonGrid').innerHTML = months.map(m => {
+    const cls = hot.has(m) ? 'hot' : mid.has(m) ? 'mid' : 'low';
+    const signal = hot.has(m) ? 'ALTO' : mid.has(m) ? 'MEDIO' : 'BASSO';
+    return `<div class="season-cell ${cls}"><span>${m}</span><strong>${signal}</strong></div>`;
+  }).join('');
 }
 
-function renderSeasonGrid() {
-  const buckets = Array.from({ length: 12 }, (_, month) => ({ month, values: [] }));
-  state.history.forEach((point) => {
-    const month = new Date(`${point.date}T00:00:00`).getMonth();
-    buckets[month].values.push(Number(point.price));
+function renderSources() {
+  const map = new Map();
+  state.offers.forEach(o => {
+    if (!o.sourceUrl) return;
+    if (!map.has(o.sourceUrl)) map.set(o.sourceUrl, { url: o.sourceUrl, provider: o.provider, count: 0, type: o.sourceType || 'official' });
+    map.get(o.sourceUrl).count++;
   });
-  const scored = buckets.map((bucket) => ({
-    ...bucket,
-    avg: bucket.values.length ? avg(bucket.values) : Infinity
-  })).sort((a, b) => a.avg - b.avg);
-  const hotMonths = new Set(scored.slice(0, 3).map((bucket) => bucket.month));
-  $('#seasonGrid').innerHTML = buckets.map((bucket) => `
-    <div class="month-cell ${hotMonths.has(bucket.month) ? 'hot' : ''}">
-      <strong>${monthName(bucket.month)}</strong>
-      <small>${bucket.values.length ? `${bucket.values.length} dati` : '—'}</small>
+  $('#sourceList').innerHTML = [...map.values()].sort((a, b) => b.count - a.count).map(s => `
+    <div class="source-item">
+      <div><strong>${escapeHtml(s.provider)}</strong><span>${s.count} offerte · ${escapeHtml(s.type)}</span></div>
+      <a href="${s.url}" target="_blank" rel="noopener">open</a>
     </div>
   `).join('');
 }
 
-function setupEvents() {
-  $('#profileSelect').addEventListener('change', (event) => {
-    state.selectedProfile = event.target.value;
-    renderAll();
-  });
-  $('#sortSelect').addEventListener('change', (event) => {
-    state.sort = event.target.value;
-    renderOffers();
-  });
-  $('#searchInput').addEventListener('input', (event) => {
-    state.search = event.target.value;
-    renderOffers();
-  });
-  $('#onlyActive').addEventListener('change', (event) => {
-    state.onlyActive = event.target.checked;
-    renderOffers();
-  });
-  $('#hideLongConstraints').addEventListener('change', (event) => {
-    state.hideLongConstraints = event.target.checked;
-    renderOffers();
-  });
+function bindEvents() {
+  $('#profileSelect').addEventListener('change', e => { state.selectedProfile = e.target.value; renderAll(); });
+  $('#searchInput').addEventListener('input', e => { state.search = e.target.value; renderOfferGrid(); renderCompare(); });
+  $('#sortSelect').addEventListener('change', e => { state.sort = e.target.value; renderOfferGrid(); });
+  $('#onlyActive').addEventListener('change', e => { state.onlyActive = e.target.checked; renderAll(); });
+  $('#hideLongConstraints').addEventListener('change', e => { state.hideLongConstraints = e.target.checked; renderOfferGrid(); });
   $('#resetFilters').addEventListener('click', () => {
-    state.selectedSector = 'all';
-    state.search = '';
-    state.sort = 'annualCost';
-    state.onlyActive = true;
-    state.hideLongConstraints = false;
-    $('#searchInput').value = '';
-    $('#sortSelect').value = 'annualCost';
-    $('#onlyActive').checked = true;
-    $('#hideLongConstraints').checked = false;
+    state.selectedSector = 'all'; state.search = ''; state.sort = 'score'; state.onlyActive = true; state.hideLongConstraints = false;
+    $('#searchInput').value = ''; $('#sortSelect').value = 'score'; $('#onlyActive').checked = true; $('#hideLongConstraints').checked = false;
     renderAll();
   });
-  $('#dialogClose').addEventListener('click', () => $('#detailsDialog').close());
-  $('#navToggle').addEventListener('click', () => {
-    const nav = $('.main-nav');
-    nav.classList.toggle('open');
-    $('#navToggle').setAttribute('aria-expanded', nav.classList.contains('open'));
-  });
-  $('#alertForm').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const email = $('#alertEmail').value;
-    const sector = $('#alertSector').value;
-    const threshold = $('#alertThreshold').value;
-    $('#alertNote').textContent = `Alert demo salvato localmente: ${sector} sotto ${fmtCurrency.format(Number(threshold))}. In produzione collega una funzione serverless per inviare email a ${email}.`;
-    event.target.reset();
-  });
-  window.addEventListener('resize', debounce(() => {
-    renderPriceChart();
-    renderEnergyChart();
-  }, 150));
-}
-
-function debounce(fn, wait) {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), wait);
-  };
+  $('#chartOfferSelect').addEventListener('change', e => { state.chartOfferId = e.target.value; drawPriceChart(); });
+  $('#navToggle').addEventListener('click', () => $('.nav').classList.toggle('open'));
+  window.addEventListener('resize', () => { drawPriceChart(); drawEnergyChart(); });
 }
 
 function renderAll() {
+  renderTicker();
   renderKpis();
   renderSectorFilters();
-  renderOffers();
-  renderCompare();
+  renderOfferGrid();
+  renderChartSelect();
+  drawPriceChart();
+  drawEnergyChart();
   renderInsights();
-  renderSeasonGrid();
-  renderPriceChart();
-  renderEnergyChart();
+  renderSeason();
+  renderCompare();
+  renderSources();
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 }
 
 async function init() {
   try {
-    const [offers, history, energyIndex] = await Promise.all([
+    const [offersData, historyData, energyData] = await Promise.all([
       loadJson('data/offers.json'),
       loadJson('data/price-history.json'),
       loadJson('data/energy-index.json')
     ]);
-    state.offers = offers;
-    state.history = history;
-    state.energyIndex = energyIndex;
-    setupChartSelector();
-    setupEvents();
+    state.offers = Array.isArray(offersData) ? offersData : (offersData.offers || []);
+    state.history = Array.isArray(historyData) ? historyData : (historyData.series || []);
+    state.energyIndex = Array.isArray(energyData) ? energyData : (energyData.series || []);
+    bindEvents();
     renderAll();
   } catch (error) {
     console.error(error);
-    $('#offerGrid').innerHTML = `<p class="empty-state">Errore caricamento dati: ${error.message}</p>`;
+    document.body.insertAdjacentHTML('afterbegin', `<div style="padding:20px;border:4px solid #111;background:#ff4a1f;font-weight:900">Errore dati: ${escapeHtml(error.message)}</div>`);
   }
 }
 
-init();
+document.addEventListener('DOMContentLoaded', init);

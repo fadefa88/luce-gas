@@ -1,49 +1,138 @@
 {
-  "project": "RadarTariffe",
-  "defaultUserAgent": "RadarTariffeBot/0.1 (+https://tuodominio.it; contact: info@tuodominio.it)",
+  "settings": {
+    "respectRobotsTxt": true,
+    "timeoutSeconds": 25,
+    "delaySeconds": 2,
+    "userAgent": "RadarTariffeBot/0.2 (+https://tuodominio.it/metodologia; price-monitor; contact: email@example.com)",
+    "maxOffersPerRun": 250,
+    "allowPdf": false,
+    "energyOpenData": {
+      "enabled": true,
+      "openDataPage": "https://www.ilportaleofferte.it/portaleOfferte/it/open-data.page",
+      "limitPerSector": 60
+    }
+  },
   "sources": [
     {
-      "id": "demo-mobile-offer",
-      "enabled": false,
+      "id": "iliad-mobile-list",
+      "enabled": true,
       "sector": "mobile",
-      "provider": "Operatore Demo",
-      "name": "Offerta Mobile Demo",
-      "url": "https://example.com/offerta-mobile",
-      "respectRobotsTxt": true,
-      "politeDelaySeconds": 3,
-      "rules": {
-        "price_regex": "([0-9]+,[0-9]{2})\\s*€\\s*/?mese",
-        "expiry_regex": "(?:fino al|valida fino al)\\s*([0-9]{2}/[0-9]{2}/[0-9]{4})",
-        "activation_regex": "attivazione[^0-9]*([0-9]+,[0-9]{2})\\s*€"
-      },
-      "manualDefaults": {
-        "type": "monthly",
-        "promoMonths": 12,
-        "constraintMonths": 0,
-        "confidence": 60,
-        "tags": ["imported", "review-required"]
+      "provider": "iliad",
+      "url": "https://www.iliad.it/offerte-iliad-mobile.html",
+      "strategy": "regex_cards",
+      "patterns": {
+        "offerBlocks": "(?is)(GIGA PRIME|TOP 250 PLUS|GIGA 150|TOP 300 PLUS|Voce).*?(?=(GIGA PRIME|TOP 250 PLUS|GIGA 150|TOP 300 PLUS|Voce)|$)",
+        "price": "(?i)(\\d{1,2})\\s*[,\\.]\\s*(\\d{2})\\s*€",
+        "gb": "(?i)(\\d{2,4})\\s*GB",
+        "activation": "(?i)Attivazione\\s*SIM[:\\s]*([0-9]+[,\\.][0-9]{2})\\s*€"
       }
     },
     {
-      "id": "demo-css-selector",
-      "enabled": false,
+      "id": "very-599",
+      "enabled": true,
+      "sector": "mobile",
+      "provider": "Very Mobile",
+      "url": "https://verymobile.it/offerte/very-599",
+      "strategy": "single_offer",
+      "staticName": "Very 5,99",
+      "patterns": {
+        "price": "(?i)(5)\\s*,\\s*(99)\\s*€",
+        "gb": "(?i)(150)\\s*Giga",
+        "expiry": "(?i)Solo entro il\\s*(\\d{1,2})/(\\d{1,2})"
+      }
+    },
+    {
+      "id": "very-799",
+      "enabled": true,
+      "sector": "mobile",
+      "provider": "Very Mobile",
+      "url": "https://verymobile.it/offerte/very-799",
+      "strategy": "single_offer",
+      "staticName": "Very 7,99",
+      "patterns": {
+        "price": "(?i)(7)\\s*,\\s*(99)\\s*€",
+        "gb": "(?i)(300)\\s*Giga",
+        "activation": "(?i)Attivazione\\s*(?:9,99€\\s*)?([0-9]+[,\\.][0-9]{2})€",
+        "expiry": "(?i)Solo entro il\\s*(\\d{1,2})/(\\d{1,2})"
+      }
+    },
+    {
+      "id": "ho-offers",
+      "enabled": true,
+      "sector": "mobile",
+      "provider": "ho. Mobile",
+      "url": "https://www.ho-mobile.it/tutte-le-offerte",
+      "strategy": "regex_cards",
+      "patterns": {
+        "offerBlocks": "(?is)(\\d{2,3})\\s*Giga.*?(?=\\d{2,3}\\s*Giga|$)",
+        "price": "(?i)(\\d{1,2})\\s*[,\\.]\\s*(\\d{2})\\s*€\\s*al mese",
+        "gb": "(?i)(\\d{2,3})\\s*Giga",
+        "activation": "(?i)Attivazione\\s+a partire da\\s+([0-9]+[,\\.][0-9]{2})€"
+      }
+    },
+    {
+      "id": "kena-home",
+      "enabled": true,
+      "sector": "mobile",
+      "provider": "Kena Mobile",
+      "url": "https://www.kenamobile.it/",
+      "strategy": "regex_cards",
+      "patterns": {
+        "offerBlocks": "(?is)(Per ILIAD|KENA|\\d{2,3}\\s*giga).*?(?=(Per ILIAD|KENA|\\d{2,3}\\s*giga)|$)",
+        "price": "(\\d{1,2})\\s*,\\s*(\\d{2})\\s*€?\\s*(?:al\\s*mese|/mese)?",
+        "gb": "(?i)(\\d{2,4})\\s*giga",
+        "activation": "(?i)Attivazione\\s*€\\s*([0-9]+[,\\.][0-9]{2})"
+      }
+    },
+    {
+      "id": "iliad-fibra",
+      "enabled": true,
       "sector": "fibra",
-      "provider": "Provider Demo",
-      "name": "Fibra Demo",
-      "url": "https://example.com/fibra",
-      "respectRobotsTxt": true,
-      "rules": {
-        "price_selector": ".price, [data-price]",
-        "subtitle_selector": ".offer-summary",
-        "expiry_selector": ".expiry"
-      },
-      "manualDefaults": {
-        "type": "monthly",
-        "activation": 0,
-        "promoMonths": 12,
-        "constraintMonths": 12,
-        "confidence": 55,
-        "tags": ["selector", "review-required"]
+      "provider": "iliad",
+      "url": "https://www.iliad.it/offerte-iliad-fibra.html",
+      "strategy": "single_offer",
+      "staticName": "iliadbox Wi-Fi 7",
+      "patterns": {
+        "price": "(?i)(22)\\s*[,\\.]\\s*(99)\\s*€\\s*al mese",
+        "activation": "(?i)(?:installazione|attivazione).*?([0-9]+[,\\.][0-9]{2})\\s*€"
+      }
+    },
+    {
+      "id": "fastweb-home",
+      "enabled": true,
+      "sector": "fibra",
+      "provider": "Fastweb",
+      "url": "https://www.fastweb.it/",
+      "strategy": "regex_cards",
+      "patterns": {
+        "offerBlocks": "(?is)(Fastweb Casa Start|Fastweb Casa Pro|Fastweb Casa Ultra).*?(?=(Fastweb Casa Start|Fastweb Casa Pro|Fastweb Casa Ultra)|$)",
+        "price": "(?i)(\\d{2})\\s*,\\s*(\\d{2})\\s*€\\s*/mese"
+      }
+    },
+    {
+      "id": "fastweb-energia",
+      "enabled": true,
+      "sector": "luce",
+      "provider": "Fastweb Energia",
+      "url": "https://www.fastweb.it/energia/",
+      "strategy": "energy_unit",
+      "patterns": {
+        "name": "Luce Fix",
+        "unitPrice": "(?i)componente energia pari a\\s*([0-9]+[,\\.][0-9]{3})\\s*€/kWh",
+        "annualFixed": "(?i)commercializzazione\\s*([0-9]+)\\s*€/POD/anno"
+      }
+    },
+    {
+      "id": "enel-fix-web",
+      "enabled": true,
+      "sector": "dual",
+      "provider": "Enel Energia",
+      "url": "https://www.enel.it/it-it/offerte-luce-gas/enel-fix-web-luce-gas",
+      "strategy": "energy_dual_unit",
+      "patterns": {
+        "electricityPrice": "(?i)(0[,\\.]139)\\s*€/kWh",
+        "gasPrice": "(?i)(0[,\\.]490)\\s*€/Smc",
+        "annualFixed": "(?i)Quota fissa.*?144\\s*€/P(?:OD|DR)/anno"
       }
     }
   ]

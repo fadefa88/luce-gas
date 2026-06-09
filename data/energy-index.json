@@ -1,8 +1,12 @@
-[
-  {"date":"2026-01-01","electricityIndex":0.128,"gasIndex":0.452},
-  {"date":"2026-02-01","electricityIndex":0.123,"gasIndex":0.441},
-  {"date":"2026-03-01","electricityIndex":0.118,"gasIndex":0.419},
-  {"date":"2026-04-01","electricityIndex":0.109,"gasIndex":0.405},
-  {"date":"2026-05-01","electricityIndex":0.104,"gasIndex":0.394},
-  {"date":"2026-06-09","electricityIndex":0.101,"gasIndex":0.381}
-]
+{
+  "generatedAt": "2026-06-09",
+  "series": [
+    {"date":"2025-11","punApprox":0.118,"psv":0.349},
+    {"date":"2025-12","punApprox":0.121,"psv":0.328},
+    {"date":"2026-01","punApprox":0.126,"psv":0.364},
+    {"date":"2026-02","punApprox":0.119,"psv":0.332},
+    {"date":"2026-03","punApprox":0.134,"psv":0.558},
+    {"date":"2026-04","punApprox":0.129,"psv":0.493}
+  ],
+  "note":"Serie campione: PSV ricavato da fonti pubbliche; PUN indicativo da sostituire con feed GME/ARERA nello script di produzione."
+}

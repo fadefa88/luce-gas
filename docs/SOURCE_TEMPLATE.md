@@ -1,74 +1,29 @@
-# Template nuova fonte
+# Source configuration template
 
-Copia `data/sources.example.json` in `data/sources.json` e aggiungi una fonte.
-
-## Fonte con regex
+Add sources to `data/sources.json`.
 
 ```json
 {
-  "id": "operatore-mobile-100gb",
+  "id": "provider-offer",
   "enabled": true,
   "sector": "mobile",
-  "provider": "Operatore",
-  "name": "Mobile 100 GB",
-  "url": "https://operatore.example/offerta-mobile-100gb",
-  "respectRobotsTxt": true,
-  "politeDelaySeconds": 3,
-  "rules": {
-    "price_regex": "([0-9]+,[0-9]{2})\\s*€\\s*/?mese",
-    "expiry_regex": "(?:fino al|valida fino al)\\s*([0-9]{2}/[0-9]{2}/[0-9]{4})",
-    "activation_regex": "attivazione[^0-9]*([0-9]+,[0-9]{2})\\s*€"
-  },
-  "manualDefaults": {
-    "type": "monthly",
-    "promoMonths": 12,
-    "constraintMonths": 0,
-    "confidence": 70,
-    "score": 70,
-    "tags": ["mobile", "imported", "review-required"]
-  }
-}
-```
-
-## Fonte con selettori CSS
-
-```json
-{
-  "id": "provider-fibra-ftth",
-  "enabled": true,
-  "sector": "fibra",
   "provider": "Provider",
-  "name": "Fibra FTTH",
-  "url": "https://provider.example/fibra",
-  "respectRobotsTxt": true,
-  "politeDelaySeconds": 3,
-  "rules": {
-    "price_selector": ".price",
-    "subtitle_selector": ".offer-summary",
-    "expiry_selector": ".expiry",
-    "activation_selector": ".activation-cost"
-  },
-  "manualDefaults": {
-    "type": "monthly",
-    "activation": 0,
-    "promoMonths": 12,
-    "constraintMonths": 24,
-    "confidence": 75,
-    "score": 72,
-    "tags": ["fibra", "FTTH"]
+  "url": "https://provider.example/offerta",
+  "strategy": "single_offer",
+  "staticName": "Nome offerta",
+  "patterns": {
+    "price": "(?i)(9)\\s*,\\s*(99)\\s*€",
+    "gb": "(?i)(250)\\s*Giga",
+    "expiry": "(?i)Solo entro il\\s*(\\d{1,2})/(\\d{1,2})"
   }
 }
 ```
 
-## Test
+Supported strategies:
 
-```bash
-python scripts/import_sources.py --sources data/sources.json --dry-run
-```
+- `single_offer`
+- `regex_cards`
+- `energy_unit`
+- `energy_dual_unit`
 
-Se il dato è corretto:
-
-```bash
-python scripts/import_sources.py --sources data/sources.json
-python scripts/validate_data.py
-```
+Prefer stable official pages and transparency pages.
