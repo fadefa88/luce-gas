@@ -1,0 +1,62 @@
+name: Update offers data
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run importer without committing changes"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "17 5 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Prepare sources config
+        run: |
+          if [ ! -f data/sources.json ]; then
+            cp data/sources.example.json data/sources.json
+            echo "Created data/sources.json from example. Enable sources manually before production import."
+          fi
+
+      - name: Import offers
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            python scripts/import_sources.py --sources data/sources.json --dry-run
+          else
+            python scripts/import_sources.py --sources data/sources.json
+          fi
+
+      - name: Validate data
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: python scripts/validate_data.py
+
+      - name: Commit data changes
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          if git diff --quiet; then
+            echo "No offer changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add data/offers.json data/price-history.json data/last-import-report.json data/sources.json
+          git commit -m "Update tariff offers data"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push

@@ -1,0 +1,8 @@
+[
+  {"date":"2026-01-01","electricityIndex":0.128,"gasIndex":0.452},
+  {"date":"2026-02-01","electricityIndex":0.123,"gasIndex":0.441},
+  {"date":"2026-03-01","electricityIndex":0.118,"gasIndex":0.419},
+  {"date":"2026-04-01","electricityIndex":0.109,"gasIndex":0.405},
+  {"date":"2026-05-01","electricityIndex":0.104,"gasIndex":0.394},
+  {"date":"2026-06-09","electricityIndex":0.101,"gasIndex":0.381}
+]
