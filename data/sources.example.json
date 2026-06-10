@@ -9,7 +9,10 @@
   "areraOpenData": {
     "page": "https://www.ilportaleofferte.it/portaleOfferte/it/open-data.page",
     "mode": "discover-current-links",
-    "overrides": {}
+    "overrides": {},
+    "respectRobots": false,
+    "fallbackDays": 14,
+    "notes": "Open Data ufficiali Portale Offerte: fetch dedicato dei soli file XML/CSV pubblici; robots resta attivo per i siti fibra."
   },
   "fiberSources": [
     {

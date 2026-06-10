@@ -24,7 +24,7 @@ import urllib.robotparser
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from io import BytesIO, StringIO
 from pathlib import Path
 from typing import Any, Iterable
@@ -40,6 +40,7 @@ except Exception:  # pragma: no cover
 TODAY = date.today().isoformat()
 DEFAULT_UA = "TariffRadarBot/0.3 (+https://example.com/contatti; ricerca offerte pubbliche; no aggressive scraping)"
 OPEN_DATA_PAGE = "https://www.ilportaleofferte.it/portaleOfferte/it/open-data.page"
+OPEN_DATA_HOST = "www.ilportaleofferte.it"
 
 PRICE_RE = re.compile(r"(?<!\d)(\d{1,4}(?:[\.,]\d{1,4})?)\s*(?:€|euro|eur)(?:\s*/\s*(?:mese|mes|m|anno|kwh|smc))?", re.I)
 MONTHLY_RE = re.compile(r"(\d{1,3}(?:[\.,]\d{1,2})?)\s*(?:€|euro|eur)\s*(?:/|al|ogni)?\s*(?:mese|mes|m)\b", re.I)
@@ -118,7 +119,10 @@ class RespectfulClient:
             return None
         self.wait_host(url)
         try:
-            r = self.session.get(url, timeout=self.timeout, allow_redirects=True)
+            headers = {}
+            if urllib.parse.urlparse(url).netloc == OPEN_DATA_HOST:
+                headers["Referer"] = OPEN_DATA_PAGE
+            r = self.session.get(url, timeout=self.timeout, allow_redirects=True, headers=headers)
             ctype = r.headers.get("content-type", "")
             text = None
             if any(x in ctype.lower() for x in ["text", "html", "xml", "csv", "json"]):
@@ -196,6 +200,13 @@ def first_by_alias(flat: dict[str, str], alias_group: str) -> str | None:
 
 
 def discover_arera_links(client: RespectfulClient, page_url: str = OPEN_DATA_PAGE) -> dict[str, str]:
+    """Discover current Open Data download URLs from the official Portale Offerte page.
+
+    The page itself is an Open Data catalogue. Some robots.txt configurations block generic
+    crawlers from the catalogue URL even though the page exposes public CSV/XML downloads.
+    The caller can pass a dedicated client with respect_robots=False only for this official
+    Open Data catalogue/resources, while keeping robots enabled for ordinary provider sites.
+    """
     result = client.fetch(page_url)
     if not result or not result.text:
         return {}
@@ -225,6 +236,47 @@ def discover_arera_links(client: RespectfulClient, page_url: str = OPEN_DATA_PAG
         if key:
             links[key] = href
     return links
+
+
+def arera_fallback_links(days_back: int = 14) -> dict[str, list[str]]:
+    """Build conservative fallback URLs for the current Open Data month.
+
+    The Portale Offerte filenames include YYYY_M and YYYYMMDD. If discovery fails because
+    the catalogue HTML changes, try only the last few calendar days instead of crawling.
+    """
+    out: dict[str, list[str]] = defaultdict(list)
+    base = "https://www.ilportaleofferte.it/portaleOfferte/resources/opendata/csv"
+    for i in range(max(1, days_back)):
+        d = date.today() - timedelta(days=i)
+        ym = f"{d.year}_{d.month}"
+        ymd = d.strftime("%Y%m%d")
+        out["energy_electricity_xml"].append(f"{base}/offerteML/{ym}/PO_Offerte_E_MLIBERO_{ymd}.xml")
+        out["energy_gas_xml"].append(f"{base}/offerteML/{ym}/PO_Offerte_G_MLIBERO_{ymd}.xml")
+        out["energy_dual_xml"].append(f"{base}/offerteML/{ym}/PO_Offerte_D_MLIBERO_{ymd}.xml")
+        out["energy_electricity_params"].append(f"{base}/parametriML/{ym}/PO_Parametri_Mercato_Libero_E_{ymd}.csv")
+        out["energy_gas_params"].append(f"{base}/parametriML/{ym}/PO_Parametri_Mercato_Libero_G_{ymd}.csv")
+    return out
+
+
+def as_candidates(value: str | list[str] | None) -> list[str]:
+    if not value:
+        return []
+    if isinstance(value, list):
+        return [v for v in value if v]
+    return [value]
+
+
+def merge_link_candidates(discovered: dict[str, str], overrides: dict[str, Any], fallback_days: int) -> dict[str, list[str]]:
+    merged: dict[str, list[str]] = {k: [v] for k, v in discovered.items() if v}
+    for key, value in (overrides or {}).items():
+        vals = as_candidates(value)
+        if vals:
+            merged[key] = vals + [v for v in merged.get(key, []) if v not in vals]
+    fallback = arera_fallback_links(fallback_days)
+    for key, vals in fallback.items():
+        existing = merged.get(key, [])
+        merged[key] = existing + [v for v in vals if v not in existing]
+    return merged
 
 
 def candidate_offer_elements(root: ET.Element) -> list[ET.Element]:
@@ -368,6 +420,27 @@ def parse_arera_xml(client: RespectfulClient, url: str, sector: str, limit: int 
         if limit and len(offers) >= limit:
             break
     return dedupe_offers(offers)
+
+
+def parse_arera_xml_candidates(client: RespectfulClient, urls: list[str], sector: str, limit: int | None = None) -> list[dict[str, Any]]:
+    last_status = "not-tried"
+    for url in urls:
+        offers = parse_arera_xml(client, url, sector, limit)
+        if offers:
+            print(f"[arera] {sector}: imported {len(offers)} from {url}")
+            return offers
+        last_status = url
+    print(f"[arera] {sector}: no offers from {len(urls)} candidate URL(s); last={last_status}", file=sys.stderr)
+    return []
+
+
+def parse_commodity_history_candidates(client: RespectfulClient, urls: list[str]) -> list[dict[str, Any]]:
+    for url in urls:
+        points = parse_commodity_history_csv(client, url)
+        if points:
+            print(f"[arera] commodity history: imported {len(points)} points from {url}")
+            return points
+    return []
 
 
 def parse_commodity_history_csv(client: RespectfulClient, url: str) -> list[dict[str, Any]]:
@@ -783,6 +856,16 @@ def main() -> int:
     delay = args.delay if args.delay is not None else float(settings.get("delaySeconds", 2.0))
     client = RespectfulClient(ua, delay=delay, respect_robots=not args.no_robots and bool(settings.get("respectRobots", True)))
 
+    # Keep robots enabled for ordinary provider websites. For Portale Offerte Open Data,
+    # use a dedicated client that may bypass robots only for the official public Open Data
+    # catalogue/downloads. This avoids the previous failure: robots skipped the catalogue
+    # page and therefore discovered zero XML/CSV files.
+    arera_cfg = cfg.get("areraOpenData", {})
+    open_data_respect_robots = bool(arera_cfg.get("respectRobots", False)) and not args.no_robots
+    arera_client = RespectfulClient(ua, delay=delay, respect_robots=open_data_respect_robots)
+    if not open_data_respect_robots:
+        print("[arera] official Open Data mode: robots bypass enabled only for Portale Offerte catalogue/resources")
+
     existing_data = load_json(Path(args.output)) if Path(args.output).exists() else {"offers": []}
     existing_offers = existing_data.get("offers", existing_data if isinstance(existing_data, list) else [])
     imported: list[dict[str, Any]] = []
@@ -790,18 +873,20 @@ def main() -> int:
     commodity: list[dict[str, Any]] = []
 
     if not args.skip_energy:
-        links = discover_arera_links(client, cfg.get("areraOpenData", {}).get("page", OPEN_DATA_PAGE))
-        links.update({k: v for k, v in cfg.get("areraOpenData", {}).get("overrides", {}).items() if v})
-        print(f"[arera] discovered: {sorted(links)}")
+        discovered = discover_arera_links(arera_client, arera_cfg.get("page", OPEN_DATA_PAGE))
+        fallback_days = int(arera_cfg.get("fallbackDays", 14))
+        links = merge_link_candidates(discovered, arera_cfg.get("overrides", {}), fallback_days)
+        print(f"[arera] discovered: {sorted(discovered)}")
+        print(f"[arera] candidate sets: { {k: len(v) for k, v in links.items()} }")
         if links.get("commodity_history"):
-            commodity = parse_commodity_history_csv(client, links["commodity_history"])
+            commodity = parse_commodity_history_candidates(arera_client, links["commodity_history"])
         if links.get("energy_electricity_xml"):
-            imported.extend(parse_arera_xml(client, links["energy_electricity_xml"], "luce", args.limit_energy))
+            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_electricity_xml"], "luce", args.limit_energy))
         if links.get("energy_gas_xml"):
-            imported.extend(parse_arera_xml(client, links["energy_gas_xml"], "gas", args.limit_energy))
+            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_gas_xml"], "gas", args.limit_energy))
         if links.get("energy_dual_xml"):
             # Dual fuel viene importato come dual, ma senza separare unit economics se non chiaro.
-            imported.extend(parse_arera_xml(client, links["energy_dual_xml"], "dual", args.limit_energy))
+            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_dual_xml"], "dual", args.limit_energy))
 
     if not args.skip_fiber:
         fiber_sources = cfg.get("fiberSources", [])
