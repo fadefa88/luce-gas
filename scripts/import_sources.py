@@ -29,6 +29,8 @@ from io import BytesIO, StringIO
 from pathlib import Path
 from typing import Any, Iterable
 
+# Playwright is optional. GitHub Actions installs it for ARERA Open Data browser fallback.
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -238,6 +240,124 @@ def discover_arera_links(client: RespectfulClient, page_url: str = OPEN_DATA_PAG
     return links
 
 
+
+
+def discover_arera_links_browser(page_url: str = OPEN_DATA_PAGE, user_agent: str = DEFAULT_UA, timeout_ms: int = 60000) -> dict[str, str]:
+    """Discover Open Data links using a real browser context.
+
+    This is not used to bypass authentication or CAPTCHA: the page is public and lists
+    direct CSV/XML Open Data download links. Some CI environments receive empty/blocked
+    HTML or 403 on the raw resources; using the browser context preserves the same
+    cookies/referrer flow a normal user gets when clicking the public Open Data links.
+    """
+    try:
+        from playwright.sync_api import sync_playwright  # type: ignore
+    except Exception as exc:
+        print(f"[arera-browser] playwright unavailable: {exc}", file=sys.stderr)
+        return {}
+
+    links: dict[str, str] = {}
+    try:
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent=user_agent,
+                locale="it-IT",
+                extra_http_headers={
+                    "Accept-Language": "it-IT,it;q=0.9,en;q=0.7",
+                    "Upgrade-Insecure-Requests": "1",
+                },
+            )
+            page = context.new_page()
+            page.goto(page_url, wait_until="domcontentloaded", timeout=timeout_ms)
+            try:
+                page.wait_for_load_state("networkidle", timeout=15000)
+            except Exception:
+                pass
+            hrefs = page.eval_on_selector_all(
+                "a[href]",
+                "els => els.map(a => ({href: a.href, text: (a.innerText || a.textContent || '').trim()}))",
+            )
+            browser.close()
+    except Exception as exc:
+        print(f"[arera-browser] discovery failed: {exc}", file=sys.stderr)
+        return {}
+
+    for item in hrefs:
+        href = urllib.parse.urljoin(page_url, item.get("href") or "")
+        low = href.lower()
+        label = clean_text(item.get("text") or "").lower()
+        key = None
+        if "prezzi" in label and ".csv" in low:
+            key = "commodity_history"
+        elif "po_offerte_e_mlibero" in low:
+            key = "energy_electricity_xml"
+        elif "po_parametri_mercato_libero_e" in low:
+            key = "energy_electricity_params"
+        elif "po_offerte_g_mlibero" in low:
+            key = "energy_gas_xml"
+        elif "po_parametri_mercato_libero_g" in low:
+            key = "energy_gas_params"
+        elif "po_offerte_d_mlibero" in low:
+            key = "energy_dual_xml"
+        elif "offerte_e_placet" in low:
+            key = "placet_electricity_csv"
+        elif "offerte_g_placet" in low:
+            key = "placet_gas_csv"
+        if key:
+            links[key] = href
+    return links
+
+
+def browser_fetch_arera_url(url: str, user_agent: str = DEFAULT_UA, timeout_ms: int = 120000) -> FetchResult | None:
+    """Fetch one public ARERA Open Data resource using a browser request context.
+
+    Used only after normal requests receive 403/blocked responses. It first opens the
+    official Open Data page, then requests the public CSV/XML URL with the same browser
+    context, cookies and Referer.
+    """
+    try:
+        from playwright.sync_api import sync_playwright  # type: ignore
+    except Exception as exc:
+        print(f"[arera-browser] playwright unavailable for download: {exc}", file=sys.stderr)
+        return None
+
+    try:
+        with sync_playwright() as pw:
+            browser = pw.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent=user_agent,
+                locale="it-IT",
+                extra_http_headers={"Accept-Language": "it-IT,it;q=0.9,en;q=0.7"},
+            )
+            page = context.new_page()
+            page.goto(OPEN_DATA_PAGE, wait_until="domcontentloaded", timeout=timeout_ms)
+            try:
+                page.wait_for_load_state("networkidle", timeout=15000)
+            except Exception:
+                pass
+            response = context.request.get(
+                url,
+                headers={
+                    "Referer": OPEN_DATA_PAGE,
+                    "Accept": "application/xml,text/xml,text/csv,application/octet-stream,*/*;q=0.8",
+                    "Accept-Language": "it-IT,it;q=0.9,en;q=0.7",
+                },
+                timeout=timeout_ms,
+            )
+            body = response.body()
+            ctype = response.headers.get("content-type", "")
+            text = None
+            if any(x in ctype.lower() for x in ["text", "html", "xml", "csv", "json"]):
+                text = body.decode("utf-8", errors="replace")
+            status = response.status
+            final_url = response.url
+            browser.close()
+            return FetchResult(final_url, status, ctype, text, body)
+    except Exception as exc:
+        print(f"[arera-browser] download failed {url}: {exc}", file=sys.stderr)
+        return None
+
 def arera_fallback_links(days_back: int = 14) -> dict[str, list[str]]:
     """Build conservative fallback URLs for the current Open Data month.
 
@@ -401,8 +521,11 @@ def score_energy(unit: float | None, spread: float | None, fixed_month: float | 
     return max(15, min(96, score))
 
 
-def parse_arera_xml(client: RespectfulClient, url: str, sector: str, limit: int | None = None) -> list[dict[str, Any]]:
+def parse_arera_xml(client: RespectfulClient, url: str, sector: str, limit: int | None = None, browser_fallback: bool = False, user_agent: str = DEFAULT_UA) -> list[dict[str, Any]]:
     res = client.fetch(url)
+    if (not res or res.status_code in (401, 403)) and browser_fallback:
+        print(f"[arera] raw request blocked for {url}: {res.status_code if res else 'no response'}; trying browser context", file=sys.stderr)
+        res = browser_fetch_arera_url(url, user_agent=user_agent)
     if not res or res.status_code >= 400:
         print(f"[arera] failed {url}: {res.status_code if res else 'no response'}", file=sys.stderr)
         return []
@@ -422,10 +545,10 @@ def parse_arera_xml(client: RespectfulClient, url: str, sector: str, limit: int 
     return dedupe_offers(offers)
 
 
-def parse_arera_xml_candidates(client: RespectfulClient, urls: list[str], sector: str, limit: int | None = None) -> list[dict[str, Any]]:
+def parse_arera_xml_candidates(client: RespectfulClient, urls: list[str], sector: str, limit: int | None = None, browser_fallback: bool = False, user_agent: str = DEFAULT_UA) -> list[dict[str, Any]]:
     last_status = "not-tried"
     for url in urls:
-        offers = parse_arera_xml(client, url, sector, limit)
+        offers = parse_arera_xml(client, url, sector, limit, browser_fallback=browser_fallback, user_agent=user_agent)
         if offers:
             print(f"[arera] {sector}: imported {len(offers)} from {url}")
             return offers
@@ -434,18 +557,21 @@ def parse_arera_xml_candidates(client: RespectfulClient, urls: list[str], sector
     return []
 
 
-def parse_commodity_history_candidates(client: RespectfulClient, urls: list[str]) -> list[dict[str, Any]]:
+def parse_commodity_history_candidates(client: RespectfulClient, urls: list[str], browser_fallback: bool = False, user_agent: str = DEFAULT_UA) -> list[dict[str, Any]]:
     for url in urls:
-        points = parse_commodity_history_csv(client, url)
+        points = parse_commodity_history_csv(client, url, browser_fallback=browser_fallback, user_agent=user_agent)
         if points:
             print(f"[arera] commodity history: imported {len(points)} points from {url}")
             return points
     return []
 
 
-def parse_commodity_history_csv(client: RespectfulClient, url: str) -> list[dict[str, Any]]:
+def parse_commodity_history_csv(client: RespectfulClient, url: str, browser_fallback: bool = False, user_agent: str = DEFAULT_UA) -> list[dict[str, Any]]:
     res = client.fetch(url)
-    if not res or not res.content:
+    if (not res or res.status_code in (401, 403)) and browser_fallback:
+        print(f"[arera] raw request blocked for commodity {url}: {res.status_code if res else 'no response'}; trying browser context", file=sys.stderr)
+        res = browser_fetch_arera_url(url, user_agent=user_agent)
+    if not res or not res.content or res.status_code >= 400:
         return []
     text = decode_bytes(res.content)
     rows = read_csv_rows(text)
@@ -847,6 +973,7 @@ def main() -> int:
     ap.add_argument("--no-robots", action="store_true", help="Disabilita robots.txt. Usare solo per test interni se autorizzati.")
     ap.add_argument("--limit-energy", type=int, default=None, help="Limite offerte energia per test.")
     ap.add_argument("--delay", type=float, default=None)
+    ap.add_argument("--arera-browser-fallback", action="store_true", help="Usa Playwright/browser context per link ARERA Open Data se requests riceve 403 o discovery vuota.")
     args = ap.parse_args()
 
     source_path = Path(args.sources)
@@ -874,19 +1001,22 @@ def main() -> int:
 
     if not args.skip_energy:
         discovered = discover_arera_links(arera_client, arera_cfg.get("page", OPEN_DATA_PAGE))
+        if not discovered and (args.arera_browser_fallback or bool(arera_cfg.get("browserFallback", True))):
+            print("[arera] catalogue discovery empty; trying browser discovery")
+            discovered = discover_arera_links_browser(arera_cfg.get("page", OPEN_DATA_PAGE), user_agent=ua)
         fallback_days = int(arera_cfg.get("fallbackDays", 14))
         links = merge_link_candidates(discovered, arera_cfg.get("overrides", {}), fallback_days)
         print(f"[arera] discovered: {sorted(discovered)}")
         print(f"[arera] candidate sets: { {k: len(v) for k, v in links.items()} }")
         if links.get("commodity_history"):
-            commodity = parse_commodity_history_candidates(arera_client, links["commodity_history"])
+            commodity = parse_commodity_history_candidates(arera_client, links["commodity_history"], browser_fallback=(args.arera_browser_fallback or bool(arera_cfg.get("browserFallback", True))), user_agent=ua)
         if links.get("energy_electricity_xml"):
-            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_electricity_xml"], "luce", args.limit_energy))
+            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_electricity_xml"], "luce", args.limit_energy, browser_fallback=(args.arera_browser_fallback or bool(arera_cfg.get("browserFallback", True))), user_agent=ua))
         if links.get("energy_gas_xml"):
-            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_gas_xml"], "gas", args.limit_energy))
+            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_gas_xml"], "gas", args.limit_energy, browser_fallback=(args.arera_browser_fallback or bool(arera_cfg.get("browserFallback", True))), user_agent=ua))
         if links.get("energy_dual_xml"):
             # Dual fuel viene importato come dual, ma senza separare unit economics se non chiaro.
-            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_dual_xml"], "dual", args.limit_energy))
+            imported.extend(parse_arera_xml_candidates(arera_client, links["energy_dual_xml"], "dual", args.limit_energy, browser_fallback=(args.arera_browser_fallback or bool(arera_cfg.get("browserFallback", True))), user_agent=ua))
 
     if not args.skip_fiber:
         fiber_sources = cfg.get("fiberSources", [])

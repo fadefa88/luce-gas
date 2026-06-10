@@ -11,8 +11,9 @@
     "mode": "discover-current-links",
     "overrides": {},
     "respectRobots": false,
-    "fallbackDays": 14,
-    "notes": "Open Data ufficiali Portale Offerte: fetch dedicato dei soli file XML/CSV pubblici; robots resta attivo per i siti fibra."
+    "fallbackDays": 5,
+    "notes": "Open Data ufficiali Portale Offerte: fetch dedicato dei soli file XML/CSV pubblici; robots resta attivo per i siti fibra.",
+    "browserFallback": true
   },
   "fiberSources": [
     {
