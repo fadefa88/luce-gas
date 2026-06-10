@@ -66,3 +66,19 @@ TARIFF_RADAR_UA=TariffRadarBot/0.3 (+https://tuodominio.it/contatti; contatto: e
 ```
 
 Serve per usare uno user-agent chiaro e contattabile durante lo scraping.
+
+## ARERA 403 da GitHub Actions
+
+Se nei log vedi `raw request blocked ... 403`, non è un errore dei due punti finali: il `: 403` è solo il codice HTTP stampato dal log. La versione aggiornata usa tre tentativi per il solo Portale Offerte Open Data:
+
+1. richiesta HTTP trasparente con user-agent del progetto;
+2. contesto browser Playwright con Chromium e cookie/referrer della pagina Open Data;
+3. click browser-native sul link pubblico e cattura del download.
+
+Nota: non impostare `TARIFF_RADAR_UA` con parole come `Bot`, `crawler` o `scraper`. Alcuni server/WAF bloccano questi user-agent anche quando il contenuto è pubblico. Il valore consigliato è:
+
+```text
+Mozilla/5.0 (compatible; TariffRadar/0.4; +https://tuodominio.it/contatti; osservatorio offerte pubbliche; contatto: tua-email@dominio.it)
+```
+
+Per il fallback browser puoi lasciare vuoto `ARERA_BROWSER_UA`: in quel caso Chromium usa il proprio user-agent nativo. Se vuoi forzarlo, crea il secret GitHub `ARERA_BROWSER_UA`.

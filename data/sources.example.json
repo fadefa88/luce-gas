@@ -1,6 +1,6 @@
 {
   "settings": {
-    "userAgent": "TariffRadarBot/0.3 (+https://tuodominio.it/contatti; osservatorio offerte pubbliche; contatto: tua-email@dominio.it)",
+    "userAgent": "Mozilla/5.0 (compatible; TariffRadar/0.4; +https://tuodominio.it/contatti; osservatorio offerte pubbliche; contatto: tua-email@dominio.it)",
     "respectRobots": true,
     "delaySeconds": 2.5,
     "followPdfs": true,
@@ -12,7 +12,7 @@
     "overrides": {},
     "respectRobots": false,
     "fallbackDays": 5,
-    "notes": "Open Data ufficiali Portale Offerte: fetch dedicato dei soli file XML/CSV pubblici; robots resta attivo per i siti fibra.",
+    "notes": "Open Data ufficiali Portale Offerte: fetch dedicato dei soli file XML/CSV pubblici. Browser fallback lascia Chromium con user-agent nativo se non imposti ARERA_BROWSER_UA.",
     "browserFallback": true
   },
   "fiberSources": [

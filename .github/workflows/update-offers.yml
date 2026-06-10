@@ -63,6 +63,7 @@ jobs:
       - name: Import all sources
         env:
           TARIFF_RADAR_UA: ${{ secrets.TARIFF_RADAR_UA }}
+          ARERA_BROWSER_UA: ${{ secrets.ARERA_BROWSER_UA }}
         run: |
           mkdir -p artifacts
           ARGS="--sources data/sources.json --output data/offers.json --commodity-output data/commodity-index.json --correlation-output data/market-correlation.json --snapshot-output data/offer-snapshots.json --arera-browser-fallback"

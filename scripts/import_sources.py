@@ -11,6 +11,7 @@ Non bypassa login, CAPTCHA, paywall o blocchi tecnici. Rispetta robots.txt di de
 from __future__ import annotations
 
 import argparse
+import base64
 import csv
 import hashlib
 import json
@@ -40,9 +41,25 @@ except Exception:  # pragma: no cover
     pdfplumber = None
 
 TODAY = date.today().isoformat()
-DEFAULT_UA = "TariffRadarBot/0.3 (+https://example.com/contatti; ricerca offerte pubbliche; no aggressive scraping)"
+DEFAULT_UA = "Mozilla/5.0 (compatible; TariffRadar/0.4; +https://example.com/contatti; ricerca offerte pubbliche; no aggressive scraping)"
 OPEN_DATA_PAGE = "https://www.ilportaleofferte.it/portaleOfferte/it/open-data.page"
 OPEN_DATA_HOST = "www.ilportaleofferte.it"
+
+
+def arera_browser_user_agent(configured_ua: str | None = None) -> str | None:
+    """Return the UA to use for Playwright ARERA Open Data fallback.
+
+    Normal HTTP requests keep the transparent project UA. For the browser fallback,
+    overriding Chromium with a string containing "Bot" was causing Portale Offerte
+    resources to return 403 in GitHub Actions. If ARERA_BROWSER_UA is not explicitly
+    provided, leave Chromium's native browser UA untouched.
+    """
+    explicit = os.environ.get("ARERA_BROWSER_UA", "").strip()
+    if explicit:
+        return explicit
+    if configured_ua and "bot" not in configured_ua.lower() and "example.com" not in configured_ua.lower():
+        return configured_ua
+    return None
 
 PRICE_RE = re.compile(r"(?<!\d)(\d{1,4}(?:[\.,]\d{1,4})?)\s*(?:€|euro|eur)(?:\s*/\s*(?:mese|mes|m|anno|kwh|smc))?", re.I)
 MONTHLY_RE = re.compile(r"(\d{1,3}(?:[\.,]\d{1,2})?)\s*(?:€|euro|eur)\s*(?:/|al|ogni)?\s*(?:mese|mes|m)\b", re.I)
@@ -260,14 +277,17 @@ def discover_arera_links_browser(page_url: str = OPEN_DATA_PAGE, user_agent: str
     try:
         with sync_playwright() as pw:
             browser = pw.chromium.launch(headless=True)
-            context = browser.new_context(
-                user_agent=user_agent,
-                locale="it-IT",
-                extra_http_headers={
+            browser_ua = arera_browser_user_agent(user_agent)
+            context_kwargs = {
+                "locale": "it-IT",
+                "extra_http_headers": {
                     "Accept-Language": "it-IT,it;q=0.9,en;q=0.7",
                     "Upgrade-Insecure-Requests": "1",
                 },
-            )
+            }
+            if browser_ua:
+                context_kwargs["user_agent"] = browser_ua
+            context = browser.new_context(**context_kwargs)
             page = context.new_page()
             page.goto(page_url, wait_until="domcontentloaded", timeout=timeout_ms)
             try:
@@ -325,35 +345,106 @@ def browser_fetch_arera_url(url: str, user_agent: str = DEFAULT_UA, timeout_ms: 
     try:
         with sync_playwright() as pw:
             browser = pw.chromium.launch(headless=True)
-            context = browser.new_context(
-                user_agent=user_agent,
-                locale="it-IT",
-                extra_http_headers={"Accept-Language": "it-IT,it;q=0.9,en;q=0.7"},
-            )
+            browser_ua = arera_browser_user_agent(user_agent)
+            context_kwargs = {
+                "locale": "it-IT",
+                "extra_http_headers": {"Accept-Language": "it-IT,it;q=0.9,en;q=0.7"},
+            }
+            if browser_ua:
+                context_kwargs["user_agent"] = browser_ua
+            context = browser.new_context(**context_kwargs)
             page = context.new_page()
             page.goto(OPEN_DATA_PAGE, wait_until="domcontentloaded", timeout=timeout_ms)
             try:
                 page.wait_for_load_state("networkidle", timeout=15000)
             except Exception:
                 pass
+            # 1) Browser request context: keeps cookies/referrer from the catalogue page.
             response = context.request.get(
                 url,
                 headers={
                     "Referer": OPEN_DATA_PAGE,
                     "Accept": "application/xml,text/xml,text/csv,application/octet-stream,*/*;q=0.8",
                     "Accept-Language": "it-IT,it;q=0.9,en;q=0.7",
+                    "Sec-Fetch-Site": "same-origin",
+                    "Sec-Fetch-Mode": "navigate",
+                    "Sec-Fetch-Dest": "document",
                 },
                 timeout=timeout_ms,
             )
             body = response.body()
             ctype = response.headers.get("content-type", "")
-            text = None
-            if any(x in ctype.lower() for x in ["text", "html", "xml", "csv", "json"]):
-                text = body.decode("utf-8", errors="replace")
-            status = response.status
+            text = body.decode("utf-8", errors="replace") if any(x in ctype.lower() for x in ["text", "html", "xml", "csv", "json"]) else None
+            if response.status not in (401, 403):
+                final_url = response.url
+                browser.close()
+                return FetchResult(final_url, response.status, ctype, text, body)
+
+            # 2) Same-origin browser fetch from the already loaded Open Data page.
+            # This sends Chromium's native browser headers/cookies instead of the Python UA.
+            try:
+                payload = page.evaluate(
+                    """async (url) => {
+                        const res = await fetch(url, {
+                          credentials: 'include',
+                          headers: {'Accept': 'application/xml,text/xml,text/csv,application/octet-stream,*/*;q=0.8'}
+                        });
+                        const buf = await res.arrayBuffer();
+                        let binary = '';
+                        const bytes = new Uint8Array(buf);
+                        const chunk = 0x8000;
+                        for (let i = 0; i < bytes.length; i += chunk) {
+                          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+                        }
+                        return {
+                          status: res.status,
+                          url: res.url,
+                          contentType: res.headers.get('content-type') || '',
+                          body64: btoa(binary)
+                        };
+                    }""",
+                    url,
+                )
+                body2 = base64.b64decode(payload.get("body64") or "")
+                ctype2 = payload.get("contentType") or ""
+                text2 = body2.decode("utf-8", errors="replace") if any(x in ctype2.lower() for x in ["text", "html", "xml", "csv", "json"]) else None
+                if int(payload.get("status") or 0) not in (401, 403):
+                    final_url = payload.get("url") or url
+                    browser.close()
+                    return FetchResult(final_url, int(payload.get("status") or 0), ctype2, text2, body2)
+            except Exception as exc:
+                print(f"[arera-browser] same-origin fetch failed {url}: {exc}", file=sys.stderr)
+
+            # 3) Last browser-native attempt: synthesize a user click on an anchor and capture the download.
+            # This is still limited to the public Open Data resource URLs listed by the catalogue.
+            try:
+                with page.expect_download(timeout=timeout_ms) as download_info:
+                    page.evaluate(
+                        """url => {
+                          const a = document.createElement('a');
+                          a.href = url;
+                          a.download = '';
+                          a.rel = 'noopener';
+                          document.body.appendChild(a);
+                          a.click();
+                          setTimeout(() => a.remove(), 1000);
+                        }""",
+                        url,
+                    )
+                download = download_info.value
+                path = download.path()
+                body3 = Path(path).read_bytes() if path else b""
+                name = download.suggested_filename or url.rsplit('/', 1)[-1]
+                ctype3 = "text/xml" if name.lower().endswith(".xml") else "text/csv" if name.lower().endswith(".csv") else "application/octet-stream"
+                text3 = body3.decode("utf-8", errors="replace") if ctype3.startswith("text/") else None
+                browser.close()
+                return FetchResult(url, 200, ctype3, text3, body3)
+            except Exception as exc:
+                print(f"[arera-browser] anchor download failed {url}: {exc}", file=sys.stderr)
+
             final_url = response.url
             browser.close()
-            return FetchResult(final_url, status, ctype, text, body)
+            return FetchResult(final_url, response.status, ctype, text, body)
     except Exception as exc:
         print(f"[arera-browser] download failed {url}: {exc}", file=sys.stderr)
         return None

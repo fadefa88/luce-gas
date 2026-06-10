@@ -59,6 +59,7 @@ jobs:
       - name: Run audit dry-run
         env:
           TARIFF_RADAR_UA: ${{ secrets.TARIFF_RADAR_UA }}
+          ARERA_BROWSER_UA: ${{ secrets.ARERA_BROWSER_UA }}
         run: |
           mkdir -p artifacts
           MODE="${{ github.event.inputs.mode }}"
