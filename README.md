@@ -1,139 +1,100 @@
-# Tariff Radar
+# ⚡ TariffaRadar
 
-Osservatorio statico per offerte **luce, gas e fibra** basato su costo reale: prezzo materia prima, spread, quota fissa, costi una tantum, modem, recesso, vincoli, scadenze e fonti.
+Osservatorio automatico delle offerte **luce, gas e telefonia mobile** in Italia,
+con confronto storico rispetto al costo della **materia prima** (PUN per
+l'elettricità, PSV per il gas).
 
-Il progetto è pensato per funzionare **senza eseguire script in locale**: import, audit, validazione e deploy sono gestiti da GitHub Actions.
+- 🌐 Sito statico servito da **GitHub Pages** (`index.html`)
+- 🤖 **GitHub Action** che ogni ora aggiorna i dati (`.github/workflows/scrape.yml`)
+- 🐍 Scraper Python leggero e config-driven (`scraper/`)
+- 📈 Grafici storici (Chart.js) offerte vs indici all'ingrosso
+- 🔒 Nessun dato personale: si leggono **solo le pagine pubbliche di listino**,
+  rispettando `robots.txt`, con User-Agent trasparente
 
-## Scelta dati
+---
 
-### Luce e gas
+## Avvio rapido
 
-La fonte primaria non è lo scraping dei siti dei singoli venditori. Il progetto usa il **Portale Offerte ARERA / Acquirente Unico - Open Data**, perché pubblica offerte mercato libero, PLACET, parametri economici e prezzi storici degli indici pubblici.
+1. **Crea il repository** su GitHub e carica questi file (branch `main`).
+2. **Attiva GitHub Pages**: `Settings → Pages → Source: Deploy from a branch`,
+   branch `main`, cartella `/ (root)`.
+3. **Abilita le Actions**: alla prima visita della tab *Actions* conferma
+   l'esecuzione dei workflow. Puoi lanciare subito un aggiornamento manuale con
+   *Run workflow* su "Aggiorna offerte e indici".
+4. (Consigliato) **Configura la fonte ufficiale ARERA**: vai su
+   `Settings → Secrets and variables → Actions → Variables` e crea la variabile
+   `PORTALE_OPEN_DATA_URL` con il link al dataset CSV della sezione
+   [Open Data del Portale Offerte](https://www.ilportaleofferte.it/portaleOfferte/it/open-data.page).
+   È la fonte più completa e stabile per luce e gas (i venditori sono obbligati
+   a pubblicarvi tutte le offerte) e ti evita di dipendere dallo scraping dei
+   siti commerciali.
 
-Questo è il modo più stabile per avere copertura ampia dei venditori luce/gas senza inseguire centinaia di siti commerciali.
+Il sito è subito visibile con **dati dimostrativi**; al primo run della Action i
+file in `data/` vengono sostituiti dai dati reali.
 
-### Fibra
+## Come funziona
 
-Per la fibra non esiste un open dataset pubblico equivalente. Il progetto usa un registry di operatori in `data/sources.json`, con pagine ufficiali, trasparenza tariffaria e prospetti informativi quando disponibili.
-
-Lo script fa scraping leggero: legge pagine pubbliche, segue alcuni PDF/prospetti, estrae prezzo mensile, date, velocità e segnali di costo nascosto. Non bypassa login, CAPTCHA o blocchi tecnici.
-
-## File dati principali
-
-- `data/offers.json`: offerte normalizzate.
-- `data/sources.json`: registry fonti fibra + configurazione ARERA.
-- `data/commodity-index.json`: prezzi storici PUN/PSV importati dagli Open Data.
-- `data/market-correlation.json`: aggregazione mensile materie prime vs offerte.
-- `data/offer-snapshots.json`: snapshot giornalieri per storico.
-
-## Uso solo da GitHub Actions
-
-### 1. Validare progetto
-
-Vai su:
-
-```text
-Actions → Validate data and code → Run workflow
+```
+.github/workflows/scrape.yml     cron ogni ora (minuto 07)
+        │
+        ▼
+scraper/main.py
+  ├─ fetch_energy_offers.py   luce+gas: open data ARERA → fallback pagine fornitori
+  ├─ fetch_mobile_offers.py   mobile: pagina principale offerte di ogni operatore
+  └─ fetch_commodity.py       PUN dal GME (XML pubblico) + PSV/CSV manuale
+        │
+        ▼
+data/offers_energy.json        snapshot offerte luce/gas
+data/offers_mobile.json        snapshot offerte mobile
+data/history/*.json            storici giornalieri (min/media) — alimentano i grafici
+        │
+        ▼  commit automatico
+index.html (GitHub Pages)      legge i JSON e disegna card + grafici
 ```
 
-### 2. Fare audit senza modificare dati
+Lo **storico** salva un record al giorno con minimo e media (non l'intero
+snapshot orario), così il repository resta leggero anche dopo anni.
 
-Vai su:
+## Personalizzare i fornitori
 
-```text
-Actions → Audit tariff sources without commit → Run workflow
-```
+Tutto in `scraper/config/providers.yaml`: per ogni operatore indichi URL della
+pagina offerte, selettore CSS dei blocchi e regex per prezzo/GB. I siti
+commerciali cambiano spesso markup: quando un operatore "sparisce" dai dati,
+in genere basta aggiornare lì `selector` o le regex, senza toccare il codice.
 
-Scegli:
+⚠️ Alcuni siti (es. grandi operatori telefonici) caricano le offerte via
+JavaScript: in quel caso il semplice download HTML non basta. Le opzioni sono
+(a) preferire gli operatori con pagine statiche, (b) aggiungere Playwright al
+workflow, oppure (c) per luce e gas affidarsi all'open data ARERA, che risolve
+il problema alla radice.
 
-```text
-all
-energy-only
-fiber-only
-```
+## Storico della materia prima
 
-A fine run trovi il log negli artifact.
+- **PUN**: lo scraper calcola ogni giorno la media dei prezzi orari pubblicati
+  dal GME e la accoda allo storico.
+- **PSV e storico passato**: puoi importare serie storiche creando
+  `data/manual_commodity.csv` con intestazione `date,pun,psv`
+  (PUN in €/kWh, PSV in €/Smc). Al run successivo i valori vengono fusi nello
+  storico. È il modo più semplice per popolare i grafici con anni di dati fin
+  dal primo giorno (fonti: GME, ARERA, MISE — tutte pubblicano serie storiche
+  scaricabili).
 
-### 3. Aggiornare luce/gas
+## Note legali e di rispetto
 
-Vai su:
+- Lo scraper legge **solo pagine pubbliche di listino**, una richiesta per
+  sito all'ora, rispettando `robots.txt` e con User-Agent identificabile.
+- Verifica comunque i **termini d'uso** dei siti monitorati: se un operatore
+  non gradisce la rilevazione automatica, rimuovilo dal YAML. Per luce e gas
+  la via maestra resta l'open data istituzionale ARERA.
+- I prezzi mostrati sono rilevazioni automatiche **a scopo informativo**:
+  il disclaimer nel footer del sito invita sempre a verificare sul sito
+  ufficiale prima di sottoscrivere.
 
-```text
-Actions → Update energy data only → Run workflow
-```
+## Limiti noti / roadmap
 
-Questo aggiorna dati ARERA, PUN/PSV, correlazioni e snapshot.
-
-### 4. Aggiornare fibra
-
-Vai su:
-
-```text
-Actions → Update fiber data only → Run workflow
-```
-
-Questo interroga le fonti configurate in `data/sources.json` con delay e rispetto di `robots.txt`.
-
-### 5. Aggiornare tutto
-
-Vai su:
-
-```text
-Actions → Update all tariff data → Run workflow
-```
-
-### 6. Deploy GitHub Pages
-
-Prima imposta:
-
-```text
-Settings → Pages → Build and deployment → GitHub Actions
-```
-
-Poi lancia:
-
-```text
-Actions → Deploy static site to GitHub Pages → Run workflow
-```
-
-## Schedulazioni già presenti
-
-- `Update energy data only`: giornaliero.
-- `Update fiber data only`: lunedì, mercoledì e venerdì.
-- `Update all tariff data`: giornaliero completo, utile come aggiornamento generale.
-
-Se vuoi essere ancora meno aggressivo, disattiva la schedule di `Update all tariff data` e lascia attivi solo energia + fibra separati.
-
-## Secret consigliato
-
-Crea questo repository secret:
-
-```text
-TARIFF_RADAR_UA=TariffRadarBot/0.3 (+https://tuodominio.it/contatti; contatto: email@dominio.it)
-```
-
-Percorso:
-
-```text
-Settings → Secrets and variables → Actions → New repository secret
-```
-
-## Modificare fonti senza locale
-
-Apri `data/sources.json` direttamente da GitHub:
-
-```text
-data → sources.json → matita Edit → modifica URL/provider → Commit changes
-```
-
-Poi lancia:
-
-```text
-Actions → Audit tariff sources without commit
-```
-
-Se il log è sensato, lancia update fibra o update completo.
-
-## Nota importante
-
-Il registry fibra contiene molti operatori principali e secondari, ma va trattato come lista viva. Alcuni operatori cambiano URL, spostano PDF o usano pagine dinamiche. Lo script produce audit proprio per evidenziare fonti da correggere, invece di inventare dati.
+- I selettori CSS in `providers.yaml` sono punti di partenza generici: vanno
+  raffinati sito per sito dopo i primi run (guarda i log della Action).
+- Le offerte mobile "operator attack" (riservate a chi proviene da altri
+  operatori) spesso non compaiono sulle home pubbliche.
+- Possibili evoluzioni: filtro per CAP usando l'open data ARERA, feed RSS
+  delle variazioni di prezzo, badge "prezzo in calo/in salita" sulle card.

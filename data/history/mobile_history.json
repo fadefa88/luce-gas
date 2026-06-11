@@ -1,0 +1,1952 @@
+[
+ {
+  "date": "2026-01-13",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.31,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.082,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-14",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.34,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.087,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-15",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.32,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.083,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-16",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.3,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.083,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-17",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.44,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.083,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-18",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.3,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.086,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-19",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.45,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.085,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-20",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.4,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.085,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-21",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.27,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.081,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-22",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.44,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.083,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-23",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.33,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.086,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-24",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.31,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.082,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-25",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.39,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.085,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-26",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.37,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.08,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-27",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.26,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.079,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-28",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.26,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.085,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-29",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.4,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.079,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-30",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.43,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.083,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-01-31",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.29,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.083,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-01",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.33,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.078,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-02",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.41,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.084,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-03",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.4,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.081,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-04",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.36,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.079,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-05",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.4,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.078,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-06",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.4,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.079,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-07",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.39,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.082,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-08",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.25,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.078,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-09",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.38,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.08,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-10",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.22,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.081,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-11",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.3,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.078,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-12",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.3,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.079,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-13",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.35,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.077,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-14",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.19,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.076,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-15",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.2,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.081,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-16",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.2,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.078,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-17",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.25,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.077,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-18",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.18,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.075,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-19",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.2,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.08,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-20",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.16,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.078,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-21",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.21,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.08,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-22",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.15,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.076,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-23",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.14,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.074,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-24",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.3,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.077,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-25",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.29,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.077,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-26",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.18,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.074,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-27",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.21,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.076,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-02-28",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.18,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.073,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-01",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.16,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.075,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-02",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.26,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.077,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-03",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.23,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.077,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-04",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.2,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.077,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-05",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.1,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.074,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-06",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.19,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.076,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-07",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.14,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.073,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-08",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.18,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.076,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-09",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.14,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.071,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-10",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.18,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.074,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-11",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.16,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.076,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-12",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.1,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.076,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-13",
+  "prezzo_mese": {
+   "min": 5.49,
+   "media": 8.24,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.07,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-14",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.12,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.07,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-15",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.11,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.072,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-16",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.07,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.071,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-17",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.24,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.074,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-18",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.19,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.074,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-19",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.11,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.073,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-20",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.07,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.07,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-21",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.06,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.069,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-22",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.18,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.071,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-23",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.05,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.072,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-24",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.21,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.073,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-25",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.02,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.073,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-26",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.12,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.073,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-27",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.16,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.073,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-28",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.03,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.07,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-29",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.09,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.071,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-30",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.06,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.07,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-03-31",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.0,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.069,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-01",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.18,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.071,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-02",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.02,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.069,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-03",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.01,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.066,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-04",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.04,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.071,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-05",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.01,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.067,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-06",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.13,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.068,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-07",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.14,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.068,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-08",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.01,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.07,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-09",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.02,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.065,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-10",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.05,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.07,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-11",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.11,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.069,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-12",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.96,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.069,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-13",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.12,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.066,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-14",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.02,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.068,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-15",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.05,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.068,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-16",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.99,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.069,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-17",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.02,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.068,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-18",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.04,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.065,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-19",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.04,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.064,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-20",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.95,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.065,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-21",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.92,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.065,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-22",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.96,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.068,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-23",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.97,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.066,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-24",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.07,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.063,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-25",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.97,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.062,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-26",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.08,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.062,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-27",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.06,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.066,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-28",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.92,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.063,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-29",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.88,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.065,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-04-30",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.93,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.064,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-01",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.97,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.065,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-02",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.95,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.063,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-03",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.96,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.063,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-04",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.02,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.066,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-05",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.87,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.064,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-06",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.03,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.061,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-07",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.98,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.06,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-08",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.95,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.064,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-09",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 8.03,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.061,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-10",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.88,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.065,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-11",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.95,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.061,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-12",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.89,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.06,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-13",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.85,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.059,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-14",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.87,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.062,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-15",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.86,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.058,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-16",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.92,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.058,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-17",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.87,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.057,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-18",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.89,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.06,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-19",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.94,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.061,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-20",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.92,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.035,
+   "media": 0.058,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-21",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.94,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.062,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-22",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.98,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.061,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-23",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.82,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.056,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-24",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.8,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.056,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-25",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.84,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.061,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-26",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.81,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.056,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-27",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.78,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.06,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-28",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.9,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.057,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-29",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.84,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.057,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-30",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.79,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.056,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-05-31",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.78,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.056,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-01",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.84,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.058,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-02",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.82,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.059,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-03",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.84,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.033,
+   "media": 0.059,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-04",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.8,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.055,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-05",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.84,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.056,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-06",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.75,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.032,
+   "media": 0.055,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-07",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.87,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.031,
+   "media": 0.059,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-08",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.76,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.053,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-09",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.81,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.055,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-10",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.82,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.055,
+   "n": 9
+  }
+ },
+ {
+  "date": "2026-06-11",
+  "prezzo_mese": {
+   "min": 4.99,
+   "media": 7.84,
+   "n": 9
+  },
+  "prezzo_per_gb": {
+   "min": 0.034,
+   "media": 0.055,
+   "n": 9
+  }
+ }
+]

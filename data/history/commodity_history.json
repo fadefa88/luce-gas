@@ -1,0 +1,752 @@
+[
+ {
+  "date": "2026-01-13",
+  "pun_eur_kwh": 0.10659,
+  "psv_eur_smc": 0.4537
+ },
+ {
+  "date": "2026-01-14",
+  "pun_eur_kwh": 0.10829,
+  "psv_eur_smc": 0.4528
+ },
+ {
+  "date": "2026-01-15",
+  "pun_eur_kwh": 0.11025,
+  "psv_eur_smc": 0.4615
+ },
+ {
+  "date": "2026-01-16",
+  "pun_eur_kwh": 0.11298,
+  "psv_eur_smc": 0.4572
+ },
+ {
+  "date": "2026-01-17",
+  "pun_eur_kwh": 0.1127,
+  "psv_eur_smc": 0.464
+ },
+ {
+  "date": "2026-01-18",
+  "pun_eur_kwh": 0.11265,
+  "psv_eur_smc": 0.4671
+ },
+ {
+  "date": "2026-01-19",
+  "pun_eur_kwh": 0.11006,
+  "psv_eur_smc": 0.4669
+ },
+ {
+  "date": "2026-01-20",
+  "pun_eur_kwh": 0.11439,
+  "psv_eur_smc": 0.4697
+ },
+ {
+  "date": "2026-01-21",
+  "pun_eur_kwh": 0.11558,
+  "psv_eur_smc": 0.4801
+ },
+ {
+  "date": "2026-01-22",
+  "pun_eur_kwh": 0.1121,
+  "psv_eur_smc": 0.4582
+ },
+ {
+  "date": "2026-01-23",
+  "pun_eur_kwh": 0.1163,
+  "psv_eur_smc": 0.4783
+ },
+ {
+  "date": "2026-01-24",
+  "pun_eur_kwh": 0.11384,
+  "psv_eur_smc": 0.4617
+ },
+ {
+  "date": "2026-01-25",
+  "pun_eur_kwh": 0.11629,
+  "psv_eur_smc": 0.4713
+ },
+ {
+  "date": "2026-01-26",
+  "pun_eur_kwh": 0.12027,
+  "psv_eur_smc": 0.4789
+ },
+ {
+  "date": "2026-01-27",
+  "pun_eur_kwh": 0.11637,
+  "psv_eur_smc": 0.4619
+ },
+ {
+  "date": "2026-01-28",
+  "pun_eur_kwh": 0.12234,
+  "psv_eur_smc": 0.4727
+ },
+ {
+  "date": "2026-01-29",
+  "pun_eur_kwh": 0.11969,
+  "psv_eur_smc": 0.4696
+ },
+ {
+  "date": "2026-01-30",
+  "pun_eur_kwh": 0.12417,
+  "psv_eur_smc": 0.4705
+ },
+ {
+  "date": "2026-01-31",
+  "pun_eur_kwh": 0.11923,
+  "psv_eur_smc": 0.4664
+ },
+ {
+  "date": "2026-02-01",
+  "pun_eur_kwh": 0.12556,
+  "psv_eur_smc": 0.4778
+ },
+ {
+  "date": "2026-02-02",
+  "pun_eur_kwh": 0.11842,
+  "psv_eur_smc": 0.4637
+ },
+ {
+  "date": "2026-02-03",
+  "pun_eur_kwh": 0.12161,
+  "psv_eur_smc": 0.4619
+ },
+ {
+  "date": "2026-02-04",
+  "pun_eur_kwh": 0.12437,
+  "psv_eur_smc": 0.4753
+ },
+ {
+  "date": "2026-02-05",
+  "pun_eur_kwh": 0.12589,
+  "psv_eur_smc": 0.4635
+ },
+ {
+  "date": "2026-02-06",
+  "pun_eur_kwh": 0.12098,
+  "psv_eur_smc": 0.4586
+ },
+ {
+  "date": "2026-02-07",
+  "pun_eur_kwh": 0.12472,
+  "psv_eur_smc": 0.4574
+ },
+ {
+  "date": "2026-02-08",
+  "pun_eur_kwh": 0.12726,
+  "psv_eur_smc": 0.4585
+ },
+ {
+  "date": "2026-02-09",
+  "pun_eur_kwh": 0.12823,
+  "psv_eur_smc": 0.4611
+ },
+ {
+  "date": "2026-02-10",
+  "pun_eur_kwh": 0.12539,
+  "psv_eur_smc": 0.4522
+ },
+ {
+  "date": "2026-02-11",
+  "pun_eur_kwh": 0.12588,
+  "psv_eur_smc": 0.4586
+ },
+ {
+  "date": "2026-02-12",
+  "pun_eur_kwh": 0.12779,
+  "psv_eur_smc": 0.4619
+ },
+ {
+  "date": "2026-02-13",
+  "pun_eur_kwh": 0.12731,
+  "psv_eur_smc": 0.4595
+ },
+ {
+  "date": "2026-02-14",
+  "pun_eur_kwh": 0.12635,
+  "psv_eur_smc": 0.4701
+ },
+ {
+  "date": "2026-02-15",
+  "pun_eur_kwh": 0.12731,
+  "psv_eur_smc": 0.4651
+ },
+ {
+  "date": "2026-02-16",
+  "pun_eur_kwh": 0.12375,
+  "psv_eur_smc": 0.4679
+ },
+ {
+  "date": "2026-02-17",
+  "pun_eur_kwh": 0.12471,
+  "psv_eur_smc": 0.4484
+ },
+ {
+  "date": "2026-02-18",
+  "pun_eur_kwh": 0.12695,
+  "psv_eur_smc": 0.4546
+ },
+ {
+  "date": "2026-02-19",
+  "pun_eur_kwh": 0.12812,
+  "psv_eur_smc": 0.4474
+ },
+ {
+  "date": "2026-02-20",
+  "pun_eur_kwh": 0.12634,
+  "psv_eur_smc": 0.4563
+ },
+ {
+  "date": "2026-02-21",
+  "pun_eur_kwh": 0.12805,
+  "psv_eur_smc": 0.4399
+ },
+ {
+  "date": "2026-02-22",
+  "pun_eur_kwh": 0.12359,
+  "psv_eur_smc": 0.4395
+ },
+ {
+  "date": "2026-02-23",
+  "pun_eur_kwh": 0.12367,
+  "psv_eur_smc": 0.453
+ },
+ {
+  "date": "2026-02-24",
+  "pun_eur_kwh": 0.12684,
+  "psv_eur_smc": 0.4463
+ },
+ {
+  "date": "2026-02-25",
+  "pun_eur_kwh": 0.12737,
+  "psv_eur_smc": 0.4409
+ },
+ {
+  "date": "2026-02-26",
+  "pun_eur_kwh": 0.1236,
+  "psv_eur_smc": 0.4381
+ },
+ {
+  "date": "2026-02-27",
+  "pun_eur_kwh": 0.12674,
+  "psv_eur_smc": 0.4489
+ },
+ {
+  "date": "2026-02-28",
+  "pun_eur_kwh": 0.12173,
+  "psv_eur_smc": 0.4493
+ },
+ {
+  "date": "2026-03-01",
+  "pun_eur_kwh": 0.12225,
+  "psv_eur_smc": 0.4358
+ },
+ {
+  "date": "2026-03-02",
+  "pun_eur_kwh": 0.11908,
+  "psv_eur_smc": 0.4231
+ },
+ {
+  "date": "2026-03-03",
+  "pun_eur_kwh": 0.12529,
+  "psv_eur_smc": 0.4301
+ },
+ {
+  "date": "2026-03-04",
+  "pun_eur_kwh": 0.12488,
+  "psv_eur_smc": 0.4339
+ },
+ {
+  "date": "2026-03-05",
+  "pun_eur_kwh": 0.12381,
+  "psv_eur_smc": 0.431
+ },
+ {
+  "date": "2026-03-06",
+  "pun_eur_kwh": 0.11747,
+  "psv_eur_smc": 0.4351
+ },
+ {
+  "date": "2026-03-07",
+  "pun_eur_kwh": 0.12202,
+  "psv_eur_smc": 0.4252
+ },
+ {
+  "date": "2026-03-08",
+  "pun_eur_kwh": 0.12125,
+  "psv_eur_smc": 0.4162
+ },
+ {
+  "date": "2026-03-09",
+  "pun_eur_kwh": 0.11971,
+  "psv_eur_smc": 0.4247
+ },
+ {
+  "date": "2026-03-10",
+  "pun_eur_kwh": 0.11459,
+  "psv_eur_smc": 0.4138
+ },
+ {
+  "date": "2026-03-11",
+  "pun_eur_kwh": 0.11437,
+  "psv_eur_smc": 0.4269
+ },
+ {
+  "date": "2026-03-12",
+  "pun_eur_kwh": 0.11631,
+  "psv_eur_smc": 0.41
+ },
+ {
+  "date": "2026-03-13",
+  "pun_eur_kwh": 0.11305,
+  "psv_eur_smc": 0.4213
+ },
+ {
+  "date": "2026-03-14",
+  "pun_eur_kwh": 0.11127,
+  "psv_eur_smc": 0.4115
+ },
+ {
+  "date": "2026-03-15",
+  "pun_eur_kwh": 0.1165,
+  "psv_eur_smc": 0.418
+ },
+ {
+  "date": "2026-03-16",
+  "pun_eur_kwh": 0.11771,
+  "psv_eur_smc": 0.4101
+ },
+ {
+  "date": "2026-03-17",
+  "pun_eur_kwh": 0.11642,
+  "psv_eur_smc": 0.4001
+ },
+ {
+  "date": "2026-03-18",
+  "pun_eur_kwh": 0.11319,
+  "psv_eur_smc": 0.4142
+ },
+ {
+  "date": "2026-03-19",
+  "pun_eur_kwh": 0.1125,
+  "psv_eur_smc": 0.3973
+ },
+ {
+  "date": "2026-03-20",
+  "pun_eur_kwh": 0.11435,
+  "psv_eur_smc": 0.3949
+ },
+ {
+  "date": "2026-03-21",
+  "pun_eur_kwh": 0.11298,
+  "psv_eur_smc": 0.3988
+ },
+ {
+  "date": "2026-03-22",
+  "pun_eur_kwh": 0.10765,
+  "psv_eur_smc": 0.3874
+ },
+ {
+  "date": "2026-03-23",
+  "pun_eur_kwh": 0.10829,
+  "psv_eur_smc": 0.3925
+ },
+ {
+  "date": "2026-03-24",
+  "pun_eur_kwh": 0.11018,
+  "psv_eur_smc": 0.387
+ },
+ {
+  "date": "2026-03-25",
+  "pun_eur_kwh": 0.10263,
+  "psv_eur_smc": 0.381
+ },
+ {
+  "date": "2026-03-26",
+  "pun_eur_kwh": 0.10825,
+  "psv_eur_smc": 0.3992
+ },
+ {
+  "date": "2026-03-27",
+  "pun_eur_kwh": 0.10661,
+  "psv_eur_smc": 0.3926
+ },
+ {
+  "date": "2026-03-28",
+  "pun_eur_kwh": 0.1052,
+  "psv_eur_smc": 0.3829
+ },
+ {
+  "date": "2026-03-29",
+  "pun_eur_kwh": 0.10391,
+  "psv_eur_smc": 0.3835
+ },
+ {
+  "date": "2026-03-30",
+  "pun_eur_kwh": 0.10553,
+  "psv_eur_smc": 0.3842
+ },
+ {
+  "date": "2026-03-31",
+  "pun_eur_kwh": 0.10308,
+  "psv_eur_smc": 0.3815
+ },
+ {
+  "date": "2026-04-01",
+  "pun_eur_kwh": 0.10239,
+  "psv_eur_smc": 0.3749
+ },
+ {
+  "date": "2026-04-02",
+  "pun_eur_kwh": 0.09803,
+  "psv_eur_smc": 0.3742
+ },
+ {
+  "date": "2026-04-03",
+  "pun_eur_kwh": 0.10078,
+  "psv_eur_smc": 0.3905
+ },
+ {
+  "date": "2026-04-04",
+  "pun_eur_kwh": 0.09789,
+  "psv_eur_smc": 0.3882
+ },
+ {
+  "date": "2026-04-05",
+  "pun_eur_kwh": 0.10002,
+  "psv_eur_smc": 0.3664
+ },
+ {
+  "date": "2026-04-06",
+  "pun_eur_kwh": 0.09619,
+  "psv_eur_smc": 0.3875
+ },
+ {
+  "date": "2026-04-07",
+  "pun_eur_kwh": 0.09312,
+  "psv_eur_smc": 0.3751
+ },
+ {
+  "date": "2026-04-08",
+  "pun_eur_kwh": 0.0986,
+  "psv_eur_smc": 0.3812
+ },
+ {
+  "date": "2026-04-09",
+  "pun_eur_kwh": 0.09421,
+  "psv_eur_smc": 0.3686
+ },
+ {
+  "date": "2026-04-10",
+  "pun_eur_kwh": 0.09697,
+  "psv_eur_smc": 0.3833
+ },
+ {
+  "date": "2026-04-11",
+  "pun_eur_kwh": 0.09347,
+  "psv_eur_smc": 0.3667
+ },
+ {
+  "date": "2026-04-12",
+  "pun_eur_kwh": 0.09604,
+  "psv_eur_smc": 0.3747
+ },
+ {
+  "date": "2026-04-13",
+  "pun_eur_kwh": 0.09134,
+  "psv_eur_smc": 0.3611
+ },
+ {
+  "date": "2026-04-14",
+  "pun_eur_kwh": 0.08958,
+  "psv_eur_smc": 0.3614
+ },
+ {
+  "date": "2026-04-15",
+  "pun_eur_kwh": 0.09446,
+  "psv_eur_smc": 0.3791
+ },
+ {
+  "date": "2026-04-16",
+  "pun_eur_kwh": 0.08967,
+  "psv_eur_smc": 0.3644
+ },
+ {
+  "date": "2026-04-17",
+  "pun_eur_kwh": 0.09177,
+  "psv_eur_smc": 0.3638
+ },
+ {
+  "date": "2026-04-18",
+  "pun_eur_kwh": 0.0947,
+  "psv_eur_smc": 0.3591
+ },
+ {
+  "date": "2026-04-19",
+  "pun_eur_kwh": 0.09401,
+  "psv_eur_smc": 0.3688
+ },
+ {
+  "date": "2026-04-20",
+  "pun_eur_kwh": 0.08977,
+  "psv_eur_smc": 0.3614
+ },
+ {
+  "date": "2026-04-21",
+  "pun_eur_kwh": 0.09202,
+  "psv_eur_smc": 0.3625
+ },
+ {
+  "date": "2026-04-22",
+  "pun_eur_kwh": 0.09081,
+  "psv_eur_smc": 0.3736
+ },
+ {
+  "date": "2026-04-23",
+  "pun_eur_kwh": 0.08875,
+  "psv_eur_smc": 0.372
+ },
+ {
+  "date": "2026-04-24",
+  "pun_eur_kwh": 0.08776,
+  "psv_eur_smc": 0.3589
+ },
+ {
+  "date": "2026-04-25",
+  "pun_eur_kwh": 0.08617,
+  "psv_eur_smc": 0.3723
+ },
+ {
+  "date": "2026-04-26",
+  "pun_eur_kwh": 0.08827,
+  "psv_eur_smc": 0.3721
+ },
+ {
+  "date": "2026-04-27",
+  "pun_eur_kwh": 0.09355,
+  "psv_eur_smc": 0.3835
+ },
+ {
+  "date": "2026-04-28",
+  "pun_eur_kwh": 0.08731,
+  "psv_eur_smc": 0.3795
+ },
+ {
+  "date": "2026-04-29",
+  "pun_eur_kwh": 0.09024,
+  "psv_eur_smc": 0.3705
+ },
+ {
+  "date": "2026-04-30",
+  "pun_eur_kwh": 0.08651,
+  "psv_eur_smc": 0.3821
+ },
+ {
+  "date": "2026-05-01",
+  "pun_eur_kwh": 0.08975,
+  "psv_eur_smc": 0.3786
+ },
+ {
+  "date": "2026-05-02",
+  "pun_eur_kwh": 0.09276,
+  "psv_eur_smc": 0.3746
+ },
+ {
+  "date": "2026-05-03",
+  "pun_eur_kwh": 0.09082,
+  "psv_eur_smc": 0.3655
+ },
+ {
+  "date": "2026-05-04",
+  "pun_eur_kwh": 0.09001,
+  "psv_eur_smc": 0.3884
+ },
+ {
+  "date": "2026-05-05",
+  "pun_eur_kwh": 0.09121,
+  "psv_eur_smc": 0.3896
+ },
+ {
+  "date": "2026-05-06",
+  "pun_eur_kwh": 0.08886,
+  "psv_eur_smc": 0.3892
+ },
+ {
+  "date": "2026-05-07",
+  "pun_eur_kwh": 0.092,
+  "psv_eur_smc": 0.3765
+ },
+ {
+  "date": "2026-05-08",
+  "pun_eur_kwh": 0.09461,
+  "psv_eur_smc": 0.3729
+ },
+ {
+  "date": "2026-05-09",
+  "pun_eur_kwh": 0.08959,
+  "psv_eur_smc": 0.3952
+ },
+ {
+  "date": "2026-05-10",
+  "pun_eur_kwh": 0.09532,
+  "psv_eur_smc": 0.3833
+ },
+ {
+  "date": "2026-05-11",
+  "pun_eur_kwh": 0.09437,
+  "psv_eur_smc": 0.39
+ },
+ {
+  "date": "2026-05-12",
+  "pun_eur_kwh": 0.09736,
+  "psv_eur_smc": 0.3787
+ },
+ {
+  "date": "2026-05-13",
+  "pun_eur_kwh": 0.09253,
+  "psv_eur_smc": 0.391
+ },
+ {
+  "date": "2026-05-14",
+  "pun_eur_kwh": 0.09249,
+  "psv_eur_smc": 0.3809
+ },
+ {
+  "date": "2026-05-15",
+  "pun_eur_kwh": 0.09639,
+  "psv_eur_smc": 0.3886
+ },
+ {
+  "date": "2026-05-16",
+  "pun_eur_kwh": 0.09676,
+  "psv_eur_smc": 0.3915
+ },
+ {
+  "date": "2026-05-17",
+  "pun_eur_kwh": 0.09475,
+  "psv_eur_smc": 0.398
+ },
+ {
+  "date": "2026-05-18",
+  "pun_eur_kwh": 0.10093,
+  "psv_eur_smc": 0.4039
+ },
+ {
+  "date": "2026-05-19",
+  "pun_eur_kwh": 0.09631,
+  "psv_eur_smc": 0.3894
+ },
+ {
+  "date": "2026-05-20",
+  "pun_eur_kwh": 0.09733,
+  "psv_eur_smc": 0.4019
+ },
+ {
+  "date": "2026-05-21",
+  "pun_eur_kwh": 0.10297,
+  "psv_eur_smc": 0.3907
+ },
+ {
+  "date": "2026-05-22",
+  "pun_eur_kwh": 0.0993,
+  "psv_eur_smc": 0.3979
+ },
+ {
+  "date": "2026-05-23",
+  "pun_eur_kwh": 0.103,
+  "psv_eur_smc": 0.4146
+ },
+ {
+  "date": "2026-05-24",
+  "pun_eur_kwh": 0.10548,
+  "psv_eur_smc": 0.3994
+ },
+ {
+  "date": "2026-05-25",
+  "pun_eur_kwh": 0.10451,
+  "psv_eur_smc": 0.413
+ },
+ {
+  "date": "2026-05-26",
+  "pun_eur_kwh": 0.10689,
+  "psv_eur_smc": 0.4012
+ },
+ {
+  "date": "2026-05-27",
+  "pun_eur_kwh": 0.10734,
+  "psv_eur_smc": 0.421
+ },
+ {
+  "date": "2026-05-28",
+  "pun_eur_kwh": 0.10301,
+  "psv_eur_smc": 0.4111
+ },
+ {
+  "date": "2026-05-29",
+  "pun_eur_kwh": 0.10989,
+  "psv_eur_smc": 0.4175
+ },
+ {
+  "date": "2026-05-30",
+  "pun_eur_kwh": 0.10863,
+  "psv_eur_smc": 0.4202
+ },
+ {
+  "date": "2026-05-31",
+  "pun_eur_kwh": 0.10991,
+  "psv_eur_smc": 0.4327
+ },
+ {
+  "date": "2026-06-01",
+  "pun_eur_kwh": 0.11128,
+  "psv_eur_smc": 0.4174
+ },
+ {
+  "date": "2026-06-02",
+  "pun_eur_kwh": 0.10609,
+  "psv_eur_smc": 0.432
+ },
+ {
+  "date": "2026-06-03",
+  "pun_eur_kwh": 0.10695,
+  "psv_eur_smc": 0.4363
+ },
+ {
+  "date": "2026-06-04",
+  "pun_eur_kwh": 0.10894,
+  "psv_eur_smc": 0.4279
+ },
+ {
+  "date": "2026-06-05",
+  "pun_eur_kwh": 0.11462,
+  "psv_eur_smc": 0.4346
+ },
+ {
+  "date": "2026-06-06",
+  "pun_eur_kwh": 0.11575,
+  "psv_eur_smc": 0.4263
+ },
+ {
+  "date": "2026-06-07",
+  "pun_eur_kwh": 0.11206,
+  "psv_eur_smc": 0.435
+ },
+ {
+  "date": "2026-06-08",
+  "pun_eur_kwh": 0.11104,
+  "psv_eur_smc": 0.4335
+ },
+ {
+  "date": "2026-06-09",
+  "pun_eur_kwh": 0.11264,
+  "psv_eur_smc": 0.4354
+ },
+ {
+  "date": "2026-06-10",
+  "pun_eur_kwh": 0.11287,
+  "psv_eur_smc": 0.4424
+ },
+ {
+  "date": "2026-06-11",
+  "pun_eur_kwh": 0.11429,
+  "psv_eur_smc": 0.447
+ }
+]
