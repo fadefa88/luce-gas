@@ -1,17 +1,8 @@
 """Offerte LUCE e GAS.
 
-Strategia a due livelli:
-
-1) FONTE PRIMARIA — Portale Offerte ARERA (ilportaleofferte.it), sezione
-   Open Data. È il comparatore ufficiale: i venditori sono OBBLIGATI a
-   pubblicarvi tutte le offerte, e i dati sono rilasciati in modalità aperta.
-   È la via più completa, stabile e rispettosa (nessuno scraping dei siti
-   commerciali). L'URL del dataset va indicato in PORTALE_OPEN_DATA_URL
-   (vedi README: si ricava dalla pagina "Open Data" del portale).
-
-2) FALLBACK — pagina principale pubblica delle offerte di ciascun fornitore
-   in config/providers.yaml. Lettura superficiale: solo nome offerta e
-   prezzo in evidenza, senza entrare nelle pagine di dettaglio.
+Fonte primaria: dataset open data del Portale Offerte, se configurato tramite
+PORTALE_OPEN_DATA_URL. Fallback: pagine pubbliche dei fornitori definite in
+scraper/config/providers.yaml.
 """
 
 from __future__ import annotations
@@ -20,121 +11,195 @@ import csv
 import io
 import os
 import re
+from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 
-from .common import fetch, now_iso, parse_euro
+from .common import fetch, norm_text, now_iso, parse_euro
 
-# Da impostare (variabile d'ambiente o qui) con il link CSV/JSON pubblicato
-# nella pagina Open Data del Portale Offerte. Lasciare vuoto per usare solo
-# il fallback sui siti dei fornitori.
-PORTALE_OPEN_DATA_URL = os.environ.get("PORTALE_OPEN_DATA_URL", "")
+PORTALE_OPEN_DATA_URL = os.environ.get("PORTALE_OPEN_DATA_URL", "").strip()
+
+
+def _field(row: dict[str, str], *needles: str) -> str:
+    low = {str(k).lower(): (v or "").strip() for k, v in row.items() if k is not None}
+    for needle in needles:
+        n = needle.lower()
+        for key, value in low.items():
+            if n in key and value:
+                return value
+    return ""
+
+
+def _detect_commodity(text: str) -> str | None:
+    t = text.lower()
+    if any(x in t for x in ("energia elettrica", "elettric", "luce", "kwh", "power")):
+        return "luce"
+    if any(x in t for x in ("gas", "smc", "standard metro cubo")):
+        return "gas"
+    return None
+
+
+def _detect_price_type(text: str) -> str:
+    return "fisso" if re.search(r"\bfiss[oa]\b|bloccato|prezzo bloccato", text, re.I) else "variabile"
+
+
+def _is_valid_offer(offer: dict) -> bool:
+    price = offer.get("prezzo_energia")
+    commodity = offer.get("commodity")
+    if not isinstance(price, (int, float)):
+        return False
+    if commodity == "luce":
+        return 0.01 <= price <= 1.0
+    if commodity == "gas":
+        return 0.05 <= price <= 3.0
+    return False
+
+
+def _dedupe(offers: list[dict]) -> list[dict]:
+    seen: set[str] = set()
+    out: list[dict] = []
+    for offer in offers:
+        if not _is_valid_offer(offer):
+            continue
+        key = "|".join(
+            [
+                norm_text(offer.get("fornitore", "")).lower(),
+                norm_text(offer.get("offerta", "")).lower(),
+                offer.get("commodity", ""),
+                str(round(float(offer.get("prezzo_energia", 0)), 5)),
+            ]
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(offer)
+    return out
+
+
+def _read_csv(raw: str) -> list[dict[str, str]]:
+    sample = raw[:4096]
+    delimiter = ";" if sample.count(";") >= sample.count(",") else ","
+    try:
+        dialect = csv.Sniffer().sniff(sample, delimiters=";,\t")
+        delimiter = dialect.delimiter
+    except Exception:
+        pass
+    return list(csv.DictReader(io.StringIO(raw), delimiter=delimiter))
 
 
 def _from_portale_offerte() -> list[dict]:
-    """Legge il dataset open data del Portale Offerte ARERA (CSV)."""
     if not PORTALE_OPEN_DATA_URL:
         return []
-    raw = fetch(PORTALE_OPEN_DATA_URL)
+
+    raw = fetch(PORTALE_OPEN_DATA_URL, timeout=45)
     if not raw:
         return []
+
     offers: list[dict] = []
     try:
-        reader = csv.DictReader(io.StringIO(raw), delimiter=";")
-        for row in reader:
-            # I nomi colonna del dataset possono variare: si cerca in modo tollerante
-            low = {k.lower(): (v or "").strip() for k, v in row.items()}
+        for row in _read_csv(raw):
+            all_text = " ".join(str(v or "") for v in row.values())
+            commodity = _detect_commodity(all_text)
+            if not commodity:
+                continue
 
-            def col(*names):
-                for n in names:
-                    for k, v in low.items():
-                        if n in k:
-                            return v
-                return ""
-
-            commodity = "luce" if "ele" in col("commodity", "mercato", "tipo").lower() else "gas"
-            price = parse_euro(col("prezzo", "price", "corrispettivo"))
+            price_text = _field(row, "prezzo", "corrispettivo", "componente energia", "materia", "price")
+            price = parse_euro(price_text)
             if price is None:
                 continue
+
+            fixed_fee = parse_euro(_field(row, "quota fissa", "pcv", "commercializzazione", "fisso")) or 0
+            provider = _field(row, "venditore", "ragione sociale", "fornitore", "operatore") or "n.d."
+            name = _field(row, "nome offerta", "offerta", "denominazione") or "Offerta"
+
             offers.append(
                 {
-                    "fornitore": col("venditore", "ragione", "fornitore") or "n.d.",
-                    "offerta": col("nome", "offerta") or "Offerta",
+                    "fornitore": norm_text(provider),
+                    "offerta": norm_text(name),
                     "commodity": commodity,
-                    "prezzo_energia": price,  # €/kWh o €/Smc
-                    "quota_fissa_mese": parse_euro(col("quota", "pcv", "fisso")) or 0,
-                    "tipo": "fisso" if "fiss" in col("tipologia", "tipo").lower() else "variabile",
-                    "fonte": "Portale Offerte ARERA (open data)",
+                    "prezzo_energia": round(float(price), 5),
+                    "quota_fissa_mese": round(float(fixed_fee), 2),
+                    "tipo": _detect_price_type(all_text),
+                    "fonte": "Portale Offerte open data",
                     "url": "https://www.ilportaleofferte.it/",
                 }
             )
     except Exception as exc:  # noqa: BLE001
-        print(f"  [errore] parsing open data Portale Offerte: {exc}")
-    return offers
+        print(f"  [errore] parsing Portale Offerte: {exc}")
+    return _dedupe(offers)
+
+
+def _find_fixed_fee(text: str) -> float:
+    patterns = [
+        r"(\d+[.,]\d+)\s*€\s*/?\s*mese",
+        r"quota\s+fissa\D{0,30}(\d+[.,]\d+)",
+        r"pcv\D{0,30}(\d+[.,]\d+)",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, text, re.I)
+        if match:
+            return float(match.group(1).replace(",", "."))
+    return 0.0
+
+
+def _offer_link(block, base_url: str) -> str:
+    link = block.select_one("a[href]")
+    return urljoin(base_url, link.get("href")) if link else base_url
 
 
 def _from_provider_pages(providers: list[dict]) -> list[dict]:
-    """Fallback: legge solo la pagina principale delle offerte di ogni fornitore."""
     offers: list[dict] = []
-    for p in providers:
-        print(f"- {p['nome']} ({p['url']})")
-        html = fetch(p["url"])
+    for provider in providers:
+        name = provider.get("nome", provider.get("id", "fornitore"))
+        url = provider.get("url", "")
+        print(f"- {name} ({url})")
+        html = fetch(url)
         if not html:
             continue
+
         soup = BeautifulSoup(html, "html.parser")
-        price_re = re.compile(p.get("price_regex", r"(\d+[.,]\d+)\s*€"))
-        seen: set[str] = set()
-        for block in soup.select(p.get("selector", "[class*=card]"))[:30]:
-            text = " ".join(block.get_text(" ", strip=True).split())
-            m = price_re.search(text)
-            if not m:
+        selector = provider.get("selector", "article, section, [class*=card], [class*=offer]")
+        price_re = re.compile(provider.get("price_regex", r"(\d+[.,]\d+)\s*€"), re.I)
+        blocks = soup.select(selector)[:40]
+
+        for block in blocks:
+            text = norm_text(block.get_text(" ", strip=True), 1200)
+            match = price_re.search(text)
+            if not match:
                 continue
-            name_el = block.select_one(p.get("name_selector", "h2, h3"))
-            name = (name_el.get_text(strip=True) if name_el else "Offerta")[:80]
-            key = f"{name}|{m.group(1)}"
-            if key in seen:
-                continue
-            seen.add(key)
-            commodities = (
-                ["luce", "gas"] if p.get("commodity") == "luce+gas"
-                else [p.get("commodity", "luce")]
-            )
-            # Se la pagina copre luce+gas, si assegna in base al contesto testuale
-            for c in commodities:
-                if len(commodities) == 2:
-                    unit = "kwh" if c == "luce" else "smc"
+
+            price = float(match.group(1).replace(",", "."))
+            name_el = block.select_one(provider.get("name_selector", "h1, h2, h3, h4, strong"))
+            offer_name = norm_text(name_el.get_text(" ", strip=True) if name_el else "Offerta")
+            configured = provider.get("commodity", "luce")
+            commodities = ["luce", "gas"] if configured == "luce+gas" else [configured]
+
+            for commodity in commodities:
+                if configured == "luce+gas":
+                    unit = "kwh" if commodity == "luce" else "smc"
                     if unit not in text.lower():
                         continue
                 offers.append(
                     {
-                        "fornitore": p["nome"],
-                        "offerta": name,
-                        "commodity": c,
-                        "prezzo_energia": float(m.group(1).replace(",", ".")),
-                        "quota_fissa_mese": _find_fixed_fee(text),
-                        "tipo": "fisso" if re.search(r"\bfiss[oa]\b", text, re.I) else "variabile",
+                        "fornitore": norm_text(name),
+                        "offerta": offer_name,
+                        "commodity": commodity,
+                        "prezzo_energia": round(price, 5),
+                        "quota_fissa_mese": round(_find_fixed_fee(text), 2),
+                        "tipo": _detect_price_type(text),
                         "fonte": "pagina offerte fornitore",
-                        "url": p["url"],
+                        "url": _offer_link(block, url),
                     }
                 )
-    return offers
-
-
-def _find_fixed_fee(text: str) -> float:
-    m = re.search(r"(\d+[.,]\d+)\s*€\s*/?\s*mese", text, re.I)
-    return float(m.group(1).replace(",", ".")) if m else 0.0
+    return _dedupe(offers)
 
 
 def collect_energy_offers(providers: list[dict]) -> dict:
-    offers = _from_portale_offerte()
     source = "portale_offerte"
+    offers = _from_portale_offerte()
     if not offers:
-        offers = _from_provider_pages(providers)
         source = "siti_fornitori"
-    # sanity check: prezzi plausibili (€/kWh < 1, €/Smc < 3)
-    cleaned = [
-        o for o in offers
-        if (o["commodity"] == "luce" and 0.01 <= o["prezzo_energia"] <= 1.0)
-        or (o["commodity"] == "gas" and 0.05 <= o["prezzo_energia"] <= 3.0)
-    ]
+        offers = _from_provider_pages(providers)
+
+    cleaned = _dedupe(offers)
     return {"updated": now_iso(), "source": source, "offers": cleaned}
