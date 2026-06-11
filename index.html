@@ -3,484 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TariffaRadar — Osservatorio offerte luce, gas e mobile</title>
-<meta name="description" content="Le migliori offerte luce, gas e telefonia mobile, aggiornate ogni ora, confrontate con l'andamento della materia prima (PUN e PSV).">
+<title>TariffaRadar — Offerte luce, gas e mobile</title>
+<meta name="description" content="Osservatorio automatico delle offerte luce, gas e mobile in Italia, con aggiornamento periodico e confronto con PUN e PSV.">
+<meta property="og:title" content="TariffaRadar — Offerte luce, gas e mobile">
+<meta property="og:description" content="Offerte luce, gas e mobile monitorate automaticamente da fonti pubbliche e open data.">
+<meta property="og:type" content="website">
+<meta name="robots" content="index,follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Sora:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
-  --paper:#FCFCFA; --ink:#14161A; --ink-soft:#5A5E66; --line:#E7E7E1;
-  --luce:#F5A800; --gas:#2E62FF; --mobile:#E0356B;
-  --luce-soft:#FFF4DC; --gas-soft:#E8EEFF; --mobile-soft:#FCE7EE;
-  --radius:14px;
-  --mono:'IBM Plex Mono',monospace; --body:'Sora',sans-serif; --display:'Unbounded',sans-serif;
+  --paper:#FCFCFA;--ink:#14161A;--muted:#626773;--line:#E7E7E1;--card:#fff;
+  --luce:#F5A800;--gas:#2E62FF;--mobile:#E0356B;--ok:#2E8A57;--warn:#9A6A00;
+  --luce-soft:#FFF4DC;--gas-soft:#E8EEFF;--mobile-soft:#FCE7EE;--radius:16px;
+  --mono:'IBM Plex Mono',monospace;--body:'Sora',sans-serif;--display:'Unbounded',sans-serif;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
-a{color:inherit}
-button{font-family:inherit;cursor:pointer}
-:focus-visible{outline:3px solid var(--gas);outline-offset:2px;border-radius:4px}
-
-/* ---------- header ---------- */
-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  padding:1rem 1.4rem;border-bottom:1px solid var(--line)}
-.wordmark{font-family:var(--display);font-weight:700;font-size:1.05rem;letter-spacing:.02em;text-decoration:none}
-.wordmark .dot{color:var(--luce)}
-.updated{font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
-.updated b{color:var(--ink)}
-
-/* ---------- signature: borsino ticker ---------- */
-.ticker{border-bottom:1px solid var(--line);background:var(--ink);color:#F4F4EF;overflow:hidden;white-space:nowrap}
-.ticker-track{display:inline-flex;gap:2.6rem;padding:.55rem 0;animation:scroll 38s linear infinite;will-change:transform}
-.ticker:hover .ticker-track{animation-play-state:paused}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.tick{font-family:var(--mono);font-size:.8rem;display:inline-flex;align-items:center;gap:.45rem}
-.tick .pin{width:.55rem;height:.55rem;border-radius:50%;flex:none}
-.tick .val{font-weight:600}
-.tick .up{color:#FF8E8E}.tick .down{color:#7BE3A3}
-@media (prefers-reduced-motion: reduce){
-  .ticker-track{animation:none;white-space:normal;flex-wrap:wrap;padding:.55rem 1rem;gap:1rem}
-}
-
-/* ---------- hero ---------- */
-.hero{padding:3.2rem 1.4rem 2.4rem;max-width:1080px;margin:0 auto}
-.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,4.4vw,2.9rem);line-height:1.16;max-width:21ch}
-.hero h1 em{font-style:normal}
-.hero h1 .hl-luce{box-shadow:inset 0 -0.45em var(--luce-soft)}
-.hero h1 .hl-gas{box-shadow:inset 0 -0.45em var(--gas-soft)}
-.hero h1 .hl-mobile{box-shadow:inset 0 -0.45em var(--mobile-soft)}
-.hero p{margin-top:1rem;color:var(--ink-soft);max-width:62ch}
-.kpis{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.6rem}
-.kpi{border:1px solid var(--line);border-radius:var(--radius);padding:.7rem 1rem;background:#fff;min-width:158px}
-.kpi .lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
-.kpi .num{font-family:var(--mono);font-weight:600;font-size:1.25rem;margin-top:.15rem;font-variant-numeric:tabular-nums}
-.kpi .sub{font-size:.72rem;color:var(--ink-soft)}
-.kpi[data-c=luce]{border-top:3px solid var(--luce)}
-.kpi[data-c=gas]{border-top:3px solid var(--gas)}
-.kpi[data-c=mobile]{border-top:3px solid var(--mobile)}
-
-/* ---------- sezioni ---------- */
-main{max-width:1080px;margin:0 auto;padding:0 1.4rem 4rem}
-section{margin-top:3.2rem}
-.eyebrow{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-soft)}
-h2{font-family:var(--display);font-weight:500;font-size:1.45rem;margin-top:.3rem}
-
-/* tabs */
-.tabs{display:flex;gap:.5rem;margin-top:1.3rem;flex-wrap:wrap}
-.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.5rem 1.15rem;font-weight:600;font-size:.9rem;color:var(--ink-soft)}
-.tab[aria-selected=true]{color:var(--ink);border-color:var(--ink)}
-.tab[data-c=luce][aria-selected=true]{background:var(--luce-soft)}
-.tab[data-c=gas][aria-selected=true]{background:var(--gas-soft)}
-.tab[data-c=mobile][aria-selected=true]{background:var(--mobile-soft)}
-
-/* toolbar */
-.toolbar{display:flex;flex-wrap:wrap;align-items:end;gap:1.2rem;margin-top:1.2rem;
-  border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:1rem 1.2rem}
-.field{display:flex;flex-direction:column;gap:.3rem;font-size:.78rem;color:var(--ink-soft)}
-.field output{font-family:var(--mono);font-weight:600;color:var(--ink)}
-input[type=range]{width:200px;accent-color:var(--ink)}
-select{border:1px solid var(--line);border-radius:8px;padding:.4rem .6rem;background:#fff;font-family:inherit;font-size:.85rem}
-.hint{font-size:.72rem;color:var(--ink-soft);max-width:32ch}
-
-/* cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:.9rem;margin-top:1rem}
-.card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:1rem 1.1rem;
-  display:flex;flex-direction:column;gap:.55rem;position:relative;transition:transform .15s ease, box-shadow .15s ease}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(20,22,26,.07)}
-.card .prov{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft)}
-.card .name{font-weight:700;line-height:1.3}
-.card .price{font-family:var(--mono);font-weight:600;font-size:1.4rem;font-variant-numeric:tabular-nums}
-.card .price small{font-size:.7rem;font-weight:400;color:var(--ink-soft)}
-.card .meta{display:flex;flex-wrap:wrap;gap:.35rem}
-.chip{font-size:.68rem;font-family:var(--mono);border:1px solid var(--line);border-radius:999px;padding:.12rem .55rem;color:var(--ink-soft)}
-.chip.good{border-color:#3AA86B;color:#2E8A57}
-.card .est{font-size:.78rem;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:.55rem}
-.card .est b{font-family:var(--mono);color:var(--ink)}
-.card a.go{font-size:.8rem;font-weight:600;text-decoration:none;margin-top:.1rem}
-.card a.go::after{content:" →"}
-.best{position:absolute;top:-.65rem;right:.9rem;font-family:var(--mono);font-size:.64rem;font-weight:600;
-  background:var(--ink);color:#fff;border-radius:999px;padding:.18rem .6rem;letter-spacing:.05em}
-.card[data-c=luce]{border-left:4px solid var(--luce)}
-.card[data-c=gas]{border-left:4px solid var(--gas)}
-.card[data-c=mobile]{border-left:4px solid var(--mobile)}
-.empty{margin-top:1rem;border:1px dashed var(--line);border-radius:var(--radius);padding:1.4rem;color:var(--ink-soft);font-size:.9rem}
-
-/* charts */
-.chart-block{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:1.2rem;margin-top:1.1rem}
-.chart-block h3{font-size:.95rem;font-weight:700}
-.chart-block .note{font-size:.76rem;color:var(--ink-soft);margin-top:.15rem}
-.chart-wrap{position:relative;height:320px;margin-top:.8rem}
-.range-btns{display:flex;gap:.4rem;margin-top:.6rem}
-.range-btns button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:.25rem .7rem;font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
-.range-btns button[aria-pressed=true]{border-color:var(--ink);color:var(--ink)}
-
-/* footer */
-footer{border-top:1px solid var(--line);margin-top:4rem;padding:2.2rem 1.4rem;color:var(--ink-soft);font-size:.82rem}
-footer .inner{max-width:1080px;margin:0 auto;display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-footer h4{color:var(--ink);font-size:.85rem;margin-bottom:.4rem}
-footer a{color:var(--ink)}
-@media(max-width:600px){.chart-wrap{height:260px}}
+*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.55} a{color:inherit}
+header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.4rem;border-bottom:1px solid var(--line)}
+.wordmark{font-family:var(--display);font-weight:700;text-decoration:none;letter-spacing:.02em}.dot{color:var(--luce)}
+.updated{font-family:var(--mono);font-size:.72rem;color:var(--muted);text-align:right}.updated b{color:var(--ink)}
+.ticker{border-bottom:1px solid var(--line);background:var(--ink);color:#F4F4EF;overflow:hidden;white-space:nowrap}.ticker-track{display:inline-flex;gap:2.4rem;padding:.55rem 0;animation:scroll 42s linear infinite}.ticker:hover .ticker-track{animation-play-state:paused}@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tick{font-family:var(--mono);font-size:.78rem;display:inline-flex;align-items:center;gap:.45rem}.pin{width:.55rem;height:.55rem;border-radius:50%;flex:none}
+.hero,main{max-width:1100px;margin:0 auto;padding-left:1.4rem;padding-right:1.4rem}.hero{padding-top:3.2rem;padding-bottom:2.4rem}.hero h1{font-family:var(--display);font-size:clamp(1.75rem,4.5vw,3rem);line-height:1.14;max-width:22ch}.hero em{font-style:normal}.hl-luce{box-shadow:inset 0 -.45em var(--luce-soft)}.hl-gas{box-shadow:inset 0 -.45em var(--gas-soft)}.hl-mobile{box-shadow:inset 0 -.45em var(--mobile-soft)}.hero p{margin-top:1rem;color:var(--muted);max-width:68ch}.eyebrow{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.status{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.75rem;margin-top:1.5rem}.status-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:.85rem 1rem;border-top:3px solid var(--ink)}.status-card[data-c=luce]{border-top-color:var(--luce)}.status-card[data-c=gas]{border-top-color:var(--gas)}.status-card[data-c=mobile]{border-top-color:var(--mobile)}.status-card .lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.status-card .num{font-family:var(--mono);font-weight:700;font-size:1.25rem;margin-top:.12rem}.status-card .sub{font-size:.76rem;color:var(--muted)}
+section{margin-top:3rem}h2{font-family:var(--display);font-weight:500;font-size:1.45rem;margin-top:.3rem}.tabs{display:flex;gap:.5rem;margin-top:1.2rem;flex-wrap:wrap}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.5rem 1.15rem;font:600 .9rem var(--body);color:var(--muted);cursor:pointer}.tab[aria-selected=true]{color:var(--ink);border-color:var(--ink)}.tab[data-c=luce][aria-selected=true]{background:var(--luce-soft)}.tab[data-c=gas][aria-selected=true]{background:var(--gas-soft)}.tab[data-c=mobile][aria-selected=true]{background:var(--mobile-soft)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:end;gap:1rem;margin-top:1.1rem;border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:1rem}.field{display:flex;flex-direction:column;gap:.3rem;font-size:.78rem;color:var(--muted)}.field output{font-family:var(--mono);font-weight:600;color:var(--ink)}input[type=range]{width:210px;accent-color:var(--ink)}select{border:1px solid var(--line);border-radius:9px;padding:.45rem .65rem;background:#fff;font-family:inherit}.hint{font-size:.74rem;color:var(--muted);max-width:36ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:.9rem;margin-top:1rem}.card{position:relative;display:flex;flex-direction:column;gap:.55rem;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.1rem;border-left:4px solid var(--ink)}.card[data-c=luce]{border-left-color:var(--luce)}.card[data-c=gas]{border-left-color:var(--gas)}.card[data-c=mobile]{border-left-color:var(--mobile)}.prov{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}.name{font-weight:700}.price{font-family:var(--mono);font-weight:700;font-size:1.35rem}.price small{font-size:.72rem;color:var(--muted);font-weight:400}.meta{display:flex;flex-wrap:wrap;gap:.35rem}.chip{font:500 .68rem var(--mono);border:1px solid var(--line);border-radius:999px;padding:.13rem .55rem;color:var(--muted)}.chip.good{border-color:var(--ok);color:var(--ok)}.est{font-size:.78rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:.55rem}.est b{font-family:var(--mono);color:var(--ink)}.go{font-size:.82rem;font-weight:700;text-decoration:none}.go::after{content:' →'}.best{position:absolute;top:-.65rem;right:.9rem;background:var(--ink);color:white;border-radius:999px;padding:.18rem .6rem;font:700 .64rem var(--mono);letter-spacing:.05em}
+.empty{margin-top:1rem;border:1px dashed var(--line);border-radius:var(--radius);padding:1.4rem;color:var(--muted);background:#fff}.empty b{color:var(--ink)}
+.chart-block{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:1.1rem;margin-top:1rem}.chart-block h3{font-size:.95rem}.note{font-size:.76rem;color:var(--muted);margin-top:.15rem}.chart-wrap{position:relative;height:315px;margin-top:.8rem}.range-btns{display:flex;gap:.4rem;margin-top:.7rem}.range-btns button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:.25rem .7rem;font:.72rem var(--mono);color:var(--muted);cursor:pointer}.range-btns button[aria-pressed=true]{border-color:var(--ink);color:var(--ink)}
+footer{border-top:1px solid var(--line);margin-top:4rem;padding:2.2rem 1.4rem;color:var(--muted);font-size:.82rem}.footer-inner{max-width:1100px;margin:0 auto;display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}footer h4{color:var(--ink);font-size:.86rem;margin-bottom:.4rem}
+@media(max-width:680px){header{align-items:flex-start;flex-direction:column}.updated{text-align:left}.chart-wrap{height:260px}.ticker-track{animation:none;white-space:normal;flex-wrap:wrap;padding:.55rem 1rem;gap:1rem}}
 </style>
 </head>
 <body>
-
 <header>
   <a class="wordmark" href="#">TARIFFA<span class="dot">●</span>RADAR</a>
-  <div class="updated">ultimo aggiornamento <b id="lastUpdate">—</b> · scansione automatica ogni ora</div>
+  <div class="updated">ultimo aggiornamento <b id="lastUpdate">caricamento</b><br><span id="sourceLabel">dati pubblici e open data</span></div>
 </header>
-
-<!-- Borsino: indici materia prima + migliori offerte, in scorrimento -->
-<div class="ticker" role="marquee" aria-label="Borsino prezzi">
-  <div class="ticker-track" id="tickerTrack"></div>
-</div>
-
-<div class="hero">
-  <p class="eyebrow">Osservatorio indipendente · dati aperti</p>
-  <h1>Le migliori offerte <em class="hl-luce">luce</em>, <em class="hl-gas">gas</em> e <em class="hl-mobile">mobile</em>, lette ogni ora.</h1>
-  <p>TariffaRadar scansiona ogni ora le pagine pubbliche delle offerte dei principali fornitori italiani e gli indici ufficiali della materia prima (PUN per l'elettricità, PSV per il gas). Nessun dato personale: solo i listini in chiaro, messi in fila per te.</p>
-  <div class="kpis" id="kpis"></div>
-</div>
-
+<div class="ticker" aria-label="Borsino prezzi"><div class="ticker-track" id="tickerTrack"></div></div>
+<section class="hero">
+  <p class="eyebrow">Osservatorio automatico · dati pubblici</p>
+  <h1>Offerte <em class="hl-luce">luce</em>, <em class="hl-gas">gas</em> e <em class="hl-mobile">mobile</em> monitorate senza placeholder.</h1>
+  <p>Il sito mostra solo dati caricati dai file JSON prodotti dagli scraper. Se la prima scansione non ha ancora trovato offerte valide, la pagina lo segnala invece di mostrare esempi fittizi.</p>
+  <div class="status" id="kpis"></div>
+</section>
 <main>
   <section id="offerte">
-    <p class="eyebrow">Confronto in tempo quasi reale</p>
-    <h2>Le offerte di oggi</h2>
-
+    <p class="eyebrow">Confronto operativo</p><h2>Offerte rilevate</h2>
     <div class="tabs" role="tablist" aria-label="Categoria">
-      <button class="tab" role="tab" data-c="luce" aria-selected="true">⚡ Luce</button>
-      <button class="tab" role="tab" data-c="gas" aria-selected="false">🔥 Gas</button>
-      <button class="tab" role="tab" data-c="mobile" aria-selected="false">📶 Mobile</button>
+      <button class="tab" role="tab" data-c="luce" aria-selected="true">Luce</button>
+      <button class="tab" role="tab" data-c="gas" aria-selected="false">Gas</button>
+      <button class="tab" role="tab" data-c="mobile" aria-selected="false">Mobile</button>
     </div>
-
     <div class="toolbar" id="toolbarEnergy">
-      <div class="field">
-        <label for="cons">Consumo annuo stimato</label>
-        <input type="range" id="cons" min="500" max="6000" step="100" value="2700">
-        <output id="consOut">2700 kWh/anno</output>
-      </div>
-      <div class="field">
-        <label for="tipo">Tipo di prezzo</label>
-        <select id="tipo">
-          <option value="tutti">Tutti</option>
-          <option value="fisso">Fisso</option>
-          <option value="variabile">Variabile (indicizzato)</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="ordEnergy">Ordina per</label>
-        <select id="ordEnergy">
-          <option value="spesa">Spesa annua stimata</option>
-          <option value="prezzo">Prezzo energia</option>
-          <option value="fissa">Quota fissa</option>
-        </select>
-      </div>
-      <p class="hint">La spesa stimata copre materia energia + quota fissa: oneri, rete e imposte sono uguali per tutti e restano fuori dal confronto.</p>
+      <div class="field"><label for="cons">Consumo annuo stimato</label><input type="range" id="cons" min="500" max="6000" step="100" value="2700"><output id="consOut">2700 kWh/anno</output></div>
+      <div class="field"><label for="tipo">Tipo prezzo</label><select id="tipo"><option value="tutti">Tutti</option><option value="fisso">Fisso</option><option value="variabile">Variabile</option></select></div>
+      <div class="field"><label for="ordEnergy">Ordina per</label><select id="ordEnergy"><option value="spesa">Spesa stimata</option><option value="prezzo">Prezzo energia</option><option value="fissa">Quota fissa</option></select></div>
+      <p class="hint">La stima considera componente energia + quota fissa. Oneri, rete e imposte non sono inclusi.</p>
     </div>
-
     <div class="toolbar" id="toolbarMobile" hidden>
-      <div class="field">
-        <label for="ordMobile">Ordina per</label>
-        <select id="ordMobile">
-          <option value="prezzo">Prezzo mensile</option>
-          <option value="gb">Costo per GB</option>
-          <option value="giga">GB inclusi</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="solo5g">Rete</label>
-        <select id="solo5g">
-          <option value="tutte">Tutte</option>
-          <option value="5g">Solo 5G</option>
-        </select>
-      </div>
-      <p class="hint">Prezzi di listino in evidenza sulle pagine pubbliche degli operatori; verifica sempre costi di attivazione e vincoli sul sito ufficiale.</p>
+      <div class="field"><label for="ordMobile">Ordina per</label><select id="ordMobile"><option value="prezzo">Prezzo mensile</option><option value="gb">Costo per GB</option><option value="giga">GB inclusi</option></select></div>
+      <div class="field"><label for="solo5g">Rete</label><select id="solo5g"><option value="tutte">Tutte</option><option value="5g">Solo 5G</option></select></div>
+      <p class="hint">Dati estratti dalle pagine pubbliche degli operatori. Verifica sempre costi di attivazione e vincoli.</p>
     </div>
-
     <div class="grid" id="cards"></div>
-    <div class="empty" id="emptyMsg" hidden>Nessuna offerta rilevata nell'ultima scansione per questi filtri. I dati torneranno al prossimo giro orario.</div>
+    <div class="empty" id="emptyMsg" hidden></div>
   </section>
-
   <section id="storico">
-    <p class="eyebrow">Prospettiva storica</p>
-    <h2>Offerte vs materia prima</h2>
-    <div class="range-btns" id="rangeBtns">
-      <button data-d="30" aria-pressed="false">30g</button>
-      <button data-d="90" aria-pressed="false">90g</button>
-      <button data-d="365" aria-pressed="true">1 anno</button>
-      <button data-d="0" aria-pressed="false">Tutto</button>
-    </div>
-
-    <div class="chart-block">
-      <h3>⚡ Luce — prezzo offerte (€/kWh) vs PUN</h3>
-      <p class="note">PUN = Prezzo Unico Nazionale dell'energia all'ingrosso (GME). La distanza tra le curve è il margine che il mercato retail applica sopra l'ingrosso.</p>
-      <div class="chart-wrap"><canvas id="chartLuce"></canvas></div>
-    </div>
-
-    <div class="chart-block">
-      <h3>🔥 Gas — prezzo offerte (€/Smc) vs PSV</h3>
-      <p class="note">PSV = Punto di Scambio Virtuale, il riferimento all'ingrosso del gas in Italia, convertito in €/Smc per il confronto.</p>
-      <div class="chart-wrap"><canvas id="chartGas"></canvas></div>
-    </div>
-
-    <div class="chart-block">
-      <h3>📶 Mobile — prezzo medio mensile e costo per GB</h3>
-      <p class="note">Andamento del prezzo medio delle offerte rilevate e del costo per gigabyte: il modo più onesto di vedere se il mercato sta davvero diventando più conveniente.</p>
-      <div class="chart-wrap"><canvas id="chartMobile"></canvas></div>
-    </div>
+    <p class="eyebrow">Serie storiche</p><h2>Offerte vs materia prima</h2>
+    <div class="range-btns" id="rangeBtns"><button data-d="30" aria-pressed="false">30g</button><button data-d="90" aria-pressed="false">90g</button><button data-d="365" aria-pressed="true">1 anno</button><button data-d="0" aria-pressed="false">Tutto</button></div>
+    <div class="chart-block"><h3>Luce — offerte vs PUN</h3><p class="note">Prezzi luce in €/kWh confrontati con il PUN.</p><div class="chart-wrap"><canvas id="chartLuce"></canvas></div></div>
+    <div class="chart-block"><h3>Gas — offerte vs PSV</h3><p class="note">Prezzi gas in €/Smc confrontati con il PSV.</p><div class="chart-wrap"><canvas id="chartGas"></canvas></div></div>
+    <div class="chart-block"><h3>Mobile — prezzo mensile e costo per GB</h3><p class="note">Andamento delle offerte mobile rilevate.</p><div class="chart-wrap"><canvas id="chartMobile"></canvas></div></div>
   </section>
 </main>
-
-<footer>
-  <div class="inner">
-    <div>
-      <h4>Come funziona</h4>
-      <p>Una GitHub Action esegue ogni ora uno scraper che legge <strong>solo la pagina principale pubblica</strong> delle offerte di ciascun operatore e gli open data del <a href="https://www.ilportaleofferte.it/" rel="noopener">Portale Offerte ARERA</a>. I dati vengono salvati come JSON in questo stesso repository e serviti da GitHub Pages.</p>
-    </div>
-    <div>
-      <h4>Privacy e rispetto</h4>
-      <p>Nessun dato personale viene raccolto né richiesto. Lo scraper rispetta robots.txt, si identifica con uno User-Agent trasparente e non naviga oltre le pagine di listino.</p>
-    </div>
-    <div>
-      <h4>Avvertenze</h4>
-      <p>I prezzi mostrati sono rilevazioni automatiche a scopo informativo e possono contenere errori o non riflettere promozioni riservate. Prima di sottoscrivere un contratto, verifica sempre le condizioni sul sito ufficiale del fornitore e sul Portale Offerte ARERA.</p>
-    </div>
-  </div>
-</footer>
-
+<footer><div class="footer-inner"><div><h4>Come funziona</h4><p>Una GitHub Action aggiorna periodicamente i JSON in <code>data/</code> usando scraper Python e fonti pubbliche.</p></div><div><h4>Fonti</h4><p>Per luce e gas viene preferito il Portale Offerte open data quando configurato. In fallback si leggono pagine pubbliche dei fornitori.</p></div><div><h4>Avvertenza</h4><p>I prezzi sono rilevazioni automatiche a scopo informativo. Prima della sottoscrizione verifica sempre le condizioni sul sito ufficiale.</p></div></div></footer>
 <script>
-/* ===================== caricamento dati ===================== */
-const state = { energy:null, mobile:null, energyHist:[], mobileHist:[], commHist:[], commLatest:null,
-                tab:'luce', rangeDays:365, charts:{} };
-
-async function loadJSON(path){
-  const r = await fetch(path, {cache:'no-store'});
-  if(!r.ok) throw new Error(path);
-  return r.json();
-}
-
-function demoData(){
-  /* Fallback procedurale: il sito resta leggibile anche aperto in locale
-     o prima della prima scansione. Stesse forme dei file reali. */
-  const days=150, today=new Date(); const comm=[],eh=[],mh=[];
-  for(let i=0;i<days;i++){
-    const d=new Date(today); d.setDate(d.getDate()-(days-1-i));
-    const ds=d.toISOString().slice(0,10);
-    const pun=0.108+0.018*Math.sin(i/22), psv=0.42+0.05*Math.sin(i/26+1);
-    comm.push({date:ds,pun_eur_kwh:+pun.toFixed(5),psv_eur_smc:+psv.toFixed(4)});
-    const l=Math.max(0,i-10), punl=0.108+0.018*Math.sin(l/22), psvl=0.42+0.05*Math.sin(l/26+1);
-    eh.push({date:ds,luce:{min:+(punl+0.012).toFixed(4),media:+(punl+0.03).toFixed(4),n:14},
-                    gas:{min:+(psvl+0.05).toFixed(4),media:+(psvl+0.12).toFixed(4),n:12}});
-    mh.push({date:ds,prezzo_mese:{min:i<60?5.49:4.99,media:+(8.4-0.004*i).toFixed(2),n:9},
-                    prezzo_per_gb:{min:0.033,media:+(0.085-0.0002*i).toFixed(3),n:9}});
-  }
-  const eo={updated:'DEMO',offers:[
-    ['Octopus Energy','Octopus Fissa 12M','luce',0.118,6,'fisso'],['Sorgenia','Next Energy Sunlight','luce',0.121,7.5,'variabile'],
-    ['Iren','Iren Web Luce','luce',0.124,7.9,'variabile'],['Plenitude','Trend Casa Luce','luce',0.126,9.5,'variabile'],
-    ['Enel Energia','Flex Luce','luce',0.129,9,'variabile'],['A2A Energia','A2A Click Luce','luce',0.131,8.5,'fisso'],
-    ['Edison Energia','Edison World Luce','luce',0.134,8,'fisso'],
-    ['Octopus Energy','Octopus Fissa 12M Gas','gas',0.48,6,'fisso'],['Sorgenia','Next Energy Gas','gas',0.50,7.5,'variabile'],
-    ['Plenitude','Trend Casa Gas','gas',0.52,9.5,'variabile'],['Enel Energia','Flex Gas','gas',0.53,9,'variabile'],
-    ['Edison Energia','Edison World Gas','gas',0.55,8,'fisso']
-  ].map(o=>({fornitore:o[0],offerta:o[1],commodity:o[2],prezzo_energia:o[3],quota_fissa_mese:o[4],tipo:o[5],url:'#'}))};
-  const mo={updated:'DEMO',offers:[
-    ['Iliad','Giga 250',9.99,250,true],['ho. Mobile','ho. 200 GB',9.95,200,true],['Very Mobile','Very 150',7.99,150,true],
-    ['Kena Mobile','Kena 130',6.99,130,false],['Fastweb','Mobile Full',9.95,200,true],['PosteMobile','Creami Extra WOW',8.99,150,false],
-    ['WindTre','GO Unlimited',12.99,300,true],['TIM','Power Iron',9.99,150,true],['Vodafone','Bronze Plus',9.99,200,true]
-  ].map(o=>({operatore:o[0],offerta:o[1],prezzo_mese:o[2],giga:o[3],prezzo_per_gb:+(o[2]/o[3]).toFixed(3),rete_5g:o[4],url:'#'}))};
-  return {energy:eo,mobile:mo,energyHist:eh,mobileHist:mh,commHist:comm,
-          commLatest:{pun:{date:comm.at(-1).date,eur_kwh:comm.at(-1).pun_eur_kwh},
-                      psv:{date:comm.at(-1).date,eur_smc:comm.at(-1).psv_eur_smc}}};
-}
-
-async function init(){
-  try{
-    const [energy,mobile,eh,mh,ch,cl] = await Promise.all([
-      loadJSON('data/offers_energy.json'), loadJSON('data/offers_mobile.json'),
-      loadJSON('data/history/energy_history.json'), loadJSON('data/history/mobile_history.json'),
-      loadJSON('data/history/commodity_history.json'), loadJSON('data/commodity_latest.json')
-    ]);
-    Object.assign(state,{energy,mobile,energyHist:eh,mobileHist:mh,commHist:ch,commLatest:cl});
-  }catch(e){ Object.assign(state, demoData()); }
-  renderAll();
-}
-
-/* ===================== utilità ===================== */
-const fmtEur = (v,dec=2)=> v.toLocaleString('it-IT',{minimumFractionDigits:dec,maximumFractionDigits:dec})+' €';
-const fmtNum = (v,dec)=> v.toLocaleString('it-IT',{minimumFractionDigits:dec,maximumFractionDigits:dec});
-function annualCost(o, cons){ return o.prezzo_energia*cons + (o.quota_fissa_mese||0)*12; }
-function latestComm(key){
-  for(let i=state.commHist.length-1;i>=0;i--) if(state.commHist[i][key]!=null) return state.commHist[i][key];
-  return null;
-}
-
-/* ===================== ticker + KPI ===================== */
-function renderTicker(){
-  const items=[];
-  const pun=latestComm('pun_eur_kwh'), psv=latestComm('psv_eur_smc');
-  const prevPun=state.commHist.length>1 ? state.commHist.at(-2).pun_eur_kwh : null;
-  if(pun) items.push({c:'luce',t:`PUN ${fmtNum(pun,4)} €/kWh`, d: prevPun? pun-prevPun:0});
-  if(psv) items.push({c:'gas', t:`PSV ${fmtNum(psv,3)} €/Smc`, d:0});
-  const bl=bestEnergy('luce'), bg=bestEnergy('gas'), bm=bestMobile();
-  if(bl) items.push({c:'luce',t:`MIGLIOR LUCE ${bl.fornitore} ${fmtNum(bl.prezzo_energia,3)} €/kWh`});
-  if(bg) items.push({c:'gas',t:`MIGLIOR GAS ${bg.fornitore} ${fmtNum(bg.prezzo_energia,3)} €/Smc`});
-  if(bm) items.push({c:'mobile',t:`MIGLIOR MOBILE ${bm.operatore} ${bm.giga}GB ${fmtEur(bm.prezzo_mese)}/mese`});
-  items.push({c:'luce',t:`OFFERTE MONITORATE ${ (state.energy?.offers?.length||0)+(state.mobile?.offers?.length||0) }`});
-
-  const html = items.map(it=>{
-    const col = it.c==='luce'?'var(--luce)':it.c==='gas'?'var(--gas)':'var(--mobile)';
-    const delta = it.d ? `<span class="${it.d>0?'up':'down'}">${it.d>0?'▲':'▼'} ${fmtNum(Math.abs(it.d),4)}</span>` : '';
-    return `<span class="tick"><span class="pin" style="background:${col}"></span><span class="val">${it.t}</span>${delta}</span>`;
-  }).join('');
-  document.getElementById('tickerTrack').innerHTML = html + html; /* loop continuo */
-}
-
-function bestEnergy(c){
-  const list=(state.energy?.offers||[]).filter(o=>o.commodity===c);
-  return list.length? list.reduce((a,b)=> annualCost(a,2700)<annualCost(b,2700)?a:b) : null;
-}
-function bestMobile(){
-  const list=state.mobile?.offers||[];
-  return list.length? list.reduce((a,b)=> a.prezzo_per_gb<b.prezzo_per_gb?a:b) : null;
-}
-
-function renderKPIs(){
-  const pun=latestComm('pun_eur_kwh'), psv=latestComm('psv_eur_smc');
-  const bl=bestEnergy('luce'), bg=bestEnergy('gas'), bm=bestMobile();
-  const k=[];
-  if(bl) k.push({c:'luce',lbl:'Miglior luce',num:fmtNum(bl.prezzo_energia,3)+' €/kWh',sub:bl.fornitore});
-  if(bg) k.push({c:'gas',lbl:'Miglior gas',num:fmtNum(bg.prezzo_energia,3)+' €/Smc',sub:bg.fornitore});
-  if(bm) k.push({c:'mobile',lbl:'Miglior €/GB',num:fmtNum(bm.prezzo_per_gb,3)+' €',sub:`${bm.operatore} · ${bm.giga} GB`});
-  if(pun) k.push({c:'luce',lbl:'PUN oggi',num:fmtNum(pun,4)+' €/kWh',sub:'ingrosso elettricità'});
-  if(psv) k.push({c:'gas',lbl:'PSV oggi',num:fmtNum(psv,3)+' €/Smc',sub:'ingrosso gas'});
-  document.getElementById('kpis').innerHTML = k.map(x=>
-    `<div class="kpi" data-c="${x.c}"><div class="lbl">${x.lbl}</div><div class="num">${x.num}</div><div class="sub">${x.sub}</div></div>`).join('');
-}
-
-/* ===================== card offerte ===================== */
-function renderCards(){
-  const grid=document.getElementById('cards'), empty=document.getElementById('emptyMsg');
-  const isMobileTab = state.tab==='mobile';
-  document.getElementById('toolbarEnergy').hidden = isMobileTab;
-  document.getElementById('toolbarMobile').hidden = !isMobileTab;
-
-  let html='';
-  if(!isMobileTab){
-    const unit = state.tab==='luce' ? 'kWh' : 'Smc';
-    const cons = +document.getElementById('cons').value;
-    const tipo = document.getElementById('tipo').value;
-    const ord  = document.getElementById('ordEnergy').value;
-    const comm = state.tab==='luce'? latestComm('pun_eur_kwh') : latestComm('psv_eur_smc');
-    let list=(state.energy?.offers||[]).filter(o=>o.commodity===state.tab);
-    if(tipo!=='tutti') list=list.filter(o=>o.tipo===tipo);
-    list.sort((a,b)=> ord==='prezzo'? a.prezzo_energia-b.prezzo_energia
-                    : ord==='fissa' ? (a.quota_fissa_mese||0)-(b.quota_fissa_mese||0)
-                    : annualCost(a,cons)-annualCost(b,cons));
-    html=list.map((o,i)=>{
-      const margin = comm? ((o.prezzo_energia-comm)/comm*100) : null;
-      return `<article class="card" data-c="${state.tab}">
-        ${i===0?'<span class="best">PIÙ CONVENIENTE</span>':''}
-        <div class="prov">${o.fornitore}</div>
-        <div class="name">${o.offerta}</div>
-        <div class="price">${fmtNum(o.prezzo_energia, state.tab==='luce'?3:3)} <small>€/${unit}</small></div>
-        <div class="meta">
-          <span class="chip">${o.tipo==='fisso'?'prezzo fisso':'indicizzato'}</span>
-          <span class="chip">quota fissa ${fmtEur(o.quota_fissa_mese||0)}/mese</span>
-          ${margin!=null?`<span class="chip ${margin<20?'good':''}">+${fmtNum(margin,0)}% sull'ingrosso</span>`:''}
-        </div>
-        <div class="est">Spesa stimata con ${fmtNum(cons,0)} ${unit}/anno: <b>${fmtEur(annualCost(o,cons),0)}/anno</b> <span style="opacity:.7">(solo materia + quota fissa)</span></div>
-        <a class="go" href="${o.url}" rel="noopener nofollow" target="_blank">Vai all'offerta</a>
-      </article>`;
-    }).join('');
-  } else {
-    const ord=document.getElementById('ordMobile').value;
-    const solo5g=document.getElementById('solo5g').value==='5g';
-    let list=(state.mobile?.offers||[]).slice();
-    if(solo5g) list=list.filter(o=>o.rete_5g);
-    list.sort((a,b)=> ord==='gb'? a.prezzo_per_gb-b.prezzo_per_gb
-                    : ord==='giga'? b.giga-a.giga
-                    : a.prezzo_mese-b.prezzo_mese);
-    html=list.map((o,i)=>`<article class="card" data-c="mobile">
-        ${i===0?'<span class="best">'+(ord==='giga'?'PIÙ GIGA':'PIÙ CONVENIENTE')+'</span>':''}
-        <div class="prov">${o.operatore}</div>
-        <div class="name">${o.offerta}</div>
-        <div class="price">${fmtEur(o.prezzo_mese)} <small>/mese</small></div>
-        <div class="meta">
-          <span class="chip">${o.giga} GB</span>
-          <span class="chip ${o.prezzo_per_gb<0.05?'good':''}">${fmtNum(o.prezzo_per_gb,3)} €/GB</span>
-          ${o.rete_5g?'<span class="chip">5G</span>':''}
-        </div>
-        <a class="go" href="${o.url}" rel="noopener nofollow" target="_blank">Vai all'offerta</a>
-      </article>`).join('');
-  }
-  grid.innerHTML=html;
-  empty.hidden = html!=='';
-}
-
-/* ===================== grafici ===================== */
-function sliceDays(arr){ return state.rangeDays? arr.slice(-state.rangeDays) : arr; }
-const baseOpts = {
-  responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
-  plugins:{legend:{labels:{font:{family:"'Sora'",size:11},boxWidth:18,usePointStyle:true}},
-           tooltip:{titleFont:{family:"'IBM Plex Mono'"},bodyFont:{family:"'IBM Plex Mono'"}}},
-  scales:{x:{grid:{display:false},ticks:{maxTicksLimit:8,font:{family:"'IBM Plex Mono'",size:10}}},
-          y:{grid:{color:'#EFEFEA'},ticks:{font:{family:"'IBM Plex Mono'",size:10}}}}
-};
-function line(label,data,color,dash){return {label,data,borderColor:color,backgroundColor:color,
-  borderWidth:2,pointRadius:0,tension:.3,borderDash:dash||[]};}
-
-function renderCharts(){
-  const eh=sliceDays(state.energyHist), mh=sliceDays(state.mobileHist), ch=sliceDays(state.commHist);
-  const cMap=Object.fromEntries(state.commHist.map(r=>[r.date,r]));
-  Object.values(state.charts).forEach(c=>c.destroy());
-
-  state.charts.luce=new Chart(chartLuce,{type:'line',data:{labels:eh.map(r=>r.date),datasets:[
-    line('Migliore offerta', eh.map(r=>r.luce?.min??null), '#F5A800'),
-    line('Media offerte',    eh.map(r=>r.luce?.media??null), '#C98A00',[6,4]),
-    line('PUN (ingrosso)',   eh.map(r=>cMap[r.date]?.pun_eur_kwh??null), '#14161A',[2,3]),
-  ]},options:{...baseOpts,scales:{...baseOpts.scales,y:{...baseOpts.scales.y,title:{display:true,text:'€/kWh'}}}}});
-
-  state.charts.gas=new Chart(chartGas,{type:'line',data:{labels:eh.map(r=>r.date),datasets:[
-    line('Migliore offerta', eh.map(r=>r.gas?.min??null), '#2E62FF'),
-    line('Media offerte',    eh.map(r=>r.gas?.media??null), '#1B3FA8',[6,4]),
-    line('PSV (ingrosso)',   eh.map(r=>cMap[r.date]?.psv_eur_smc??null), '#14161A',[2,3]),
-  ]},options:{...baseOpts,scales:{...baseOpts.scales,y:{...baseOpts.scales.y,title:{display:true,text:'€/Smc'}}}}});
-
-  state.charts.mobile=new Chart(chartMobile,{type:'line',data:{labels:mh.map(r=>r.date),datasets:[
-    {...line('Prezzo medio (€/mese)', mh.map(r=>r.prezzo_mese?.media??null), '#E0356B'), yAxisID:'y'},
-    {...line('Offerta minima (€/mese)', mh.map(r=>r.prezzo_mese?.min??null), '#8C1F44',[6,4]), yAxisID:'y'},
-    {...line('Costo medio per GB (€)', mh.map(r=>r.prezzo_per_gb?.media??null), '#14161A',[2,3]), yAxisID:'y2'},
-  ]},options:{...baseOpts,scales:{x:baseOpts.scales.x,
-    y:{...baseOpts.scales.y,title:{display:true,text:'€/mese'}},
-    y2:{position:'right',grid:{display:false},title:{display:true,text:'€/GB'},
-        ticks:{font:{family:"'IBM Plex Mono'",size:10}}}}}});
-}
-
-/* ===================== eventi ===================== */
-function renderAll(){
-  const upd = state.energy?.updated;
-  document.getElementById('lastUpdate').textContent =
-    upd && upd!=='DEMO' ? new Date(upd).toLocaleString('it-IT',{dateStyle:'short',timeStyle:'short'}) : 'dati dimostrativi';
-  renderTicker(); renderKPIs(); renderCards(); renderCharts();
-}
-
-document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
-  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected', x===t));
-  state.tab=t.dataset.c;
-  const cons=document.getElementById('cons'), out=document.getElementById('consOut');
-  if(state.tab==='gas'){cons.min=100;cons.max=2500;cons.step=50;cons.value=1100;out.textContent='1100 Smc/anno';}
-  if(state.tab==='luce'){cons.min=500;cons.max=6000;cons.step=100;cons.value=2700;out.textContent='2700 kWh/anno';}
-  renderCards();
-}));
-cons.addEventListener('input',()=>{ consOut.textContent=`${cons.value} ${state.tab==='gas'?'Smc':'kWh'}/anno`; renderCards(); });
-['tipo','ordEnergy','ordMobile','solo5g'].forEach(id=>document.getElementById(id).addEventListener('change',renderCards));
-document.querySelectorAll('#rangeBtns button').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('#rangeBtns button').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  state.rangeDays=+b.dataset.d; renderCharts();
-}));
-
+const state={energy:{offers:[]},mobile:{offers:[]},energyHist:[],mobileHist:[],commHist:[],status:null,tab:'luce',rangeDays:365,charts:{}};
+const $=id=>document.getElementById(id);
+async function loadJSON(path,fallback){try{const r=await fetch(path,{cache:'no-store'});if(!r.ok)throw new Error(path);return await r.json();}catch(e){return fallback;}}
+const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const fmtEur=(v,dec=2)=>Number(v||0).toLocaleString('it-IT',{minimumFractionDigits:dec,maximumFractionDigits:dec})+' €';
+const fmtNum=(v,dec=2)=>Number(v||0).toLocaleString('it-IT',{minimumFractionDigits:dec,maximumFractionDigits:dec});
+const realOffers=list=>(list||[]).filter(o=>String(o.fonte||'').toLowerCase()!=='demo' && o.url!=='#');
+function annualCost(o,cons){return Number(o.prezzo_energia||0)*cons+Number(o.quota_fissa_mese||0)*12}
+function latestComm(key){for(let i=state.commHist.length-1;i>=0;i--)if(state.commHist[i][key]!=null)return state.commHist[i][key];return null}
+function bestEnergy(c){const list=realOffers(state.energy.offers).filter(o=>o.commodity===c);return list.length?list.reduce((a,b)=>annualCost(a,2700)<annualCost(b,2700)?a:b):null}
+function bestMobile(){const list=realOffers(state.mobile.offers);return list.length?list.reduce((a,b)=>Number(a.prezzo_per_gb)<Number(b.prezzo_per_gb)?a:b):null}
+async function init(){const [energy,mobile,eh,mh,ch,status]=await Promise.all([loadJSON('data/offers_energy.json',{offers:[]}),loadJSON('data/offers_mobile.json',{offers:[]}),loadJSON('data/history/energy_history.json',[]),loadJSON('data/history/mobile_history.json',[]),loadJSON('data/history/commodity_history.json',[]),loadJSON('data/scrape_status.json',null)]);state.energy=energy||{offers:[]};state.mobile=mobile||{offers:[]};state.energy.offers=realOffers(state.energy.offers);state.mobile.offers=realOffers(state.mobile.offers);state.energyHist=Array.isArray(eh)?eh:[];state.mobileHist=Array.isArray(mh)?mh:[];state.commHist=Array.isArray(ch)?ch:[];state.status=status;renderAll()}
+function renderTicker(){const items=[];const pun=latestComm('pun_eur_kwh'),psv=latestComm('psv_eur_smc');const bl=bestEnergy('luce'),bg=bestEnergy('gas'),bm=bestMobile();if(pun)items.push({c:'luce',t:`PUN ${fmtNum(pun,4)} €/kWh`});if(psv)items.push({c:'gas',t:`PSV ${fmtNum(psv,3)} €/Smc`});if(bl)items.push({c:'luce',t:`MIGLIOR LUCE ${bl.fornitore} ${fmtNum(bl.prezzo_energia,3)} €/kWh`});if(bg)items.push({c:'gas',t:`MIGLIOR GAS ${bg.fornitore} ${fmtNum(bg.prezzo_energia,3)} €/Smc`});if(bm)items.push({c:'mobile',t:`MIGLIOR MOBILE ${bm.operatore} ${bm.giga}GB ${fmtEur(bm.prezzo_mese)}/mese`});items.push({c:'mobile',t:`OFFERTE MONITORATE ${state.energy.offers.length+state.mobile.offers.length}`});const html=items.map(it=>`<span class="tick"><span class="pin" style="background:${it.c==='luce'?'var(--luce)':it.c==='gas'?'var(--gas)':'var(--mobile)'}"></span><span>${esc(it.t)}</span></span>`).join('');$('tickerTrack').innerHTML=html+html}
+function renderKPIs(){const cards=[];const bl=bestEnergy('luce'),bg=bestEnergy('gas'),bm=bestMobile(),pun=latestComm('pun_eur_kwh'),psv=latestComm('psv_eur_smc');cards.push({c:'luce',lbl:'Offerte luce',num:state.energy.offers.filter(o=>o.commodity==='luce').length,sub:bl?`best ${fmtNum(bl.prezzo_energia,3)} €/kWh`:'in attesa'});cards.push({c:'gas',lbl:'Offerte gas',num:state.energy.offers.filter(o=>o.commodity==='gas').length,sub:bg?`best ${fmtNum(bg.prezzo_energia,3)} €/Smc`:'in attesa'});cards.push({c:'mobile',lbl:'Offerte mobile',num:state.mobile.offers.length,sub:bm?`${bm.operatore} · ${fmtNum(bm.prezzo_per_gb,3)} €/GB`:'in attesa'});if(pun)cards.push({c:'luce',lbl:'PUN',num:fmtNum(pun,4),sub:'€/kWh'});if(psv)cards.push({c:'gas',lbl:'PSV',num:fmtNum(psv,3),sub:'€/Smc'});$('kpis').innerHTML=cards.map(x=>`<div class="status-card" data-c="${x.c}"><div class="lbl">${esc(x.lbl)}</div><div class="num">${esc(x.num)}</div><div class="sub">${esc(x.sub)}</div></div>`).join('')}
+function renderCards(){const grid=$('cards'),empty=$('emptyMsg'),isMobile=state.tab==='mobile';$('toolbarEnergy').hidden=isMobile;$('toolbarMobile').hidden=!isMobile;let list=[],html='';if(!isMobile){const unit=state.tab==='luce'?'kWh':'Smc',cons=Number($('cons').value),tipo=$('tipo').value,ord=$('ordEnergy').value,comm=state.tab==='luce'?latestComm('pun_eur_kwh'):latestComm('psv_eur_smc');list=state.energy.offers.filter(o=>o.commodity===state.tab);if(tipo!=='tutti')list=list.filter(o=>o.tipo===tipo);list.sort((a,b)=>ord==='prezzo'?a.prezzo_energia-b.prezzo_energia:ord==='fissa'?(a.quota_fissa_mese||0)-(b.quota_fissa_mese||0):annualCost(a,cons)-annualCost(b,cons));html=list.map((o,i)=>{const margin=comm?((o.prezzo_energia-comm)/comm*100):null;return `<article class="card" data-c="${state.tab}">${i===0?'<span class="best">PIÙ CONVENIENTE</span>':''}<div class="prov">${esc(o.fornitore)}</div><div class="name">${esc(o.offerta)}</div><div class="price">${fmtNum(o.prezzo_energia,3)} <small>€/${unit}</small></div><div class="meta"><span class="chip">${o.tipo==='fisso'?'prezzo fisso':'indicizzato'}</span><span class="chip">quota fissa ${fmtEur(o.quota_fissa_mese||0)}/mese</span>${margin!=null?`<span class="chip ${margin<20?'good':''}">+${fmtNum(margin,0)}% sull'ingrosso</span>`:''}</div><div class="est">Spesa stimata con ${fmtNum(cons,0)} ${unit}/anno: <b>${fmtEur(annualCost(o,cons),0)}/anno</b></div><a class="go" href="${esc(o.url)}" rel="noopener nofollow" target="_blank">Vai all'offerta</a></article>`}).join('')}else{const ord=$('ordMobile').value,only5g=$('solo5g').value==='5g';list=state.mobile.offers.slice();if(only5g)list=list.filter(o=>o.rete_5g);list.sort((a,b)=>ord==='gb'?a.prezzo_per_gb-b.prezzo_per_gb:ord==='giga'?b.giga-a.giga:a.prezzo_mese-b.prezzo_mese);html=list.map((o,i)=>`<article class="card" data-c="mobile">${i===0?`<span class="best">${ord==='giga'?'PIÙ GIGA':'PIÙ CONVENIENTE'}</span>`:''}<div class="prov">${esc(o.operatore)}</div><div class="name">${esc(o.offerta)}</div><div class="price">${fmtEur(o.prezzo_mese)} <small>/mese</small></div><div class="meta"><span class="chip">${esc(o.giga)} GB</span><span class="chip ${o.prezzo_per_gb<0.05?'good':''}">${fmtNum(o.prezzo_per_gb,3)} €/GB</span>${o.rete_5g?'<span class="chip">5G</span>':''}</div><a class="go" href="${esc(o.url)}" rel="noopener nofollow" target="_blank">Vai all'offerta</a></article>`).join('')}grid.innerHTML=html;empty.hidden=html!=='';empty.innerHTML=`<b>Nessuna offerta reale da mostrare per ${state.tab}.</b><br>La GitHub Action sta usando solo dati prodotti dallo scraper. Se è la prima pubblicazione, lancia il workflow manualmente o attendi la prossima scansione.`}
+function sliceDays(arr){return state.rangeDays?arr.slice(-state.rangeDays):arr}const baseOpts={responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{boxWidth:18,usePointStyle:true}}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:8}},y:{grid:{color:'#EFEFEA'}}}};function line(label,data,color,dash){return{label,data,borderColor:color,backgroundColor:color,borderWidth:2,pointRadius:0,tension:.3,borderDash:dash||[]}}
+function renderCharts(){if(!window.Chart)return;const eh=sliceDays(state.energyHist),mh=sliceDays(state.mobileHist),cMap=Object.fromEntries(state.commHist.map(r=>[r.date,r]));Object.values(state.charts).forEach(c=>c.destroy());state.charts.luce=new Chart(chartLuce,{type:'line',data:{labels:eh.map(r=>r.date),datasets:[line('Migliore offerta',eh.map(r=>r.luce?.min??null),'#F5A800'),line('Media offerte',eh.map(r=>r.luce?.media??null),'#C98A00',[6,4]),line('PUN',eh.map(r=>cMap[r.date]?.pun_eur_kwh??null),'#14161A',[2,3])]},options:baseOpts});state.charts.gas=new Chart(chartGas,{type:'line',data:{labels:eh.map(r=>r.date),datasets:[line('Migliore offerta',eh.map(r=>r.gas?.min??null),'#2E62FF'),line('Media offerte',eh.map(r=>r.gas?.media??null),'#1B3FA8',[6,4]),line('PSV',eh.map(r=>cMap[r.date]?.psv_eur_smc??null),'#14161A',[2,3])]},options:baseOpts});state.charts.mobile=new Chart(chartMobile,{type:'line',data:{labels:mh.map(r=>r.date),datasets:[line('Prezzo medio',mh.map(r=>r.prezzo_mese?.media??null),'#E0356B'),line('Offerta minima',mh.map(r=>r.prezzo_mese?.min??null),'#8C1F44',[6,4]),line('Costo medio per GB',mh.map(r=>r.prezzo_per_gb?.media??null),'#14161A',[2,3])]},options:baseOpts})}
+function renderAll(){const upd=state.energy.updated||state.mobile.updated||state.status?.updated;const realDate=upd&&upd!=='DEMO';$('lastUpdate').textContent=realDate?new Date(upd).toLocaleString('it-IT',{dateStyle:'short',timeStyle:'short'}):'prima scansione in attesa';$('sourceLabel').textContent=state.energy.source?`fonte energia: ${state.energy.source}`:'nessun dato demo caricato';renderTicker();renderKPIs();renderCards();renderCharts()}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===t));state.tab=t.dataset.c;if(state.tab==='gas'){$('cons').min=100;$('cons').max=2500;$('cons').step=50;$('cons').value=1100;$('consOut').textContent='1100 Smc/anno'}if(state.tab==='luce'){$('cons').min=500;$('cons').max=6000;$('cons').step=100;$('cons').value=2700;$('consOut').textContent='2700 kWh/anno'}renderCards()}));$('cons').addEventListener('input',()=>{$('consOut').textContent=`${$('cons').value} ${state.tab==='gas'?'Smc':'kWh'}/anno`;renderCards()});['tipo','ordEnergy','ordMobile','solo5g'].forEach(id=>$(id).addEventListener('change',renderCards));document.querySelectorAll('#rangeBtns button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#rangeBtns button').forEach(x=>x.setAttribute('aria-pressed',x===b));state.rangeDays=Number(b.dataset.d);renderCharts()}));
 init();
 </script>
 </body>
