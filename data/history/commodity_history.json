@@ -1943,46 +1943,46 @@
  },
  {
   "date": "2026-06-04",
-  "pun_eur_kwh": 0.14103,
+  "pun_eur_kwh": 0.1428,
   "psv_eur_smc": 0.4279
  },
  {
   "date": "2026-06-05",
-  "pun_eur_kwh": 0.13735,
+  "pun_eur_kwh": 0.13736,
   "psv_eur_smc": 0.4346
  },
  {
   "date": "2026-06-06",
-  "pun_eur_kwh": 0.12959,
+  "pun_eur_kwh": 0.1321,
   "psv_eur_smc": 0.4263
  },
  {
   "date": "2026-06-07",
-  "pun_eur_kwh": 0.09975,
+  "pun_eur_kwh": 0.09981,
   "psv_eur_smc": 0.435
  },
  {
   "date": "2026-06-08",
-  "pun_eur_kwh": 0.14281,
+  "pun_eur_kwh": 0.14447,
   "psv_eur_smc": 0.4335
  },
  {
   "date": "2026-06-09",
-  "pun_eur_kwh": 0.14295,
+  "pun_eur_kwh": 0.1456,
   "psv_eur_smc": 0.4354
  },
  {
   "date": "2026-06-10",
-  "pun_eur_kwh": 0.14118,
+  "pun_eur_kwh": 0.14426,
   "psv_eur_smc": 0.4424
  },
  {
   "date": "2026-06-11",
-  "pun_eur_kwh": 0.1237,
+  "pun_eur_kwh": 0.12308,
   "psv_eur_smc": 0.447
  },
  {
   "date": "2026-06-12",
-  "pun_eur_kwh": 0.09479
+  "pun_eur_kwh": 0.10086
  }
 ]
