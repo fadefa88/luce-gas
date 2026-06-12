@@ -1,5 +1,76 @@
 {
- "updated": null,
- "source": "pending",
- "offers": []
+ "updated": "2026-06-12T05:37:29Z",
+ "source": "siti_operatori",
+ "offers": [
+  {
+   "operatore": "ho. Mobile",
+   "offerta": "Un’offerta per la casa.",
+   "prezzo_mese": 2.0,
+   "giga": 500,
+   "prezzo_per_gb": 0.004,
+   "rete_5g": true,
+   "fonte": "sito operatore",
+   "url": "https://www.ho-mobile.it/"
+  },
+  {
+   "operatore": "Fastweb Mobile",
+   "offerta": "1 GB",
+   "prezzo_mese": 6.0,
+   "giga": 1,
+   "prezzo_per_gb": 6.0,
+   "rete_5g": false,
+   "fonte": "sito operatore",
+   "url": "https://www.fastweb.it/fastweb-mobile/"
+  },
+  {
+   "operatore": "Fastweb Mobile",
+   "offerta": "10 GB",
+   "prezzo_mese": 6.0,
+   "giga": 10,
+   "prezzo_per_gb": 0.6,
+   "rete_5g": false,
+   "fonte": "sito operatore",
+   "url": "https://www.fastweb.it/fastweb-mobile/"
+  },
+  {
+   "operatore": "PosteMobile",
+   "offerta": "GIGA RISPARMIATO,CASHBACK RICARICATO",
+   "prezzo_mese": 10.0,
+   "giga": 200,
+   "prezzo_per_gb": 0.05,
+   "rete_5g": false,
+   "fonte": "sito operatore",
+   "url": "https://www.postemobile.it/"
+  },
+  {
+   "operatore": "PosteMobile",
+   "offerta": "POSTEMOBILE ÈEXTRA WOW",
+   "prezzo_mese": 6.99,
+   "giga": 150,
+   "prezzo_per_gb": 0.047,
+   "rete_5g": false,
+   "fonte": "sito operatore",
+   "url": "https://www.postemobile.it/"
+  },
+  {
+   "operatore": "PosteMobile",
+   "offerta": "Creami Extra WOW 50x2",
+   "prezzo_mese": 8.0,
+   "giga": 100,
+   "prezzo_per_gb": 0.08,
+   "rete_5g": false,
+   "fonte": "sito operatore",
+   "url": "https://www.postemobile.it/"
+  },
+  {
+   "operatore": "PosteMobile",
+   "offerta": "Creami EXTRA WOW 300",
+   "prezzo_mese": 11.99,
+   "giga": 300,
+   "prezzo_per_gb": 0.04,
+   "rete_5g": false,
+   "fonte": "sito operatore",
+   "url": "https://www.postemobile.it/"
+  }
+ ]
 }

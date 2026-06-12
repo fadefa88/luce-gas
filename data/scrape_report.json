@@ -1,113 +1,107 @@
 {
- "updated": "2026-06-12T05:30:45Z",
+ "updated": "2026-06-12T05:37:32Z",
  "sources": {
-  "enel": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:16Z"
-  },
-  "enel-gas": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:19Z"
-  },
-  "plenitude": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:21Z"
-  },
-  "a2a": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:26Z"
-  },
-  "edison": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:29Z"
-  },
-  "sorgenia": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:30Z"
-  },
-  "iren": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:33Z"
-  },
   "octopus": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://octopusenergy.it/le-nostre-tariffe)",
    "n": 0,
-   "checked": "2026-06-12T05:30:34Z"
+   "checked": "2026-06-12T05:36:06Z"
+  },
+  "enel": {
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.enel.it/it/luce-e-gas/luce/offerte)",
+   "n": 0,
+   "checked": "2026-06-12T05:36:15Z"
+  },
+  "plenitude": {
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://eniplenitude.com/offerte/casa)",
+   "n": 0,
+   "checked": "2026-06-12T05:36:20Z"
+  },
+  "a2a": {
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.a2aenergia.eu/offerte-luce-gas)",
+   "n": 0,
+   "checked": "2026-06-12T05:36:26Z"
+  },
+  "edison": {
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.edisonenergia.it/edison/luce-gas-servizi)",
+   "n": 0,
+   "checked": "2026-06-12T05:36:33Z"
+  },
+  "sorgenia": {
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.sorgenia.it/offerte-luce-gas-casa)",
+   "n": 0,
+   "checked": "2026-06-12T05:36:37Z"
+  },
+  "iren": {
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.irenlucegas.it/casa)",
+   "n": 0,
+   "checked": "2026-06-12T05:36:41Z"
   },
   "iliad": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.iliad.it/)",
    "n": 0,
-   "checked": "2026-06-12T05:30:35Z"
+   "checked": "2026-06-12T05:36:47Z"
   },
   "ho": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:36Z"
+   "status": "ok",
+   "detail": "https://www.ho-mobile.it/",
+   "n": 1,
+   "checked": "2026-06-12T05:36:53Z"
   },
   "very": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://verymobile.it/)",
    "n": 0,
-   "checked": "2026-06-12T05:30:37Z"
+   "checked": "2026-06-12T05:37:00Z"
   },
   "kena": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.kenamobile.it/)",
    "n": 0,
-   "checked": "2026-06-12T05:30:41Z"
+   "checked": "2026-06-12T05:37:06Z"
   },
   "fastweb": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:42Z"
+   "status": "ok",
+   "detail": "https://www.fastweb.it/fastweb-mobile/",
+   "n": 2,
+   "checked": "2026-06-12T05:37:11Z"
   },
   "postemobile": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:42Z"
+   "status": "ok",
+   "detail": "https://www.postemobile.it/",
+   "n": 4,
+   "checked": "2026-06-12T05:37:18Z"
   },
   "windtre": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.windtre.it/offerte-mobile)",
    "n": 0,
-   "checked": "2026-06-12T05:30:43Z"
-  },
-  "tim": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
-   "n": 0,
-   "checked": "2026-06-12T05:30:44Z"
+   "checked": "2026-06-12T05:37:25Z"
   },
   "vodafone": {
-   "status": "errore",
-   "detail": "nessun URL raggiungibile",
+   "status": "vuota",
+   "detail": "pagina letta ma 0 offerte (https://www.vodafone.it/privati/mobile.html)",
    "n": 0,
-   "checked": "2026-06-12T05:30:44Z"
+   "checked": "2026-06-12T05:37:29Z"
+  },
+  "tim": {
+   "status": "disattivata",
+   "detail": "vedi providers.yaml",
+   "n": 0,
+   "checked": "2026-06-12T05:37:29Z"
   },
   "energy_charts": {
    "status": "ok",
-   "detail": "ultimo 2026-06-12: 0.12512 €/kWh",
+   "detail": "ultimo 2026-06-12: 0.09479 €/kWh",
    "n": 9,
-   "checked": "2026-06-12T05:30:45Z"
+   "checked": "2026-06-12T05:37:32Z"
   }
  }
 }
