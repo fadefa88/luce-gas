@@ -44,9 +44,19 @@
   },
   {
    "fornitore": "Enel Energia",
-   "offerta": "Enel Flex Condomini",
+   "offerta": "Enel Flex Control Luce",
    "commodity": "luce",
-   "prezzo_energia": 0.1256,
+   "prezzo_energia": 0.174,
+   "quota_fissa_mese": 0.0,
+   "tipo": "fisso",
+   "fonte": "sito fornitore",
+   "url": "https://www.enel.it/it/luce-e-gas/luce/offerte"
+  },
+  {
+   "fornitore": "Enel Energia",
+   "offerta": "Offerta",
+   "commodity": "luce",
+   "prezzo_energia": 0.174,
    "quota_fissa_mese": 0.0,
    "tipo": "variabile",
    "fonte": "sito fornitore",

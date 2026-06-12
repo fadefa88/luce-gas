@@ -57,7 +57,7 @@ def main() -> None:
             append_history(HISTORY_DIR / "mobile_history.json", {
                 "date": today(),
                 "prezzo_mese": _agg([o["prezzo_mese"] for o in mobile["offers"]]),
-                "prezzo_per_gb": _agg([o["prezzo_per_gb"] for o in mobile["offers"]]),
+                "prezzo_per_gb": _agg([o["prezzo_per_gb"] for o in mobile["offers"] if o.get("prezzo_per_gb") is not None]),
             })
             status["mobile_saved"] = True
             print(f"  totale: {len(mobile['offers'])} offerte")
