@@ -1,4 +1,4 @@
-# TariffaRadar v2 - configurazione fornitori
+# TariffaRadar v2.1 - configurazione fornitori
 #
 # urls             : lista di URL candidati da provare in ordine
 # render           : auto | always | never
@@ -134,5 +134,7 @@ mobile:
 
 commodity:
   energy_charts_base: "https://api.energy-charts.info/price"
-  it_zones: [IT-North, IT-Centre-North, IT-Centre-South, IT-South, IT-Sicily, IT-Sardinia]
+  # Una sola zona come proxy del PUN: riduce drasticamente le chiamate API
+  # e previene i 429 di Energy-Charts nei run orari e nei backfill.
+  it_zones: [IT-North]
   min_zones: 1
