@@ -1,167 +1,167 @@
 {
- "updated": "2026-06-12T19:33:43Z",
+ "updated": "2026-06-12T22:14:20Z",
  "sources": {
   "octopus": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://octopusenergy.it/le-nostre-tariffe)",
    "n": 0,
-   "checked": "2026-06-12T19:24:05Z"
+   "checked": "2026-06-12T22:02:28Z"
   },
   "enel": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.enel.it/it/luce-e-gas/luce/offerte)",
    "n": 0,
-   "checked": "2026-06-12T19:24:17Z"
+   "checked": "2026-06-12T22:02:42Z"
   },
   "plenitude": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://eniplenitude.com/offerte/casa)",
    "n": 0,
-   "checked": "2026-06-12T19:24:26Z"
+   "checked": "2026-06-12T22:02:51Z"
   },
   "a2a": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.a2aenergia.eu/offerte-luce-gas)",
    "n": 0,
-   "checked": "2026-06-12T19:24:36Z"
+   "checked": "2026-06-12T22:03:01Z"
   },
   "edison": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.edisonenergia.it/edison/luce-gas-servizi)",
    "n": 0,
-   "checked": "2026-06-12T19:24:48Z"
+   "checked": "2026-06-12T22:03:17Z"
   },
   "sorgenia": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.sorgenia.it/offerte-luce-gas-casa)",
    "n": 0,
-   "checked": "2026-06-12T19:24:58Z"
+   "checked": "2026-06-12T22:03:26Z"
   },
   "iren": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.irenlucegas.it/casa)",
    "n": 0,
-   "checked": "2026-06-12T19:25:06Z"
+   "checked": "2026-06-12T22:03:34Z"
   },
   "iliad": {
    "status": "ok",
    "detail": "3 offerte curate",
    "n": 3,
-   "checked": "2026-06-12T19:25:18Z"
+   "checked": "2026-06-12T22:03:44Z"
   },
   "vodafone": {
    "status": "ok",
    "detail": "3 offerte curate",
    "n": 3,
-   "checked": "2026-06-12T19:25:28Z"
+   "checked": "2026-06-12T22:03:54Z"
   },
   "tim": {
    "status": "ok",
    "detail": "3 offerte curate",
    "n": 3,
-   "checked": "2026-06-12T19:25:29Z"
+   "checked": "2026-06-12T22:03:55Z"
   },
   "windtre": {
-   "status": "ok",
-   "detail": "1 offerte curate",
+   "status": "da_verificare",
+   "detail": "200GB: sito 9.99€ vs curato 10.99€; 200GB: sito 8.99€ vs curato 10.99€",
    "n": 1,
-   "checked": "2026-06-12T19:25:39Z"
+   "checked": "2026-06-12T22:04:06Z"
   },
   "fastweb": {
    "status": "ok",
    "detail": "3 offerte curate",
    "n": 3,
-   "checked": "2026-06-12T19:25:48Z"
+   "checked": "2026-06-12T22:04:14Z"
   },
   "ho": {
    "status": "ok",
    "detail": "2 offerte curate",
    "n": 2,
-   "checked": "2026-06-12T19:25:59Z"
+   "checked": "2026-06-12T22:04:24Z"
   },
   "kena": {
    "status": "ok",
    "detail": "6 offerte curate",
    "n": 6,
-   "checked": "2026-06-12T19:26:14Z"
+   "checked": "2026-06-12T22:04:35Z"
   },
   "very": {
    "status": "ok",
    "detail": "4 offerte curate",
    "n": 4,
-   "checked": "2026-06-12T19:26:23Z"
+   "checked": "2026-06-12T22:04:44Z"
   },
   "coopvoce": {
    "status": "ok",
    "detail": "2 offerte curate",
    "n": 2,
-   "checked": "2026-06-12T19:26:34Z"
+   "checked": "2026-06-12T22:04:53Z"
   },
   "spusu": {
    "status": "ok",
    "detail": "2 offerte curate",
    "n": 2,
-   "checked": "2026-06-12T19:26:45Z"
+   "checked": "2026-06-12T22:05:04Z"
   },
   "lycamobile": {
    "status": "ok",
    "detail": "3 offerte curate",
    "n": 3,
-   "checked": "2026-06-12T19:26:45Z"
+   "checked": "2026-06-12T22:05:05Z"
   },
   "unomobile": {
    "status": "ok",
    "detail": "4 offerte curate",
    "n": 4,
-   "checked": "2026-06-12T19:26:56Z"
+   "checked": "2026-06-12T22:05:14Z"
   },
   "tiscali": {
    "status": "ok",
    "detail": "3 offerte curate",
    "n": 3,
-   "checked": "2026-06-12T19:29:47Z"
+   "checked": "2026-06-12T22:08:04Z"
   },
   "sky": {
    "status": "ok",
    "detail": "4 offerte curate",
    "n": 4,
-   "checked": "2026-06-12T19:29:57Z"
+   "checked": "2026-06-12T22:08:14Z"
   },
   "postemobile": {
    "status": "vuota",
    "detail": "né curate né rilevate",
    "n": 0,
-   "checked": "2026-06-12T19:30:08Z"
+   "checked": "2026-06-12T22:08:24Z"
   },
   "digi": {
    "status": "vuota",
    "detail": "né curate né rilevate",
    "n": 0,
-   "checked": "2026-06-12T19:30:20Z"
+   "checked": "2026-06-12T22:13:27Z"
   },
   "optima": {
    "status": "vuota",
    "detail": "né curate né rilevate",
    "n": 0,
-   "checked": "2026-06-12T19:33:08Z"
+   "checked": "2026-06-12T22:13:37Z"
   },
   "noitel": {
    "status": "vuota",
    "detail": "né curate né rilevate",
    "n": 0,
-   "checked": "2026-06-12T19:33:24Z"
+   "checked": "2026-06-12T22:14:04Z"
   },
   "vianova": {
    "status": "vuota",
    "detail": "né curate né rilevate",
    "n": 0,
-   "checked": "2026-06-12T19:33:41Z"
+   "checked": "2026-06-12T22:14:18Z"
   },
   "energy_charts": {
    "status": "ok",
    "detail": "ultimo 2026-06-12: 0.12512 €/kWh",
    "n": 9,
-   "checked": "2026-06-12T19:33:43Z"
+   "checked": "2026-06-12T22:14:20Z"
   }
  }
 }
