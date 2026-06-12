@@ -30,6 +30,7 @@ BROWSER_UA = (
 REPORT: dict[str, dict] = {}
 _session = requests.Session()
 _session.headers.update({"User-Agent": USER_AGENT, "Accept-Language": "it-IT,it;q=0.9,en;q=0.6"})
+LAST_XHR: list = []  # payload JSON catturati nell'ultimo rendering (vedi fetch_rendered)
 _robots_cache: dict[str, urllib.robotparser.RobotFileParser] = {}
 _playwright = None
 _browser = None
@@ -115,6 +116,11 @@ CONSENT_SELECTORS = [
 ]
 
 
+# Risposte JSON (XHR) catturate durante l'ultimo rendering Playwright:
+# molte SPA caricano le offerte da una API interna — quei payload sono
+# dati strutturati perfetti, meglio di qualsiasi selettore CSS.
+
+
 def fetch_rendered(url: str, timeout_ms: int = 35000) -> str | None:
     """Scarica una pagina con Chromium headless.
 
@@ -135,6 +141,21 @@ def fetch_rendered(url: str, timeout_ms: int = 35000) -> str | None:
             locale="it-IT",
             viewport={"width": 1366, "height": 900},
         )
+        LAST_XHR.clear()
+
+        def _capture(resp):
+            """Cattura le risposte JSON delle API interne della pagina."""
+            try:
+                if len(LAST_XHR) >= 40:
+                    return
+                if resp.status == 200 and "json" in resp.headers.get("content-type", ""):
+                    body = resp.json()
+                    if body:
+                        LAST_XHR.append(body)
+            except Exception:
+                pass
+
+        page.on("response", _capture)
         page.goto(url, timeout=timeout_ms, wait_until="domcontentloaded")
         page.wait_for_timeout(2500)
         for selector in CONSENT_SELECTORS:
