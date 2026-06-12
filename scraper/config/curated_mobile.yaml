@@ -1,0 +1,149 @@
+# ============================================================================
+# OFFERTE MOBILE VERIFICATE A MANO (fonte primaria del sito)
+# ----------------------------------------------------------------------------
+# Queste sono le offerte 5G controllate navigando i siti degli operatori.
+# Il sito pubblica QUESTE; lo scraper orario fa da sentinella e segnala nel
+# report quando rileva prezzi diversi (-> aggiorna qui e committa).
+#
+# Campi: nome, giga (numero, oppure illimitati: true), prezzo_mese,
+#        attivazione (una tantum, 0 = gratis), minuti, sms, note (opz.)
+# ============================================================================
+verificato: "2026-06-12"
+
+operatori:
+  - id: iliad
+    nome: Iliad
+    url: https://www.iliad.it/offerte-iliad-mobile.html
+    offerte:
+      - {nome: "TOP 300", giga: 300, prezzo_mese: 12.99, attivazione: 9.99, minuti: illimitati, sms: illimitati}
+      - {nome: "TOP 250", giga: 250, prezzo_mese: 9.99, attivazione: 9.99, minuti: illimitati, sms: illimitati}
+      - {nome: "Giga 150", giga: 150, prezzo_mese: 7.99, attivazione: 9.99, minuti: illimitati, sms: illimitati}
+
+  - id: vodafone
+    nome: Vodafone
+    url: https://privati.vodafone.it/mobile/telefonia-mobile
+    offerte:
+      - {nome: "400 Giga", giga: 400, prezzo_mese: 14.95, attivazione: 10.00, minuti: illimitati, sms: "200"}
+      - {nome: "250 Giga", giga: 250, prezzo_mese: 11.95, attivazione: 10.00, minuti: illimitati, sms: "200"}
+      - {nome: "150 Giga", giga: 150, prezzo_mese: 9.95, attivazione: 10.00, minuti: illimitati, sms: "200"}
+
+  - id: tim
+    nome: TIM
+    url: https://www.tim.it/fisso-e-mobile/mobile/passa-a-tim
+    note_operatore: "offerte visibili scegliendo 'altro operatore' nel menu"
+    offerte:
+      - {nome: "100 Giga", giga: 100, prezzo_mese: 4.99, attivazione: 10.00, minuti: illimitati, sms: "200"}
+      - {nome: "150 Giga", giga: 150, prezzo_mese: 5.99, attivazione: 10.00, minuti: illimitati, sms: "200"}
+      - {nome: "Giga illimitati Under 30", illimitati: true, prezzo_mese: 7.99, attivazione: 10.00, minuti: illimitati, sms: "200", note: "riservata Under 30"}
+
+  - id: windtre
+    nome: WindTre
+    url: https://www.windtre.it/passa-a-windtre-offerte-cambio-operatore
+    note_operatore: "offerte visibili scegliendo l'operatore di provenienza nel menu"
+    offerte:
+      - {nome: "200 Giga", giga: 200, prezzo_mese: 10.99, attivazione: 0, minuti: illimitati, sms: "50"}
+
+  - id: fastweb
+    nome: Fastweb
+    url: https://www.fastweb.it/myfastweb/shop/mobile/
+    offerte:
+      - {nome: "150 Giga", giga: 150, prezzo_mese: 9.95, attivazione: 10.00, minuti: illimitati, sms: "200"}
+      - {nome: "250 Giga", giga: 250, prezzo_mese: 11.95, attivazione: 10.00, minuti: illimitati, sms: "200"}
+      - {nome: "400 Giga", giga: 400, prezzo_mese: 14.95, attivazione: 10.00, minuti: illimitati, sms: "200"}
+
+  - id: ho
+    nome: ho. Mobile
+    url: https://www.ho-mobile.it/tutte-le-offerte
+    offerte:
+      - {nome: "150 Giga 5G", giga: 150, prezzo_mese: 9.95, attivazione: 2.99, minuti: illimitati, sms: "200"}
+      - {nome: "250 Giga 5G", giga: 250, prezzo_mese: 11.95, attivazione: 2.99, minuti: illimitati, sms: "200"}
+
+  - id: kena
+    nome: Kena Mobile
+    url: https://www.kenamobile.it/offerte/
+    offerte:
+      - {nome: "100 Giga", giga: 100, prezzo_mese: 4.99, attivazione: 0, minuti: illimitati, sms: "200", note: "per Iliad, Coop, PosteMobile e altri"}
+      - {nome: "300 Giga", giga: 300, prezzo_mese: 5.99, attivazione: 0, minuti: illimitati, sms: "200", note: "con ricarica automatica; per Iliad, Coop, PosteMobile e altri"}
+      - {nome: "350 Giga", giga: 350, prezzo_mese: 7.99, attivazione: 2.00, minuti: illimitati, sms: "200", note: "con ricarica automatica"}
+      - {nome: "450 Giga", giga: 450, prezzo_mese: 9.99, attivazione: 0, minuti: illimitati, sms: "200", note: "con ricarica automatica"}
+      - {nome: "300 Giga (da Vodafone/WindTre/Very/TIM)", giga: 300, prezzo_mese: 11.99, attivazione: 3.00, minuti: illimitati, sms: "200", note: "con ricarica automatica"}
+      - {nome: "600 Giga nuovi numeri", giga: 600, prezzo_mese: 11.99, attivazione: 3.00, minuti: illimitati, sms: "200", note: "Kena Dati; con ricarica automatica"}
+
+  - id: very
+    nome: Very Mobile
+    url: https://verymobile.it/offerte
+    offerte:
+      - {nome: "Very 200 Full Speed", giga: 200, prezzo_mese: 6.99, attivazione: 0, minuti: illimitati, sms: illimitati, note: "+1 mese omaggio; per clienti Iliad, CoopVoce, PosteMobile e altri"}
+      - {nome: "Very 300 Full Speed", giga: 300, prezzo_mese: 7.99, attivazione: 0, minuti: illimitati, sms: illimitati}
+      - {nome: "Very 350 Full Speed", giga: 350, prezzo_mese: 8.99, attivazione: 0, minuti: illimitati, sms: illimitati}
+      - {nome: "Very 440 Full Speed", giga: 440, prezzo_mese: 9.99, attivazione: 0, minuti: illimitati, sms: illimitati}
+
+  - id: coopvoce
+    nome: CoopVoce
+    url: https://www.coopvoce.it/portale/offerte.html
+    offerte:
+      - {nome: "Turbo 200", giga: 200, prezzo_mese: 7.90, attivazione: 0, minuti: illimitati, sms: "1000", note: "attivazione + 1° mese gratuiti, promo fino all'01/07"}
+      - {nome: "Turbo 400", giga: 400, prezzo_mese: 9.90, attivazione: 0, minuti: illimitati, sms: "1000"}
+
+  - id: spusu
+    nome: spusu
+    url: https://www.spusu.it/tariffe
+    offerte:
+      - {nome: "spusu 200 XL", giga: 200, prezzo_mese: 7.89, attivazione: 0, minuti: illimitati, sms: "500", note: "+400 GB riserva; offerta fino al 30/06"}
+      - {nome: "spusu 500 XXL", giga: 500, prezzo_mese: 12.98, attivazione: 0, minuti: illimitati, sms: "500", note: "+500 GB riserva"}
+
+  - id: lycamobile
+    nome: Lycamobile
+    url: https://www.lycamobile.it/it/offerte-mobile-5g/
+    offerte:
+      - {nome: "5G Portin 599", giga: 150, prezzo_mese: 5.99, attivazione: 0, minuti: illimitati, sms: illimitati, note: "solo portabilità; 2 mesi di rinnovo gratis"}
+      - {nome: "Lyca 5G 150", giga: 150, prezzo_mese: 7.99, attivazione: 0, minuti: illimitati, sms: illimitati}
+      - {nome: "Lyca 5G 200", giga: 200, prezzo_mese: 9.99, attivazione: 0, minuti: illimitati, sms: illimitati}
+
+  - id: unomobile
+    nome: 1Mobile
+    url: https://unomobile.it/offerte/5g
+    offerte:
+      - {nome: "Flash 5G 320 Limited Edition", giga: 320, prezzo_mese: 8.99, attivazione: 0, minuti: illimitati, sms: "60", note: "1° mese 4,99€; attivazione gratuita in portabilità"}
+      - {nome: "Speed 5G 250", giga: 250, prezzo_mese: 7.99, attivazione: 0, minuti: illimitati, sms: "50", note: "1° mese 5,00€"}
+      - {nome: "Speed 5G 180", giga: 180, prezzo_mese: 6.99, attivazione: 0, minuti: illimitati, sms: "50", note: "1° mese 5,00€"}
+      - {nome: "World Plus 5G", giga: 130, prezzo_mese: 9.99, attivazione: 0, minuti: illimitati, sms: "0", note: "320 minuti internazionali; +20GB dal 3° rinnovo"}
+
+  - id: tiscali
+    nome: Tiscali Mobile
+    url: https://promozioni.tiscali.it/offerte-mobile/
+    offerte:
+      - {nome: "Mobile 150 GB 5G", giga: 150, prezzo_mese: 5.99, attivazione: 0, minuti: illimitati, sms: "100", note: "promo; riservata alla portabilità"}
+      - {nome: "Mobile 250 GB 5G", giga: 250, prezzo_mese: 7.99, attivazione: 0, minuti: illimitati, sms: "100"}
+      - {nome: "Mobile 350 GB 5G", giga: 350, prezzo_mese: 10.99, attivazione: 0, minuti: illimitati, sms: "100"}
+
+  - id: sky
+    nome: Sky Mobile
+    url: https://www.sky.it/offerte/telefonia-mobile
+    offerte:
+      - {nome: "Sky Mobile Start", giga: 150, prezzo_mese: 9.95, attivazione: 10.00, minuti: illimitati, sms: illimitati, note: "powered by Fastweb; 10€ costo SIM una tantum"}
+      - {nome: "Sky Mobile Pro", giga: 250, prezzo_mese: 11.95, attivazione: 10.00, minuti: illimitati, sms: illimitati, note: "powered by Fastweb"}
+      - {nome: "Sky Mobile Power", giga: 400, prezzo_mese: 14.95, attivazione: 10.00, minuti: illimitati, sms: illimitati, note: "powered by Fastweb"}
+      - {nome: "Sky Mobile Ultra", illimitati: true, prezzo_mese: 19.95, attivazione: 10.00, minuti: illimitati, sms: illimitati, note: "powered by Fastweb; GB e minuti illimitati"}
+
+  # ------- senza dati verificati: per ora solo monitoraggio scraper -------
+  - id: postemobile
+    nome: PosteMobile
+    url: https://www.postemobile.it/
+    offerte: []
+  - id: digi
+    nome: Digi Mobil
+    url: https://www.digimobil.it/
+    offerte: []
+  - id: optima
+    nome: Optima Mobile
+    url: https://www.optimaitalia.com/mobile
+    offerte: []
+  - id: noitel
+    nome: Noitel
+    url: https://www.noitel.it/
+    offerte: []
+  - id: vianova
+    nome: Vianova
+    url: https://www.vianova.it/
+    offerte: []

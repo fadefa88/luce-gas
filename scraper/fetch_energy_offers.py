@@ -1,17 +1,8 @@
-"""Offerte LUCE e GAS.
+"""Offerte LUCE e GAS — v2.
 
-Strategia a due livelli:
-
-1) FONTE PRIMARIA — Portale Offerte ARERA (ilportaleofferte.it), sezione
-   Open Data. È il comparatore ufficiale: i venditori sono OBBLIGATI a
-   pubblicarvi tutte le offerte, e i dati sono rilasciati in modalità aperta.
-   È la via più completa, stabile e rispettosa (nessuno scraping dei siti
-   commerciali). L'URL del dataset va indicato in PORTALE_OPEN_DATA_URL
-   (vedi README: si ricava dalla pagina "Open Data" del portale).
-
-2) FALLBACK — pagina principale pubblica delle offerte di ciascun fornitore
-   in config/providers.yaml. Lettura superficiale: solo nome offerta e
-   prezzo in evidenza, senza entrare nelle pagine di dettaglio.
+Fonte primaria: open data del Portale Offerte ARERA (se PORTALE_OPEN_DATA_URL
+è configurata). Fallback: pagine pubbliche dei fornitori, con rendering
+Playwright, estrazione JSON-LD e auto-scoperta via sitemap.
 """
 
 from __future__ import annotations
@@ -21,29 +12,27 @@ import io
 import os
 import re
 
-from bs4 import BeautifulSoup
+from .common import (LAST_XHR, discover_offers_url, dump_debug, fetch, fetch_page,
+                     now_iso, parse_euro, report)
+from .extract import dedup_energy, extract_energy, mine_xhr_energy
 
-from .common import fetch, now_iso, parse_euro
-
-# Da impostare (variabile d'ambiente o qui) con il link CSV/JSON pubblicato
-# nella pagina Open Data del Portale Offerte. Lasciare vuoto per usare solo
-# il fallback sui siti dei fornitori.
 PORTALE_OPEN_DATA_URL = os.environ.get("PORTALE_OPEN_DATA_URL", "")
 
 
 def _from_portale_offerte() -> list[dict]:
-    """Legge il dataset open data del Portale Offerte ARERA (CSV)."""
     if not PORTALE_OPEN_DATA_URL:
         return []
     raw = fetch(PORTALE_OPEN_DATA_URL)
     if not raw:
+        report("portale_offerte", "errore", "download fallito")
         return []
     offers: list[dict] = []
     try:
-        reader = csv.DictReader(io.StringIO(raw), delimiter=";")
+        sample = raw[:4000]
+        delim = ";" if sample.count(";") >= sample.count(",") else ","
+        reader = csv.DictReader(io.StringIO(raw), delimiter=delim)
         for row in reader:
-            # I nomi colonna del dataset possono variare: si cerca in modo tollerante
-            low = {k.lower(): (v or "").strip() for k, v in row.items()}
+            low = {k.lower(): (v or "").strip() for k, v in row.items() if k}
 
             def col(*names):
                 for n in names:
@@ -56,85 +45,80 @@ def _from_portale_offerte() -> list[dict]:
             price = parse_euro(col("prezzo", "price", "corrispettivo"))
             if price is None:
                 continue
-            offers.append(
-                {
-                    "fornitore": col("venditore", "ragione", "fornitore") or "n.d.",
-                    "offerta": col("nome", "offerta") or "Offerta",
-                    "commodity": commodity,
-                    "prezzo_energia": price,  # €/kWh o €/Smc
-                    "quota_fissa_mese": parse_euro(col("quota", "pcv", "fisso")) or 0,
-                    "tipo": "fisso" if "fiss" in col("tipologia", "tipo").lower() else "variabile",
-                    "fonte": "Portale Offerte ARERA (open data)",
-                    "url": "https://www.ilportaleofferte.it/",
-                }
-            )
+            offers.append({
+                "fornitore": col("venditore", "ragione", "fornitore") or "n.d.",
+                "offerta": col("nome", "offerta") or "Offerta",
+                "commodity": commodity,
+                "prezzo_energia": price,
+                "quota_fissa_mese": parse_euro(col("quota", "pcv", "fisso")) or 0,
+                "tipo": "fisso" if "fiss" in col("tipologia", "tipo").lower() else "variabile",
+                "fonte": "Portale Offerte ARERA (open data)",
+                "url": "https://www.ilportaleofferte.it/",
+            })
+        report("portale_offerte", "ok" if offers else "vuota", n=len(offers))
     except Exception as exc:  # noqa: BLE001
-        print(f"  [errore] parsing open data Portale Offerte: {exc}")
+        report("portale_offerte", "errore", str(exc)[:120])
     return offers
+
+
+def _base(url: str) -> str:
+    match = re.match(r"(https?://[^/]+)", url)
+    return match.group(1) if match else url
 
 
 def _from_provider_pages(providers: list[dict]) -> list[dict]:
-    """Fallback: legge solo la pagina principale delle offerte di ogni fornitore."""
     offers: list[dict] = []
     for p in providers:
-        print(f"- {p['nome']} ({p['url']})")
-        html = fetch(p["url"])
-        if not html:
+        if p.get("enabled") is False:
+            report(p["id"], "disattivata", "vedi providers.yaml")
             continue
-        soup = BeautifulSoup(html, "html.parser")
-        price_re = re.compile(p.get("price_regex", r"(\d+[.,]\d+)\s*€"))
-        seen: set[str] = set()
-        for block in soup.select(p.get("selector", "[class*=card]"))[:30]:
-            text = " ".join(block.get_text(" ", strip=True).split())
-            m = price_re.search(text)
-            if not m:
-                continue
-            name_el = block.select_one(p.get("name_selector", "h2, h3"))
-            name = (name_el.get_text(strip=True) if name_el else "Offerta")[:80]
-            key = f"{name}|{m.group(1)}"
-            if key in seen:
-                continue
-            seen.add(key)
-            commodities = (
-                ["luce", "gas"] if p.get("commodity") == "luce+gas"
-                else [p.get("commodity", "luce")]
-            )
-            # Se la pagina copre luce+gas, si assegna in base al contesto testuale
-            for c in commodities:
-                if len(commodities) == 2:
-                    unit = "kwh" if c == "luce" else "smc"
-                    if unit not in text.lower():
-                        continue
-                offers.append(
-                    {
-                        "fornitore": p["nome"],
-                        "offerta": name,
-                        "commodity": c,
-                        "prezzo_energia": float(m.group(1).replace(",", ".")),
-                        "quota_fissa_mese": _find_fixed_fee(text),
-                        "tipo": "fisso" if re.search(r"\bfiss[oa]\b", text, re.I) else "variabile",
-                        "fonte": "pagina offerte fornitore",
-                        "url": p["url"],
-                    }
-                )
+        print(f"- {p['nome']}")
+        urls = list(p.get("urls", []))
+        html, used = fetch_page(urls, render=p.get("render", "auto"))
+        if html is None and urls and p.get("sitemap_keywords"):
+            found = discover_offers_url(_base(urls[0]), p["sitemap_keywords"])
+            if found:
+                html, used = fetch_page([found], render=p.get("render", "auto"))
+        if html is None:
+            report(p["id"], "errore", "nessun URL raggiungibile")
+            continue
+        got = extract_energy(html, p)
+        if not got:                                    # canale API interne
+            got = mine_xhr_energy(list(LAST_XHR), p)
+        for o in got:
+            o["url"] = used
+        offers.extend(got)
+        if got:
+            report(p["id"], "ok", used, n=len(got))
+            print(f"  {len(got)} offerte da {used}")
+        else:
+            report(p["id"], "vuota", f"pagina letta ma 0 offerte ({used})")
+            dump_debug(p["id"], html)
     return offers
 
 
-def _find_fixed_fee(text: str) -> float:
-    m = re.search(r"(\d+[.,]\d+)\s*€\s*/?\s*mese", text, re.I)
-    return float(m.group(1).replace(",", ".")) if m else 0.0
+def _resolve_spreads(offers: list[dict]) -> list[dict]:
+    """Trasforma offerte 'PUN/PSV + spread' in prezzi assoluti."""
+    from .common import DATA_DIR, load_json
+    latest = load_json(DATA_DIR / "commodity_latest.json", {})
+    pun = (latest.get("pun") or {}).get("eur_kwh")
+    psv = (latest.get("psv") or {}).get("eur_smc")
+    out = []
+    for offer in offers:
+        if offer.get("indice"):
+            base = pun if offer["indice"] == "PUN" else psv
+            if base is None:
+                continue
+            offer["prezzo_energia"] = round(base + offer["spread"], 4)
+            offer["offerta"] += f" ({offer['indice']} + {offer['spread']})"
+        out.append(offer)
+    return out
 
 
 def collect_energy_offers(providers: list[dict]) -> dict:
     offers = _from_portale_offerte()
     source = "portale_offerte"
     if not offers:
-        offers = _from_provider_pages(providers)
+        offers = dedup_energy(_resolve_spreads(_from_provider_pages(providers)))
         source = "siti_fornitori"
-    # sanity check: prezzi plausibili (€/kWh < 1, €/Smc < 3)
-    cleaned = [
-        o for o in offers
-        if (o["commodity"] == "luce" and 0.01 <= o["prezzo_energia"] <= 1.0)
-        or (o["commodity"] == "gas" and 0.05 <= o["prezzo_energia"] <= 3.0)
-    ]
-    return {"updated": now_iso(), "source": source, "offers": cleaned}
+    return {"updated": now_iso(), "source": source, "offers": offers}

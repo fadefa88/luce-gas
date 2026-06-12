@@ -2,27 +2,40 @@ name: Aggiorna offerte e indici
 
 on:
   schedule:
-    # ogni ora, al minuto 7 (evita la congestione del minuto 0 su GitHub)
-    - cron: "7 * * * *"
-  workflow_dispatch: {}   # consente l'avvio manuale dalla tab Actions
+    - cron: "17 * * * *"
+  workflow_dispatch:
+    inputs:
+      backfill_from:
+        description: "Storico elettricità da questa data, formato YYYY-MM-DD, opzionale"
+        required: false
+        default: ""
   push:
     branches: [main]
-    paths: ["scraper/**"]
+    paths:
+      - "scraper/**"
+      - ".github/workflows/scrape.yml"
+      - "data/manual_commodity.csv"
 
 permissions:
   contents: write
 
+defaults:
+  run:
+    shell: bash
+
 concurrency:
-  group: scrape
+  group: scrape-production
   cancel-in-progress: false
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -32,23 +45,62 @@ jobs:
           cache-dependency-path: scraper/requirements.txt
 
       - name: Installa dipendenze
-        run: pip install -r scraper/requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scraper/requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Backfill storico elettricità
+        if: ${{ github.event.inputs.backfill_from != '' }}
+        run: python -m scraper.backfill "${{ github.event.inputs.backfill_from }}"
 
       - name: Esegui scraper
         env:
-          # opzionale: URL del dataset open data del Portale Offerte ARERA
           PORTALE_OPEN_DATA_URL: ${{ vars.PORTALE_OPEN_DATA_URL }}
         run: python -m scraper.main
 
-      - name: Commit dei dati aggiornati
+      - name: Verifica output minimo
         run: |
-          git config user.name  "tariffaradar-bot"
+          test -f data/scrape_status.json
+          test -f data/scrape_report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in ('data/scrape_status.json', 'data/scrape_report.json'):
+              print(path)
+              print(json.dumps(json.loads(Path(path).read_text(encoding='utf-8')), indent=2, ensure_ascii=False))
+          PY
+
+      - name: Carica HTML debug fonti vuote
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-html
+          path: debug/
+          if-no-files-found: ignore
+          retention-days: 3
+
+      - name: Commit dati aggiornati
+        run: |
+          git config user.name "tariffaradar-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/
+
           if git diff --cached --quiet; then
             echo "Nessuna variazione nei dati."
-          else
-            git commit -m "dati: aggiornamento automatico $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git pull --rebase origin main
-            git push
+            exit 0
           fi
+
+          git commit -m "dati: aggiornamento automatico $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+          for attempt in 1 2 3; do
+            echo "Tentativo push $attempt/3"
+            git pull --rebase origin main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+
+          echo "Push non riuscito dopo 3 tentativi" >&2
+          exit 1

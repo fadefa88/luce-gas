@@ -1,148 +1,146 @@
-# ============================================================================
-# TariffaRadar — configurazione fornitori
-# ----------------------------------------------------------------------------
-# Ogni voce indica SOLO la pagina principale pubblica delle offerte.
-# Lo scraper non naviga oltre questa pagina (scelta deliberata per privacy
-# e rispetto dei siti). I siti cambiano spesso: se un fornitore smette di
-# essere rilevato, aggiorna qui "selector" o le regex, senza toccare il codice.
+# TariffaRadar v2.1 - configurazione fornitori
 #
-#   selector      : selettore CSS del blocco che contiene un'offerta
-#   price_regex   : regex per il prezzo (gruppo 1 = numero)
-#   name_selector : selettore (relativo al blocco) del nome offerta
-# ============================================================================
+# urls             : lista di URL candidati da provare in ordine
+# render           : auto | always | never
+# sitemap_keywords : keyword per auto-discovery su sitemap.xml
+# enabled          : false per escludere fonti non compatibili
 
 energia:
-  # Fonte primaria consigliata: Portale Offerte ARERA (dato ufficiale, open data).
-  # Vedi fetch_energy_offers.py. Le voci sotto sono il fallback "pagina offerte"
-  # dei singoli fornitori.
-  - id: enel
-    nome: Enel Energia
-    url: https://www.enel.it/it-it/luce-e-gas/luce
-    commodity: luce
-    selector: "[class*=card]"
-    price_regex: '(\d+[.,]\d+)\s*€\s*/?\s*kWh'
-    name_selector: "h2, h3"
-  - id: enel-gas
-    nome: Enel Energia
-    url: https://www.enel.it/it-it/luce-e-gas/gas
-    commodity: gas
-    selector: "[class*=card]"
-    price_regex: '(\d+[.,]\d+)\s*€\s*/?\s*Smc'
-    name_selector: "h2, h3"
-  - id: plenitude
-    nome: Plenitude (Eni)
-    url: https://eniplenitude.com/offerte-luce-gas
-    commodity: luce+gas
-    selector: "[class*=card], [class*=offer]"
-    price_regex: '(\d+[.,]\d+)\s*€'
-    name_selector: "h2, h3"
-  - id: a2a
-    nome: A2A Energia
-    url: https://www.a2aenergia.eu/offerte
-    commodity: luce+gas
-    selector: "[class*=card], [class*=offer]"
-    price_regex: '(\d+[.,]\d+)\s*€'
-    name_selector: "h2, h3"
-  - id: edison
-    nome: Edison Energia
-    url: https://www.edisonenergia.it/offerte
-    commodity: luce+gas
-    selector: "[class*=card], [class*=offer]"
-    price_regex: '(\d+[.,]\d+)\s*€'
-    name_selector: "h2, h3"
-  - id: sorgenia
-    nome: Sorgenia
-    url: https://www.sorgenia.it/offerte-luce-gas
-    commodity: luce+gas
-    selector: "[class*=card], [class*=offer]"
-    price_regex: '(\d+[.,]\d+)\s*€'
-    name_selector: "h2, h3"
-  - id: iren
-    nome: Iren Luce Gas e Servizi
-    url: https://www.irenlucegas.it/offerte
-    commodity: luce+gas
-    selector: "[class*=card], [class*=offer]"
-    price_regex: '(\d+[.,]\d+)\s*€'
-    name_selector: "h2, h3"
   - id: octopus
     nome: Octopus Energy
-    url: https://octopusenergy.it/le-nostre-tariffe
+    urls: [https://octopusenergy.it/le-nostre-tariffe, https://octopusenergy.it/]
     commodity: luce+gas
-    selector: "[class*=card], [class*=tariff]"
-    price_regex: '(\d+[.,]\d+)\s*€'
-    name_selector: "h2, h3"
+    render: auto
+    sitemap_keywords: [tariffe, offerte]
+
+  - id: enel
+    nome: Enel Energia
+    urls:
+      - https://www.enel.it/it/luce-e-gas/luce/offerte
+      - https://www.enel.it/it/luce-e-gas
+      - https://www.enel.it/
+    commodity: luce+gas
+    render: always
+    sitemap_keywords: [luce-e-gas, offerte]
+
+  - id: plenitude
+    nome: Plenitude (Eni)
+    urls:
+      - https://eniplenitude.com/offerte/casa
+      - https://eniplenitude.com/luce-e-gas
+      - https://eniplenitude.com/
+    commodity: luce+gas
+    render: always
+    sitemap_keywords: [offerte, luce]
+
+  - id: a2a
+    nome: A2A Energia
+    urls:
+      - https://www.a2aenergia.eu/offerte-luce-gas
+      - https://www.a2aenergia.eu/
+      - https://www.a2a.it/
+    commodity: luce+gas
+    render: always
+    sitemap_keywords: [offerte]
+
+  - id: edison
+    nome: Edison Energia
+    urls:
+      - https://www.edisonenergia.it/edison/luce-gas-servizi
+      - https://www.edisonenergia.it/
+    commodity: luce+gas
+    render: always
+    sitemap_keywords: [offerte, luce]
+
+  - id: sorgenia
+    nome: Sorgenia
+    urls:
+      - https://www.sorgenia.it/offerte-luce-gas-casa
+      - https://www.sorgenia.it/
+    commodity: luce+gas
+    render: always
+    sitemap_keywords: [offerte]
+
+  - id: iren
+    nome: Iren Luce Gas e Servizi
+    urls:
+      - https://www.irenlucegas.it/casa
+      - https://www.irenlucegas.it/
+    commodity: luce+gas
+    render: always
+    sitemap_keywords: [offerte, casa]
 
 mobile:
   - id: iliad
     nome: Iliad
-    url: https://www.iliad.it/
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
+    urls:
+      - https://www.iliad.it/offerte-iliad-mobile.html
+      - https://www.iliad.it/
+    # Iliad codifica nome, GB e prezzo nell'URL dell'offerta:
+    # offerta-iliad-top250plus-999.html -> TOP 250 Plus a 9,99 EUR
+    link_patterns:
+      - 'offerta-iliad-(?P<name>[a-z]+?)(?P<giga>\d{2,3})(?:plus)?-(?P<cents>\d{3,4})\.html'
+    render: always
+    sitemap_keywords: [offerte]
+
   - id: ho
     nome: ho. Mobile
-    url: https://www.ho-mobile.it/
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
+    urls: [https://www.ho-mobile.it/]
+    render: always
+    sitemap_keywords: [offerte]
+
   - id: very
     nome: Very Mobile
-    url: https://verymobile.it/
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
+    urls: [https://verymobile.it/]
+    render: always
+    sitemap_keywords: [offerte]
+
   - id: kena
     nome: Kena Mobile
-    url: https://www.kenamobile.it/
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
+    urls: [https://www.kenamobile.it/]
+    render: always
+    sitemap_keywords: [offerte]
+
   - id: fastweb
     nome: Fastweb Mobile
-    url: https://www.fastweb.it/mobile/
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
+    urls:
+      - https://www.fastweb.it/fastweb-mobile/
+      - https://www.fastweb.it/
+    render: always
+    sitemap_keywords: [mobile]
+
   - id: postemobile
     nome: PosteMobile
-    url: https://www.postemobile.it/
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
+    urls: [https://www.postemobile.it/]
+    render: always
+    sitemap_keywords: [offerte, mobile]
+
   - id: windtre
     nome: WindTre
-    url: https://www.windtre.it/offerte-mobile/
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
-  - id: tim
-    nome: TIM
-    url: https://www.tim.it/offerte-mobile
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
+    urls:
+      - https://www.windtre.it/offerte-mobile
+      - https://www.windtre.it/
+    render: always
+    sitemap_keywords: [offerte-mobile, mobile]
+
   - id: vodafone
     nome: Vodafone
-    url: https://www.vodafone.it/privati/offerte-mobile.html
-    selector: "[class*=offer], [class*=card]"
-    price_regex: '(\d+[.,]?\d*)\s*€'
-    gb_regex: '(\d+)\s*(?:GB|Giga)'
-    name_selector: "h2, h3"
+    urls:
+      - https://www.vodafone.it/privati/mobile.html
+      - https://www.vodafone.it/
+    render: always
+    sitemap_keywords: [mobile, offerte]
 
-# --------------------------------------------------------------------------
-# Fonti "materia prima" (indici ufficiali, dati aperti)
-# --------------------------------------------------------------------------
+  - id: tim
+    nome: TIM
+    enabled: false
+    urls: [https://www.tim.it/offerte-mobile]
+    render: always
+    sitemap_keywords: [offerte-mobile]
+
 commodity:
-  # PUN (Prezzo Unico Nazionale, energia elettrica) — GME, prezzi MGP giornalieri
-  pun_xml_template: "https://www.mercatoelettrico.org/It/WebServerDataStore/MGP_Prezzi/{date}MGPPrezzi.xml"
-  # PSV (gas naturale) — pubblicato dal GME (MGAS). In alternativa puoi
-  # incollare un CSV manuale in data/manual_commodity.csv (date,pun,psv).
-  psv_xml_template: "https://www.mercatoelettrico.org/It/WebServerDataStore/MGP_Prezzi/{date}MGPPrezzi.xml"
+  energy_charts_base: "https://api.energy-charts.info/price"
+  # Una sola zona come proxy del PUN: riduce drasticamente le chiamate API
+  # e previene i 429 di Energy-Charts nei run orari e nei backfill.
+  it_zones: [IT-North]
+  min_zones: 1
