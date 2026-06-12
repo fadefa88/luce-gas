@@ -1,107 +1,107 @@
 {
- "updated": "2026-06-12T06:03:26Z",
+ "updated": "2026-06-12T08:02:31Z",
  "sources": {
   "octopus": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://octopusenergy.it/le-nostre-tariffe)",
    "n": 0,
-   "checked": "2026-06-12T06:01:59Z"
+   "checked": "2026-06-12T08:00:00Z"
   },
   "enel": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.enel.it/it/luce-e-gas/luce/offerte)",
-   "n": 0,
-   "checked": "2026-06-12T06:02:07Z"
+   "status": "ok",
+   "detail": "https://www.enel.it/it/luce-e-gas/luce/offerte",
+   "n": 6,
+   "checked": "2026-06-12T08:00:12Z"
   },
   "plenitude": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://eniplenitude.com/offerte/casa)",
    "n": 0,
-   "checked": "2026-06-12T06:02:12Z"
+   "checked": "2026-06-12T08:00:21Z"
   },
   "a2a": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.a2aenergia.eu/offerte-luce-gas)",
    "n": 0,
-   "checked": "2026-06-12T06:02:18Z"
+   "checked": "2026-06-12T08:00:33Z"
   },
   "edison": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.edisonenergia.it/edison/luce-gas-servizi)",
    "n": 0,
-   "checked": "2026-06-12T06:02:24Z"
+   "checked": "2026-06-12T08:00:45Z"
   },
   "sorgenia": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.sorgenia.it/offerte-luce-gas-casa)",
    "n": 0,
-   "checked": "2026-06-12T06:02:29Z"
+   "checked": "2026-06-12T08:00:55Z"
   },
   "iren": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.irenlucegas.it/casa)",
    "n": 0,
-   "checked": "2026-06-12T06:02:33Z"
+   "checked": "2026-06-12T08:01:03Z"
   },
   "iliad": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.iliad.it/)",
    "n": 0,
-   "checked": "2026-06-12T06:02:39Z"
+   "checked": "2026-06-12T08:01:15Z"
   },
   "ho": {
    "status": "ok",
    "detail": "https://www.ho-mobile.it/",
    "n": 1,
-   "checked": "2026-06-12T06:02:45Z"
+   "checked": "2026-06-12T08:01:26Z"
   },
   "very": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://verymobile.it/)",
    "n": 0,
-   "checked": "2026-06-12T06:02:51Z"
+   "checked": "2026-06-12T08:01:36Z"
   },
   "kena": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.kenamobile.it/)",
    "n": 0,
-   "checked": "2026-06-12T06:03:01Z"
+   "checked": "2026-06-12T08:01:48Z"
   },
   "fastweb": {
    "status": "ok",
    "detail": "https://www.fastweb.it/fastweb-mobile/",
    "n": 2,
-   "checked": "2026-06-12T06:03:06Z"
+   "checked": "2026-06-12T08:01:57Z"
   },
   "postemobile": {
    "status": "ok",
    "detail": "https://www.postemobile.it/",
    "n": 4,
-   "checked": "2026-06-12T06:03:13Z"
+   "checked": "2026-06-12T08:02:08Z"
   },
   "windtre": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.windtre.it/offerte-mobile)",
    "n": 0,
-   "checked": "2026-06-12T06:03:19Z"
+   "checked": "2026-06-12T08:02:19Z"
   },
   "vodafone": {
    "status": "vuota",
    "detail": "pagina letta ma 0 offerte (https://www.vodafone.it/privati/mobile.html)",
    "n": 0,
-   "checked": "2026-06-12T06:03:23Z"
+   "checked": "2026-06-12T08:02:28Z"
   },
   "tim": {
    "status": "disattivata",
    "detail": "vedi providers.yaml",
    "n": 0,
-   "checked": "2026-06-12T06:03:23Z"
+   "checked": "2026-06-12T08:02:28Z"
   },
   "energy_charts": {
    "status": "ok",
    "detail": "ultimo 2026-06-12: 0.12512 €/kWh",
    "n": 9,
-   "checked": "2026-06-12T06:03:26Z"
+   "checked": "2026-06-12T08:02:31Z"
   }
  }
 }
