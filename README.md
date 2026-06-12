@@ -17,17 +17,20 @@ File principali:
 - `data/scrape_report.json`: stato dettagliato fonte per fonte
 - `data/history/*.json`: serie storiche per i grafici
 
-## Scraper v2
+## Scraper v2.2
 
-La versione attuale è più robusta rispetto alla prima implementazione:
+La versione attuale integra solo le parti utili della v2.2, mantenendo la configurazione produzione già presente: niente dati demo, workflow robusto, backoff anti-429 e uso limitato di Energy-Charts.
 
 | Problema | Soluzione |
 |---|---|
 | URL fornitori che cambiano | più URL candidati per fonte + discovery su `sitemap.xml` |
 | Offerte caricate via JavaScript | Playwright/Chromium headless nel workflow |
+| Cookie banner e lazy-load | click automatico sui banner più comuni + scroll progressivo |
 | Markup fragile | prima JSON-LD schema.org, poi CSS + regex |
+| Prezzi in centesimi | conversione automatica da c€/kWh o c€/Smc a €/unità |
+| Offerte indicizzate | gestione formule `PUN + spread` e `PSV + spread` quando l'indice è disponibile |
 | Debug difficile | `data/scrape_report.json` + artifact `debug-html` per le pagine lette ma vuote |
-| PUN/GME instabile | API Energy-Charts come proxy PUN, con backfill storico |
+| 429 su Energy-Charts | backoff su HTTP 429 + una sola zona `IT-North` come proxy |
 | Fonti non compatibili | `enabled: false` in YAML, rispettando robots.txt |
 
 ## Avvio rapido
@@ -74,7 +77,7 @@ Oppure in locale:
 python -m scraper.backfill 2024-01-01
 ```
 
-Il dato Energy-Charts viene salvato come media semplice delle zone italiane disponibili e usato come proxy del PUN. Per valori ufficiali al dettaglio si può importare un CSV manuale in `data/manual_commodity.csv` con intestazione:
+Il dato Energy-Charts viene salvato usando la zona `IT-North` come proxy del PUN, per evitare eccesso di chiamate API. Per valori ufficiali al dettaglio si può importare un CSV manuale in `data/manual_commodity.csv` con intestazione:
 
 ```csv
 date,pun,psv
