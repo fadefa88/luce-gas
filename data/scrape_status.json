@@ -1,9 +1,11 @@
 {
- "updated": "2026-06-12T07:59:58Z",
- "energy_saved": true,
+ "updated": "2026-06-12T08:07:02Z",
+ "energy_saved": false,
  "mobile_saved": true,
- "notes": [],
- "energy_count": 6,
+ "notes": [
+  "Nessuna offerta energia rilevata; mantenuto ultimo snapshot valido se presente."
+ ],
+ "energy_count": 0,
  "energy_source": "siti_fornitori",
  "mobile_count": 7,
  "mobile_source": "siti_operatori"
