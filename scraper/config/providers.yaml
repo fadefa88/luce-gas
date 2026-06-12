@@ -73,7 +73,11 @@ energia:
 mobile:
   - id: iliad
     nome: Iliad
-    urls: [https://www.iliad.it/]
+    urls:
+      - https://www.iliad.it/offerte-iliad-mobile.html
+      - https://www.iliad.it/
+    link_patterns:
+      - 'offerta-iliad-(?P<name>[a-z]+?)(?P<giga>\d{2,3})(?:plus)?-(?P<cents>\d{3,4})\.html'
     render: always
     sitemap_keywords: [offerte]
 
