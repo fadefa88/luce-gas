@@ -76,8 +76,6 @@ mobile:
     urls:
       - https://www.iliad.it/offerte-iliad-mobile.html
       - https://www.iliad.it/
-    # Iliad codifica nome, GB e prezzo nell'URL dell'offerta:
-    # offerta-iliad-top250plus-999.html -> TOP 250 Plus a 9,99 EUR
     link_patterns:
       - 'offerta-iliad-(?P<name>[a-z]+?)(?P<giga>\d{2,3})(?:plus)?-(?P<cents>\d{3,4})\.html'
     render: always
