@@ -1,8 +1,8 @@
-"""Offerte LUCE e GAS v2.
+"""Offerte LUCE e GAS — v2.
 
-Fonte primaria: open data del Portale Offerte se PORTALE_OPEN_DATA_URL è
-configurata. Fallback: pagine pubbliche dei fornitori con rendering Playwright,
-JSON-LD e discovery via sitemap.
+Fonte primaria: open data del Portale Offerte ARERA (se PORTALE_OPEN_DATA_URL
+è configurata). Fallback: pagine pubbliche dei fornitori, con rendering
+Playwright, estrazione JSON-LD e auto-scoperta via sitemap.
 """
 
 from __future__ import annotations
@@ -11,116 +11,112 @@ import csv
 import io
 import os
 import re
-from urllib.parse import urlparse
 
-from .common import discover_offers_url, dump_debug, fetch, fetch_page, now_iso, parse_euro, report
+from .common import (discover_offers_url, dump_debug, fetch, fetch_page,
+                     now_iso, parse_euro, report)
 from .extract import extract_energy
 
-PORTALE_OPEN_DATA_URL = os.environ.get("PORTALE_OPEN_DATA_URL", "").strip()
-
-
-def _base(url: str) -> str:
-    parsed = urlparse(url)
-    return f"{parsed.scheme}://{parsed.netloc}"
+PORTALE_OPEN_DATA_URL = os.environ.get("PORTALE_OPEN_DATA_URL", "")
 
 
 def _from_portale_offerte() -> list[dict]:
     if not PORTALE_OPEN_DATA_URL:
         return []
-    raw = fetch(PORTALE_OPEN_DATA_URL, timeout=45)
+    raw = fetch(PORTALE_OPEN_DATA_URL)
     if not raw:
         report("portale_offerte", "errore", "download fallito")
         return []
-
     offers: list[dict] = []
     try:
         sample = raw[:4000]
-        delimiter = ";" if sample.count(";") >= sample.count(",") else ","
-        reader = csv.DictReader(io.StringIO(raw), delimiter=delimiter)
+        delim = ";" if sample.count(";") >= sample.count(",") else ","
+        reader = csv.DictReader(io.StringIO(raw), delimiter=delim)
         for row in reader:
-            low = {str(k).lower(): (v or "").strip() for k, v in row.items() if k}
+            low = {k.lower(): (v or "").strip() for k, v in row.items() if k}
 
-            def col(*names: str) -> str:
-                for name in names:
-                    for key, value in low.items():
-                        if name in key and value:
-                            return value
+            def col(*names):
+                for n in names:
+                    for k, v in low.items():
+                        if n in k:
+                            return v
                 return ""
 
-            text = " ".join(low.values()).lower()
-            commodity = "luce" if any(x in text for x in ("elettric", "luce", "kwh")) else "gas"
-            price = parse_euro(col("prezzo", "price", "corrispettivo", "materia"))
+            commodity = "luce" if "ele" in col("commodity", "mercato", "tipo").lower() else "gas"
+            price = parse_euro(col("prezzo", "price", "corrispettivo"))
             if price is None:
                 continue
             offers.append({
                 "fornitore": col("venditore", "ragione", "fornitore") or "n.d.",
-                "offerta": col("nome", "offerta", "denominazione") or "Offerta",
+                "offerta": col("nome", "offerta") or "Offerta",
                 "commodity": commodity,
                 "prezzo_energia": price,
-                "quota_fissa_mese": parse_euro(col("quota", "pcv", "fisso", "commercializzazione")) or 0,
+                "quota_fissa_mese": parse_euro(col("quota", "pcv", "fisso")) or 0,
                 "tipo": "fisso" if "fiss" in col("tipologia", "tipo").lower() else "variabile",
-                "fonte": "Portale Offerte open data",
+                "fonte": "Portale Offerte ARERA (open data)",
                 "url": "https://www.ilportaleofferte.it/",
             })
         report("portale_offerte", "ok" if offers else "vuota", n=len(offers))
     except Exception as exc:  # noqa: BLE001
-        report("portale_offerte", "errore", str(exc)[:180])
-    return _dedupe(offers)
+        report("portale_offerte", "errore", str(exc)[:120])
+    return offers
 
 
-def _dedupe(offers: list[dict]) -> list[dict]:
-    out: list[dict] = []
-    seen: set[tuple] = set()
-    for offer in offers:
-        price = offer.get("prezzo_energia")
-        commodity = offer.get("commodity")
-        if not isinstance(price, (int, float)):
-            continue
-        valid = (commodity == "luce" and 0.01 <= price <= 1.0) or (commodity == "gas" and 0.05 <= price <= 3.0)
-        key = (offer.get("fornitore"), offer.get("offerta"), commodity, round(float(price), 5))
-        if valid and key not in seen:
-            seen.add(key)
-            out.append(offer)
-    return out
+def _base(url: str) -> str:
+    match = re.match(r"(https?://[^/]+)", url)
+    return match.group(1) if match else url
 
 
 def _from_provider_pages(providers: list[dict]) -> list[dict]:
     offers: list[dict] = []
-    for provider in providers:
-        if provider.get("enabled") is False:
-            report(provider["id"], "disattivata", "vedi providers.yaml")
+    for p in providers:
+        if p.get("enabled") is False:
+            report(p["id"], "disattivata", "vedi providers.yaml")
             continue
-
-        print(f"- {provider['nome']}")
-        urls = list(provider.get("urls") or ([provider["url"]] if provider.get("url") else []))
-        html, used = fetch_page(urls, render=provider.get("render", "auto"))
-        if html is None and urls and provider.get("sitemap_keywords"):
-            found = discover_offers_url(_base(urls[0]), provider["sitemap_keywords"])
+        print(f"- {p['nome']}")
+        urls = list(p.get("urls", []))
+        html, used = fetch_page(urls, render=p.get("render", "auto"))
+        if html is None and urls and p.get("sitemap_keywords"):
+            found = discover_offers_url(_base(urls[0]), p["sitemap_keywords"])
             if found:
-                html, used = fetch_page([found], render=provider.get("render", "auto"))
-
+                html, used = fetch_page([found], render=p.get("render", "auto"))
         if html is None:
-            report(provider["id"], "errore", "nessun URL raggiungibile")
+            report(p["id"], "errore", "nessun URL raggiungibile")
             continue
-
-        found_offers = extract_energy(html, provider)
-        for offer in found_offers:
-            offer["url"] = used
-        offers.extend(found_offers)
-
-        if found_offers:
-            report(provider["id"], "ok", used or "", n=len(found_offers))
-            print(f"  {len(found_offers)} offerte da {used}")
+        got = extract_energy(html, p)
+        for o in got:
+            o["url"] = used
+        offers.extend(got)
+        if got:
+            report(p["id"], "ok", used, n=len(got))
+            print(f"  {len(got)} offerte da {used}")
         else:
-            report(provider["id"], "vuota", f"pagina letta ma 0 offerte ({used})")
-            dump_debug(provider["id"], html)
-    return _dedupe(offers)
+            report(p["id"], "vuota", f"pagina letta ma 0 offerte ({used})")
+            dump_debug(p["id"], html)
+    return offers
+
+
+def _resolve_spreads(offers: list[dict]) -> list[dict]:
+    """Trasforma offerte 'PUN/PSV + spread' in prezzi assoluti."""
+    from .common import DATA_DIR, load_json
+    latest = load_json(DATA_DIR / "commodity_latest.json", {})
+    pun = (latest.get("pun") or {}).get("eur_kwh")
+    psv = (latest.get("psv") or {}).get("eur_smc")
+    out = []
+    for offer in offers:
+        if offer.get("indice"):
+            base = pun if offer["indice"] == "PUN" else psv
+            if base is None:
+                continue
+            offer["prezzo_energia"] = round(base + offer["spread"], 4)
+            offer["offerta"] += f" ({offer['indice']} + {offer['spread']})"
+        out.append(offer)
+    return out
 
 
 def collect_energy_offers(providers: list[dict]) -> dict:
     offers = _from_portale_offerte()
     source = "portale_offerte"
     if not offers:
-        offers = _from_provider_pages(providers)
+        offers = _resolve_spreads(_from_provider_pages(providers))
         source = "siti_fornitori"
-    return {"updated": now_iso(), "source": source, "offers": _dedupe(offers)}
+    return {"updated": now_iso(), "source": source, "offers": offers}
