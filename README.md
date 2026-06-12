@@ -1,78 +1,88 @@
 # TariffaRadar
 
-Osservatorio automatico delle offerte **luce, gas e telefonia mobile** in Italia,
-con confronto storico rispetto al costo della **materia prima** (PUN per
-l'elettricità, PSV per il gas).
-
-- Sito statico servito da **GitHub Pages** (`index.html`)
-- **GitHub Action** che aggiorna periodicamente i dati (`.github/workflows/scrape.yml`)
-- Scraper Python config-driven (`scraper/`)
-- Grafici storici (Chart.js) offerte vs indici all'ingrosso
-- Nessun dato personale: si leggono solo pagine pubbliche di listino e, per luce/gas, open data quando disponibili
-
----
+Osservatorio automatico delle offerte **luce, gas e telefonia mobile** in Italia, con confronto storico rispetto al costo della **materia prima**.
 
 ## Stato produzione
 
-Il sito non usa più dati dimostrativi nel frontend. I file principali sono:
+Il sito non usa dati dimostrativi nel frontend. Le card vengono mostrate solo se i file JSON prodotti dallo scraper contengono offerte reali.
 
-- `data/offers_energy.json`: ultimo snapshot luce/gas prodotto dallo scraper
-- `data/offers_mobile.json`: ultimo snapshot mobile prodotto dallo scraper
-- `data/scrape_status.json`: esito dell'ultima scansione
-- `data/history/*.json`: serie storiche giornaliere usate dai grafici
+File principali:
 
-Se gli scraper non hanno ancora rilevato offerte valide, il sito mostra uno stato di attesa invece di card inventate.
+- `index.html`: sito statico GitHub Pages
+- `scraper/`: scraper Python
+- `scraper/config/providers.yaml`: configurazione fonti
+- `data/offers_energy.json`: ultimo snapshot luce/gas
+- `data/offers_mobile.json`: ultimo snapshot mobile
+- `data/scrape_status.json`: esito generale dell'ultima scansione
+- `data/scrape_report.json`: stato dettagliato fonte per fonte
+- `data/history/*.json`: serie storiche per i grafici
+
+## Scraper v2
+
+La versione attuale è più robusta rispetto alla prima implementazione:
+
+| Problema | Soluzione |
+|---|---|
+| URL fornitori che cambiano | più URL candidati per fonte + discovery su `sitemap.xml` |
+| Offerte caricate via JavaScript | Playwright/Chromium headless nel workflow |
+| Markup fragile | prima JSON-LD schema.org, poi CSS + regex |
+| Debug difficile | `data/scrape_report.json` + artifact `debug-html` per le pagine lette ma vuote |
+| PUN/GME instabile | API Energy-Charts come proxy PUN, con backfill storico |
+| Fonti non compatibili | `enabled: false` in YAML, rispettando robots.txt |
 
 ## Avvio rapido
 
-1. Attiva GitHub Pages: `Settings -> Pages -> Source: Deploy from a branch`, branch `main`, cartella `/ (root)`.
-2. Vai nella tab **Actions** e lancia manualmente il workflow **Aggiorna offerte e indici**.
-3. Per luce/gas, configura la variabile consigliata `PORTALE_OPEN_DATA_URL` in `Settings -> Secrets and variables -> Actions -> Variables` con il link al CSV open data del Portale Offerte.
-4. Dopo il primo run controlla `data/scrape_status.json` e i log della Action.
+1. Attiva GitHub Pages su branch `main`, cartella `/`.
+2. Vai in **Actions** e lancia manualmente **Aggiorna offerte e indici**.
+3. Dopo il run controlla:
+   - `data/scrape_status.json`
+   - `data/scrape_report.json`
+   - artifact `debug-html`, se presente
+4. Per luce/gas, se disponibile, configura `PORTALE_OPEN_DATA_URL` in `Settings -> Secrets and variables -> Actions -> Variables`.
 
-## Come funziona
+## Workflow
 
 ```
-.github/workflows/scrape.yml     cron orario + avvio manuale
+.github/workflows/scrape.yml
         |
         v
 scraper/main.py
-  |- fetch_energy_offers.py   luce/gas: open data -> fallback pagine fornitori
-  |- fetch_mobile_offers.py   mobile: pagine pubbliche operatori
-  |- fetch_commodity.py       PUN GME + CSV manuale PSV/storico
+  |- fetch_energy_offers.py   open data + pagine fornitori
+  |- fetch_mobile_offers.py   pagine operatori mobile
+  |- fetch_commodity.py       Energy-Charts + CSV manuale PSV/PUN
         |
         v
-data/offers_energy.json
-data/offers_mobile.json
-data/scrape_status.json
-data/history/*.json
+data/*.json
         |
         v
-index.html                     card, KPI, ticker e grafici
+index.html
 ```
 
-Lo storico salva un record al giorno con minimo, media e numero offerte, così il repository resta leggero anche dopo anni.
+Il workflow installa Playwright, esegue lo scraper, salva il report fonti, carica eventuali HTML di debug come artifact e committa solo se i dati cambiano.
 
-## Personalizzare i fornitori
+## Backfill storico elettricità
 
-Tutto in `scraper/config/providers.yaml`: per ogni operatore indichi URL della pagina offerte, selettore CSS dei blocchi e regex per prezzo/GB. I siti commerciali cambiano spesso markup: quando un operatore sparisce dai dati, in genere basta aggiornare `selector`, `price_regex`, `gb_regex` o `name_selector`.
+Dalla tab Actions puoi lanciare il workflow manuale compilando `backfill_from`, ad esempio:
 
-Alcuni siti caricano le offerte via JavaScript. In quel caso il download HTML semplice può non bastare. Le opzioni sono: usare operatori con pagine statiche, aggiungere Playwright, oppure per luce/gas preferire l'open data del Portale Offerte.
+```text
+2024-01-01
+```
 
-## Materia prima
+Oppure in locale:
 
-- **PUN**: lo scraper tenta di leggere il dato giornaliero pubblicato dal GME e lo converte in €/kWh.
-- **PSV e storico passato**: puoi importare una serie manuale creando `data/manual_commodity.csv` con intestazione `date,pun,psv`.
+```bash
+python -m scraper.backfill 2024-01-01
+```
 
-## Note legali e operative
+Il dato Energy-Charts viene salvato come media semplice delle zone italiane disponibili e usato come proxy del PUN. Per valori ufficiali al dettaglio si può importare un CSV manuale in `data/manual_commodity.csv` con intestazione:
 
-- Lo scraper legge solo pagine pubbliche di listino o open data.
-- I prezzi sono rilevazioni automatiche a scopo informativo.
-- Prima di sottoscrivere un contratto, verifica sempre le condizioni sul sito ufficiale del fornitore o sul Portale Offerte.
-- Se un sito blocca o non gradisce la rilevazione automatica, rimuovilo dal file YAML.
+```csv
+date,pun,psv
+```
 
-## Limiti noti
+## Note operative
 
-- I selettori CSS sono da rifinire dopo i primi run reali.
-- Le offerte mobile riservate ad alcuni operatori di provenienza possono non comparire sulle pagine pubbliche.
-- Alcune pagine richiedono JavaScript e potrebbero restituire zero offerte senza Playwright.
+- Lo scraper legge solo pagine pubbliche o open data.
+- I prezzi sono indicativi e possono essere incompleti.
+- Prima di sottoscrivere un contratto, verificare sempre le condizioni ufficiali.
+- Se una fonte non restituisce offerte, controllare prima `scrape_report.json`, poi l'artifact HTML di debug.
