@@ -21,8 +21,8 @@ DATA_DIR = ROOT / "data"
 HISTORY_DIR = DATA_DIR / "history"
 DEBUG_DIR = ROOT / "debug"
 
-USER_AGENT = "TariffaRadarBot/2.0 (+https://github.com/fadefa88/luce-gas)"
-BROWSER_UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36 TariffaRadarBot/2.0"
+USER_AGENT = "TariffaRadarBot/2.1 (+https://github.com/fadefa88/luce-gas)"
+BROWSER_UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36 TariffaRadarBot/2.1"
 
 REPORT: dict[str, dict] = {}
 _session = requests.Session()
@@ -73,14 +73,25 @@ def fetch(url: str, timeout: int = 25, retries: int = 1, pause: float = 1.0) -> 
     return None
 
 
-def fetch_json(url: str, timeout: int = 25):
-    try:
-        response = _session.get(url, timeout=timeout)
-        response.raise_for_status()
-        return response.json()
-    except Exception as exc:  # noqa: BLE001
-        print(f"  [http] {url}: {exc}")
-        return None
+def fetch_json(url: str, timeout: int = 25, retries: int = 3, pause: float = 1.5):
+    """GET JSON con throttling e backoff sul 429."""
+    for attempt in range(retries):
+        try:
+            time.sleep(pause)
+            response = _session.get(url, timeout=timeout)
+            if response.status_code == 429:
+                wait = int(response.headers.get("Retry-After", 0)) or 20 * (attempt + 1)
+                print(f"  [429] rate limit, attendo {wait}s ({url})")
+                time.sleep(wait)
+                continue
+            response.raise_for_status()
+            return response.json()
+        except Exception as exc:  # noqa: BLE001
+            print(f"  [http] {url}: {exc}")
+            if attempt == retries - 1:
+                return None
+            time.sleep(5 * (attempt + 1))
+    return None
 
 
 def _looks_js_only(html: str) -> bool:
