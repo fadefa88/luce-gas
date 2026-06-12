@@ -1,7 +1,7 @@
-"""Utility condivise per TariffaRadar v2.
+"""Utility condivise per TariffaRadar v2.2.
 
 Aggiunge fetch con rendering Playwright, auto-discovery via sitemap, report
-fonti e dump HTML di debug per calibrare selettori fragili.
+fonti, dump HTML di debug, gestione cookie banner/lazy-load e backoff anti-429.
 """
 
 from __future__ import annotations
@@ -21,8 +21,11 @@ DATA_DIR = ROOT / "data"
 HISTORY_DIR = DATA_DIR / "history"
 DEBUG_DIR = ROOT / "debug"
 
-USER_AGENT = "TariffaRadarBot/2.1 (+https://github.com/fadefa88/luce-gas)"
-BROWSER_UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36 TariffaRadarBot/2.1"
+USER_AGENT = "TariffaRadarBot/2.2 (+https://github.com/fadefa88/luce-gas)"
+BROWSER_UA = (
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+    "Chrome/124.0 Safari/537.36 TariffaRadarBot/2.2"
+)
 
 REPORT: dict[str, dict] = {}
 _session = requests.Session()
@@ -100,7 +103,25 @@ def _looks_js_only(html: str) -> bool:
     return len(text.split()) < 150
 
 
-def fetch_rendered(url: str, timeout_ms: int = 30000) -> str | None:
+CONSENT_SELECTORS = [
+    "#onetrust-accept-btn-handler",
+    "#didomi-notice-agree-button",
+    ".iubenda-cs-accept-btn",
+    "button[data-testid*=accept]",
+    "button[id*=accept i], button[class*=accept i]",
+    "button:has-text('Accetta tutt')",
+    "button:has-text('Accetta')",
+    "button:has-text('Accetto')",
+]
+
+
+def fetch_rendered(url: str, timeout_ms: int = 35000) -> str | None:
+    """Scarica una pagina con Chromium headless.
+
+    Gestisce due ostacoli comuni:
+    - banner cookie che bloccano l'idratazione dei contenuti;
+    - contenuti lazy-load, facendo scroll progressivo.
+    """
     global _playwright, _browser
     if not robots_allows(url):
         return None
@@ -109,9 +130,29 @@ def fetch_rendered(url: str, timeout_ms: int = 30000) -> str | None:
             from playwright.sync_api import sync_playwright
             _playwright = sync_playwright().start()
             _browser = _playwright.chromium.launch(headless=True)
-        page = _browser.new_page(user_agent=BROWSER_UA, locale="it-IT")
+        page = _browser.new_page(
+            user_agent=BROWSER_UA,
+            locale="it-IT",
+            viewport={"width": 1366, "height": 900},
+        )
         page.goto(url, timeout=timeout_ms, wait_until="domcontentloaded")
-        page.wait_for_timeout(3500)
+        page.wait_for_timeout(2500)
+        for selector in CONSENT_SELECTORS:
+            try:
+                button = page.locator(selector).first
+                if button.is_visible(timeout=400):
+                    button.click(timeout=1500)
+                    page.wait_for_timeout(1200)
+                    break
+            except Exception:
+                continue
+        for fraction in (0.35, 0.7, 1.0):
+            try:
+                page.evaluate(f"window.scrollTo(0, document.body.scrollHeight*{fraction})")
+                page.wait_for_timeout(900)
+            except Exception:
+                break
+        page.wait_for_timeout(1500)
         html = page.content()
         page.close()
         return html
