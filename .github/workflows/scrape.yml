@@ -3,7 +3,12 @@ name: Aggiorna offerte e indici
 on:
   schedule:
     - cron: "17 * * * *"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      backfill_from:
+        description: "Storico elettricità da questa data, formato YYYY-MM-DD, opzionale"
+        required: false
+        default: ""
   push:
     branches: [main]
     paths:
@@ -25,7 +30,7 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -43,6 +48,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r scraper/requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Backfill storico elettricità
+        if: ${{ github.event.inputs.backfill_from != '' }}
+        run: python -m scraper.backfill "${{ github.event.inputs.backfill_from }}"
 
       - name: Esegui scraper
         env:
@@ -52,12 +62,23 @@ jobs:
       - name: Verifica output minimo
         run: |
           test -f data/scrape_status.json
+          test -f data/scrape_report.json
           python - <<'PY'
           import json
           from pathlib import Path
-          status = json.loads(Path('data/scrape_status.json').read_text(encoding='utf-8'))
-          print(json.dumps(status, indent=2, ensure_ascii=False))
+          for path in ('data/scrape_status.json', 'data/scrape_report.json'):
+              print(path)
+              print(json.dumps(json.loads(Path(path).read_text(encoding='utf-8')), indent=2, ensure_ascii=False))
           PY
+
+      - name: Carica HTML debug fonti vuote
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-html
+          path: debug/
+          if-no-files-found: ignore
+          retention-days: 3
 
       - name: Commit dati aggiornati
         run: |
