@@ -1,94 +1,63 @@
-"""Offerte TELEFONIA MOBILE.
-
-Legge la pagina pubblica principale di ogni operatore configurato, estraendo
-nome offerta, prezzo mensile, GB inclusi e link all'offerta quando disponibile.
-"""
+"""Offerte TELEFONIA MOBILE v2: Playwright + JSON-LD + discovery."""
 
 from __future__ import annotations
 
-import re
-from urllib.parse import urljoin
+from urllib.parse import urlparse
 
-from bs4 import BeautifulSoup
-
-from .common import fetch, norm_text, now_iso
+from .common import discover_offers_url, dump_debug, fetch_page, now_iso, report
+from .extract import extract_mobile
 
 
-def _price_to_float(value: str) -> float:
-    return float(value.replace(",", "."))
-
-
-def _offer_link(block, base_url: str) -> str:
-    link = block.select_one("a[href]")
-    return urljoin(base_url, link.get("href")) if link else base_url
+def _base(url: str) -> str:
+    parsed = urlparse(url)
+    return f"{parsed.scheme}://{parsed.netloc}"
 
 
 def _dedupe(offers: list[dict]) -> list[dict]:
-    seen: set[str] = set()
     out: list[dict] = []
+    seen: set[tuple] = set()
     for offer in offers:
         price = offer.get("prezzo_mese")
         giga = offer.get("giga")
         if not isinstance(price, (int, float)) or not isinstance(giga, int):
             continue
-        if not (1 <= price <= 60 and 1 <= giga <= 1000):
-            continue
-        key = "|".join(
-            [
-                norm_text(offer.get("operatore", "")).lower(),
-                norm_text(offer.get("offerta", "")).lower(),
-                str(round(float(price), 2)),
-                str(giga),
-            ]
-        )
-        if key in seen:
-            continue
-        seen.add(key)
-        out.append(offer)
+        key = (offer.get("operatore"), offer.get("offerta"), round(float(price), 2), giga)
+        if 1 <= price <= 60 and 1 <= giga <= 1000 and key not in seen:
+            seen.add(key)
+            out.append(offer)
     return out
 
 
 def collect_mobile_offers(providers: list[dict]) -> dict:
     offers: list[dict] = []
     for provider in providers:
-        name = provider.get("nome", provider.get("id", "operatore"))
-        url = provider.get("url", "")
-        print(f"- {name} ({url})")
-        html = fetch(url)
-        if not html:
+        if provider.get("enabled") is False:
+            report(provider["id"], "disattivata", "vedi providers.yaml")
+            print(f"- {provider['nome']} [disattivato]")
             continue
 
-        soup = BeautifulSoup(html, "html.parser")
-        selector = provider.get("selector", "article, section, [class*=card], [class*=offer]")
-        price_re = re.compile(provider.get("price_regex", r"(\d+[.,]?\d*)\s*€"), re.I)
-        gb_re = re.compile(provider.get("gb_regex", r"(\d+)\s*(?:GB|Giga)"), re.I)
+        print(f"- {provider['nome']}")
+        urls = list(provider.get("urls") or ([provider["url"]] if provider.get("url") else []))
+        html, used = fetch_page(urls, render=provider.get("render", "always"))
+        if html is None and urls and provider.get("sitemap_keywords"):
+            found = discover_offers_url(_base(urls[0]), provider["sitemap_keywords"])
+            if found:
+                html, used = fetch_page([found], render=provider.get("render", "always"))
 
-        for block in soup.select(selector)[:40]:
-            text = norm_text(block.get_text(" ", strip=True), 1200)
-            price_match = price_re.search(text)
-            gb_match = gb_re.search(text)
-            if not (price_match and gb_match):
-                continue
+        if html is None:
+            report(provider["id"], "errore", "nessun URL raggiungibile")
+            continue
 
-            price = _price_to_float(price_match.group(1))
-            giga = int(gb_match.group(1))
-            if not (1 <= price <= 60 and 1 <= giga <= 1000):
-                continue
+        found_offers = extract_mobile(html, provider)
+        for offer in found_offers:
+            offer["url"] = used
+        offers.extend(found_offers)
 
-            name_el = block.select_one(provider.get("name_selector", "h1, h2, h3, h4, strong"))
-            offer_name = norm_text(name_el.get_text(" ", strip=True) if name_el else f"{giga} GB")
-
-            offers.append(
-                {
-                    "operatore": norm_text(name),
-                    "offerta": offer_name,
-                    "prezzo_mese": round(price, 2),
-                    "giga": giga,
-                    "prezzo_per_gb": round(price / giga, 3),
-                    "rete_5g": bool(re.search(r"\b5G\b", text, re.I)),
-                    "fonte": "pagina offerte operatore",
-                    "url": _offer_link(block, url),
-                }
-            )
+        if found_offers:
+            report(provider["id"], "ok", used or "", n=len(found_offers))
+            print(f"  {len(found_offers)} offerte da {used}")
+        else:
+            report(provider["id"], "vuota", f"pagina letta ma 0 offerte ({used})")
+            dump_debug(provider["id"], html)
 
     return {"updated": now_iso(), "source": "siti_operatori", "offers": _dedupe(offers)}
