@@ -1,11 +1,13 @@
-"""Offerte TELEFONIA MOBILE v2: Playwright + JSON-LD + discovery."""
+"""Offerte TELEFONIA MOBILE v3: Playwright, JSON-LD, URL mining e payload JSON."""
 
 from __future__ import annotations
 
 from urllib.parse import urlparse
 
-from .common import discover_offers_url, dump_debug, fetch_page, now_iso, report
-from .extract import extract_mobile
+from .common import (LAST_XHR, discover_offers_url, dump_debug, fetch_page,
+                     now_iso, report)
+from .extract import (extract_mobile, filter_mobile, mine_links_mobile,
+                      mine_xhr_mobile)
 
 
 def _base(url: str) -> str:
@@ -48,7 +50,12 @@ def collect_mobile_offers(providers: list[dict]) -> dict:
             report(provider["id"], "errore", "nessun URL raggiungibile")
             continue
 
-        found_offers = extract_mobile(html, provider)
+        found_offers = []
+        found_offers.extend(extract_mobile(html, provider))
+        found_offers.extend(mine_xhr_mobile(list(LAST_XHR), provider))
+        found_offers.extend(mine_links_mobile(html, provider))
+        found_offers = filter_mobile(found_offers)
+
         for offer in found_offers:
             offer["url"] = used
         offers.extend(found_offers)
