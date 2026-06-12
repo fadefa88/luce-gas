@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-12T11:09:16Z",
+ "updated": "2026-06-12T11:15:52Z",
  "energy_saved": false,
  "mobile_saved": true,
  "notes": [
@@ -7,6 +7,6 @@
  ],
  "energy_count": 0,
  "energy_source": "siti_fornitori",
- "mobile_count": 7,
+ "mobile_count": 9,
  "mobile_source": "siti_operatori"
 }
