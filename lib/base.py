@@ -89,6 +89,28 @@ def fetch_html(url: str, timeout: int = 25) -> str | None:
         return None
 
 
+def fetch_mobile_page(url: str, wait_selector: str | None = None,
+                      clicks: list[str] | None = None,
+                      timeout: int = 25) -> tuple[str | None, list]:
+    """Fetch robusto per pagine offerte mobile.
+
+    Prova prima l'HTML statico via requests, perché molti siti espongono già
+    offerte nel markup e Playwright può essere fragile/lento. Se l'HTML non
+    contiene segnali utili (GB/Giga + mese), usa Playwright come fallback
+    tecnico e cattura eventuali JSON interni. Non usa dati manuali.
+    """
+    html = fetch_html(url, timeout=timeout)
+    if html:
+        low = html.lower()
+        if ("giga" in low or "gb" in low or "illimitat" in low) and "mese" in low:
+            return html, []
+
+    rendered, xhr = fetch_rendered(url, wait_selector=wait_selector, clicks=clicks)
+    if rendered:
+        return rendered, xhr
+    return html, []
+
+
 def fetch_rendered(url: str, wait_selector: str | None = None,
                    clicks: list[str] | None = None,
                    timeout_ms: int = 40000) -> tuple[str | None, list]:

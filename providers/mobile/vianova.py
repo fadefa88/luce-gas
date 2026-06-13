@@ -15,7 +15,7 @@ selettori specifici guardando l'artifact debug/vianova.html.
 
 from __future__ import annotations
 
-from lib.base import Offer, cli_main, dump_debug, fetch_rendered
+from lib.base import Offer, cli_main, dump_debug, fetch_mobile_page
 from lib.parse_cards import parse_cards
 from lib.xhr_mobile import mine_xhr_mobile
 
@@ -32,7 +32,7 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
 
 
 def scrape() -> list[Offer]:
-    html, xhr = fetch_rendered(URL, clicks=CLICKS)
+    html, xhr = fetch_mobile_page(URL, clicks=CLICKS)
     dump_debug("vianova", html)
     if not html:
         return []

@@ -23,7 +23,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-from lib.base import Offer, cli_main, dump_debug, fetch_rendered
+from lib.base import Offer, cli_main, dump_debug, fetch_mobile_page
 
 URL = "https://www.coopvoce.it/portale/offerte.html"
 CLICKS = []
@@ -121,7 +121,7 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
 
 
 def scrape() -> list[Offer]:
-    html, xhr = fetch_rendered(URL, clicks=CLICKS)
+    html, xhr = fetch_mobile_page(URL, clicks=CLICKS)
     dump_debug("coopvoce", html)
     if not html:
         return []

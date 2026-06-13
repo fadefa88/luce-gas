@@ -18,8 +18,6 @@ import statistics
 from datetime import datetime, timezone
 from pathlib import Path
 
-import yaml
-
 ROOT = Path(__file__).resolve().parent.parent
 FRAGMENTS = ROOT / "data" / "providers"
 DATA = ROOT / "data"
@@ -65,50 +63,6 @@ def _append_history(path: Path, record: dict) -> None:
     _save(path, sorted(merged.values(), key=lambda r: r.get("date", ""))[-3650:])
 
 
-
-def _load_curated_mobile() -> tuple[list[dict], dict]:
-    """Carica le offerte mobile verificate a mano.
-
-    Serve come fallback editoriale: i frammenti per-provider sono diagnostici,
-    ma non devono svuotare il sito quando gli scraper reali non estraggono.
-    """
-    path = ROOT / "scraper" / "config" / "curated_mobile.yaml"
-    if not path.exists():
-        return [], {}
-    cfg = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    verified = str(cfg.get("verificato", ""))
-    offers: list[dict] = []
-    summary: dict[str, int] = {}
-    for op in cfg.get("operatori", []) or []:
-        op_offers = op.get("offerte") or []
-        summary[f"mobile_curated/{op.get('id')}"] = len(op_offers)
-        for item in op_offers:
-            unlimited = bool(item.get("illimitati"))
-            giga = None if unlimited else int(item["giga"])
-            price = float(item["prezzo_mese"])
-            offers.append({
-                "operatore": op.get("nome", ""),
-                "offerta": item.get("nome", ""),
-                "url": op.get("url", ""),
-                "prezzo_mese": price,
-                "giga": giga,
-                "giga_illimitati": unlimited,
-                "prezzo_per_gb": None if unlimited else round(price / giga, 3),
-                "attivazione": float(item.get("attivazione", 0) or 0),
-                "minuti": str(item.get("minuti", "")),
-                "sms": str(item.get("sms", "")),
-                "rete_5g": True,
-                "commodity": "",
-                "prezzo_energia": None,
-                "quota_fissa_mese": None,
-                "tipo": "",
-                "indice": "",
-                "spread": None,
-                "note": item.get("note", ""),
-                "fonte": f"verificata manualmente il {verified}",
-            })
-    return offers, summary
-
 def _agg(vals: list[float]) -> dict:
     vals = [v for v in vals if v is not None]
     if not vals:
@@ -134,20 +88,6 @@ def main() -> None:
                 mobile.append(o)
             elif cat in ("luce", "gas"):
                 energy.append(o)
-
-    curated_mobile, curated_summary = _load_curated_mobile()
-    if curated_mobile and not mobile:
-        mobile = curated_mobile
-        report["mobile_publication_source"] = "curated_mobile.yaml"
-        report["mobile_curated_offers"] = len(curated_mobile)
-        for sid, n in curated_summary.items():
-            report["sources"][sid] = {
-                "operatore": sid.split("/", 1)[1],
-                "status": "curated",
-                "detail": "pubblicata da scraper/config/curated_mobile.yaml",
-                "n": n,
-                "updated": _now(),
-            }
 
     _save(DATA / "offers_mobile.json", {"updated": _now(), "offers": mobile})
     _save(DATA / "offers_energy.json", {"updated": _now(), "offers": energy})

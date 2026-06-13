@@ -16,7 +16,8 @@ import re
 
 from bs4 import BeautifulSoup
 
-from lib.base import Offer, cli_main, dump_debug, fetch_html, fetch_rendered
+from lib.base import Offer, cli_main, dump_debug, fetch_mobile_page
+from lib.parse_cards import parse_cards
 
 URL = "https://www.kenamobile.it/offerte/"
 PRODUCT = re.compile(r"/prodotto/", re.I)
@@ -126,16 +127,18 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
     return offers
 
 def scrape() -> list[Offer]:
-    html = fetch_html(URL)
-    if not html:
-        html, _ = fetch_rendered(URL)
-    elif "giga" not in html.lower() and "mese" not in html.lower():
-        rendered, _ = fetch_rendered(URL)
-        html = rendered or html
+    html, xhr = fetch_mobile_page(URL)
     dump_debug("kena", html)
     if not html:
         return []
-    return parse_html(html)
+
+    offers = parse_html(html, xhr)
+    if not offers:
+        # Fallback tecnico sul testo visibile della stessa pagina. Non usa dati
+        # manuali: serve solo quando Kena spezza prezzo/GB su righe diverse.
+        offers = [o for o in parse_cards(html, "Kena Mobile", URL)
+                  if (o.giga_illimitati or (o.giga is not None and o.giga >= 50))]
+    return offers
 
 
 if __name__ == "__main__":
