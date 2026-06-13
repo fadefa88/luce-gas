@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T10:17:36Z",
+ "updated": "2026-06-13T12:10:07Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
@@ -23,18 +23,18 @@
    "updated": "2026-06-13T10:15:13Z"
   },
   "gas/iren": {
-   "operatore": "iren",
+   "operatore": "Iren Luce Gas e Servizi",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:37:14Z"
+   "updated": "2026-06-13T10:19:08Z"
   },
   "gas/octopus": {
-   "operatore": "octopus",
+   "operatore": "Octopus Energy",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:37:19Z"
+   "updated": "2026-06-13T10:27:18Z"
   },
   "gas/plenitude": {
    "operatore": "plenitude",
@@ -51,25 +51,25 @@
    "updated": "2026-06-13T07:37:08Z"
   },
   "luce/a2a": {
-   "operatore": "a2a",
+   "operatore": "A2A Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:36:16Z"
+   "updated": "2026-06-13T10:42:46Z"
   },
   "luce/edison": {
-   "operatore": "edison",
+   "operatore": "Edison Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:36:22Z"
+   "updated": "2026-06-13T10:43:39Z"
   },
   "luce/enel": {
-   "operatore": "enel",
+   "operatore": "Enel Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:36:04Z"
+   "updated": "2026-06-13T10:41:57Z"
   },
   "luce/iren": {
    "operatore": "iren",
@@ -101,10 +101,10 @@
   },
   "mobile/coopvoce": {
    "operatore": "CoopVoce",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T07:34:58Z"
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-13T10:44:15Z"
   },
   "mobile/digi": {
    "operatore": "Digi Mobil",
@@ -115,24 +115,24 @@
   },
   "mobile/fastweb": {
    "operatore": "Fastweb",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T07:34:34Z"
+   "status": "ok",
+   "detail": "",
+   "n": 5,
+   "updated": "2026-06-13T10:38:53Z"
   },
   "mobile/ho": {
    "operatore": "ho. Mobile",
    "status": "ok",
    "detail": "",
    "n": 7,
-   "updated": "2026-06-13T09:49:07Z"
+   "updated": "2026-06-13T10:41:01Z"
   },
   "mobile/iliad": {
    "operatore": "Iliad",
-   "status": "vuoto",
-   "detail": "da ripopolare al primo run reale",
-   "n": 0,
-   "updated": "2026-06-13T07:57:09Z"
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-13T10:36:34Z"
   },
   "mobile/kena": {
    "operatore": "Kena Mobile",
@@ -153,14 +153,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:35:52Z"
+   "updated": "2026-06-13T10:23:47Z"
   },
   "mobile/optima": {
    "operatore": "Optima Mobile",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T09:16:09Z"
+   "updated": "2026-06-13T10:21:38Z"
   },
   "mobile/postemobile": {
    "operatore": "PosteMobile",
@@ -181,14 +181,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:35:03Z"
+   "updated": "2026-06-13T12:09:48Z"
   },
   "mobile/tim": {
    "operatore": "TIM",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:34:18Z"
+   "updated": "2026-06-13T10:38:06Z"
   },
   "mobile/tiscali": {
    "operatore": "Tiscali Mobile",
@@ -216,7 +216,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T09:15:25Z"
+   "updated": "2026-06-13T10:29:09Z"
   },
   "mobile/vodafone": {
    "operatore": "Vodafone",
@@ -227,10 +227,10 @@
   },
   "mobile/windtre": {
    "operatore": "WindTre",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T07:34:28Z"
+   "status": "ok",
+   "detail": "",
+   "n": 6,
+   "updated": "2026-06-13T10:39:36Z"
   }
  }
 }
