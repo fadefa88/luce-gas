@@ -1,12 +1,12 @@
 {
- "updated": "2026-06-13T10:12:35Z",
+ "updated": "2026-06-13T10:17:36Z",
  "sources": {
   "gas/a2a": {
-   "operatore": "a2a",
+   "operatore": "A2A Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:36:56Z"
+   "updated": "2026-06-13T10:17:25Z"
   },
   "gas/edison": {
    "operatore": "Edison Energia",
@@ -16,11 +16,11 @@
    "updated": "2026-06-13T09:50:02Z"
   },
   "gas/enel": {
-   "operatore": "enel",
+   "operatore": "Enel Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:36:45Z"
+   "updated": "2026-06-13T10:15:13Z"
   },
   "gas/iren": {
    "operatore": "iren",
@@ -93,11 +93,11 @@
    "updated": "2026-06-13T07:36:10Z"
   },
   "luce/sorgenia": {
-   "operatore": "sorgenia",
+   "operatore": "Sorgenia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:36:27Z"
+   "updated": "2026-06-13T10:15:59Z"
   },
   "mobile/coopvoce": {
    "operatore": "CoopVoce",
@@ -146,7 +146,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:35:09Z"
+   "updated": "2026-06-13T10:14:20Z"
   },
   "mobile/noitel": {
    "operatore": "Noitel",
@@ -171,10 +171,10 @@
   },
   "mobile/sky": {
    "operatore": "Sky Mobile",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T07:35:28Z"
+   "status": "ok",
+   "detail": "",
+   "n": 7,
+   "updated": "2026-06-13T10:16:41Z"
   },
   "mobile/spusu": {
    "operatore": "spusu",
