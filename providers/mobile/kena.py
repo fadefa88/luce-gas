@@ -1,53 +1,39 @@
 """Kena Mobile — offerte mobile.
 
-Pagina: https://www.kenamobile.it/offerte/
+Pagina: https://www.kenamobile.it/offerte/  (HTML statico, WooCommerce)
 
-STATO: scraping DA CALIBRARE. parse_html() va implementata guardando
-l'artifact debug/kena.html prodotto dall'Action di questo fornitore.
-Finché parse_html() ritorna vuoto, il fornitore risulta "vuoto" nel report
-(NESSUN dato inventato: il sito mostra solo offerte realmente estratte).
-
-Si pubblicano solo offerte 5G.
+Usa il parser generico sul testo delle card (i GB mostrati includono il bonus
+ricarica automatica, es. "300 giga", ed è quello che vede l'utente). Prende
+TUTTE le offerte mobile (5G e non) ed esclude IoT/domotica/voce-only.
 """
 
 from __future__ import annotations
 
-from lib.base import Offer, cli_main, dump_debug, fetch_rendered, euro, giga
+import re
+
+from bs4 import BeautifulSoup
+
+from lib.base import Offer, cli_main, dump_debug, fetch_html, fetch_rendered
+from lib.parse_cards import parse_cards
 
 URL = "https://www.kenamobile.it/offerte/"
-CLICKS = []
+EXCLUDE = re.compile(r"domo|alarm|iot|dispositivi smart", re.I)
 
 
 def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
-    """Estrazione reale per kena.
-
-    TODO: implementare sui selettori veri della pagina. Esempio di scheletro:
-
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(html, "html.parser")
-        offers = []
-        for card in soup.select("SELETTORE_CARD"):
-            testo = card.get_text(" ", strip=True)
-            if "5G" not in testo:            # solo 5G
-                continue
-            prezzo = euro(testo); g = giga(testo)
-            if prezzo is None or g is None:
-                continue
-            offers.append(Offer(
-                operatore="Kena Mobile", offerta="NOME_OFFERTA", url=URL,
-                prezzo_mese=prezzo, giga=g, minuti="illimitati", sms="",
-                rete_5g=True, fonte="scraping"))
-        return offers
-    """
-    return []
+    offers = parse_cards(html, "Kena Mobile", URL)
+    # scarta IoT/domotica
+    return [o for o in offers if not EXCLUDE.search(o.offerta or "")]
 
 
 def scrape() -> list[Offer]:
-    html, xhr = fetch_rendered(URL, clicks=CLICKS)
+    html = fetch_html(URL)
+    if not html or "al mese" not in html:
+        html, _ = fetch_rendered(URL)
     dump_debug("kena", html)
     if not html:
         return []
-    return parse_html(html, xhr)
+    return parse_html(html)
 
 
 if __name__ == "__main__":

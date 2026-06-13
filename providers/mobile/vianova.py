@@ -1,22 +1,34 @@
 """Vianova — offerte mobile.
 
-Pagina: https://www.vianova.it/
-STATO: da censire. parse_html() va implementata guardando l'artifact
-debug/vianova.html. Nessun dato inventato: finché lo scraping non estrae nulla,
-il fornitore risulta "vuoto" nel report. Solo offerte 5G.
+Pagina: https://www.vianova.it/privati/mobile
+
+Usa il parser GENERICO (lib.parse_cards) come default: estrae le card
+"GB + prezzo/mese" dal testo renderizzato da Playwright, prendendo TUTTE le
+offerte (5G e non; il flag rete_5g distingue ma non filtra).
+
+In più tenta l'XHR mining: molti operatori (SPA) caricano le offerte da una
+API JSON interna, e quei payload vengono catturati durante il rendering.
+
+Se i risultati non combaciano con la pagina, calibra qui parse_html() con
+selettori specifici guardando l'artifact debug/vianova.html.
 """
 
 from __future__ import annotations
 
-from lib.base import Offer, cli_main, dump_debug, fetch_rendered, euro, giga
+from lib.base import Offer, cli_main, dump_debug, fetch_rendered
+from lib.parse_cards import parse_cards
+from lib.xhr_mobile import mine_xhr_mobile
 
-URL = "https://www.vianova.it/"
+URL = "https://www.vianova.it/privati/mobile"
 CLICKS = []
+OPERATORE = "Vianova"
 
 
 def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
-    """TODO: estrazione reale per vianova. Vuoto finché non implementata."""
-    return []
+    offers = parse_cards(html, OPERATORE, URL)
+    if not offers and xhr:
+        offers = mine_xhr_mobile(xhr, OPERATORE, URL)
+    return offers
 
 
 def scrape() -> list[Offer]:
@@ -28,4 +40,4 @@ def scrape() -> list[Offer]:
 
 
 if __name__ == "__main__":
-    cli_main("mobile", "vianova", "Vianova", scrape)
+    cli_main("mobile", "vianova", OPERATORE, scrape)

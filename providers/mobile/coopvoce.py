@@ -13,7 +13,7 @@ di coppie etichetta/valore nel markup, es.:
 E' molto piu' stabile del parsing visivo. Il 5G si riconosce dall'icona
 "icona5g.svg" nel markup della card.
 
-Filtro: solo offerte 5G con Giga numerici (escludiamo IoT, ConMe Casa/Alarm,
+Filtro: offerte mobile con Giga numerici (5G e non) (escludiamo IoT, ConMe Casa/Alarm,
 SIMPLE senza giga).
 """
 
@@ -96,8 +96,6 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
             continue
         if not (1 <= price <= 60) or not (5 <= giga_val <= 2000):
             continue
-        if not _is_5g(html, nome):
-            continue
 
         note = []
         if promo_primo:
@@ -115,7 +113,7 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
             attivazione=0.0 if attiv_gratis else None,
             minuti="illimitati" if "ILLIMITAT" in msg.upper() else "",
             sms=sms,
-            rete_5g=True,
+            rete_5g=_is_5g(html, nome),
             note="; ".join(note),
             fonte="scraping",
         ))
