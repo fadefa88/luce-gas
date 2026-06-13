@@ -1,9 +1,9 @@
 {
- "operatore": "sorgenia",
+ "operatore": "Sorgenia",
  "categoria": "gas",
  "provider_id": "sorgenia",
  "status": "vuoto",
  "detail": "nessuna offerta estratta (vedi artifact debug)",
- "updated": "2026-06-13T07:37:08Z",
+ "updated": "2026-06-13T19:00:59Z",
  "offers": []
 }
