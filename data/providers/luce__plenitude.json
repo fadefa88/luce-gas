@@ -1,9 +1,9 @@
 {
- "operatore": "plenitude",
+ "operatore": "Plenitude (Eni)",
  "categoria": "luce",
  "provider_id": "plenitude",
  "status": "vuoto",
  "detail": "nessuna offerta estratta (vedi artifact debug)",
- "updated": "2026-06-13T07:36:10Z",
+ "updated": "2026-06-13T13:00:48Z",
  "offers": []
 }
