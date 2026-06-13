@@ -18,13 +18,37 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: python -m lib.aggregate
-      - name: Commit dati aggregati
+
+      - name: Allinea al remoto (prendi gli ultimi frammenti)
         run: |
           git config user.name  "tariffaradar-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/offers_mobile.json data/offers_energy.json data/scrape_report.json data/history/
-          if git diff --cached --quiet; then echo "nessuna variazione"; else
-            git commit -m "dati: aggregazione $(date -u +'%F %H:%M UTC')"
-            for i in 1 2 3 4 5; do git pull --rebase origin main && git push && break || sleep $((RANDOM%10+5)); done
+          git pull --rebase --autostash origin main || git rebase --abort || true
+
+      - name: Ricomponi i file del sito dai frammenti
+        run: python -m lib.aggregate
+
+      - name: Commit dati aggregati
+        run: |
+          git add data/offers_mobile.json data/offers_energy.json \
+                  data/scrape_report.json data/history/
+          if git diff --cached --quiet; then
+            echo "Nessuna variazione."
+            exit 0
+          fi
+          git commit -m "dati: aggregazione $(date -u +'%F %H:%M UTC')"
+          pushed=0
+          for i in 1 2 3 4 5; do
+            # i file aggregati sono DERIVATI: in caso di conflitto rigeneriamo
+            # e teniamo la nostra versione (strategia 'ours' sul rebase).
+            if git pull --rebase --autostash -X ours origin main && git push; then pushed=1; break; fi
+            echo "tentativo $i fallito, rigenero e ritento..."
+            git rebase --abort 2>/dev/null || true
+            python -m lib.aggregate
+            git add data/offers_mobile.json data/offers_energy.json data/scrape_report.json data/history/
+            git commit -m "dati: aggregazione (retry $i)" 2>/dev/null || true
+            sleep $((RANDOM % 8 + 4))
+          done
+          if [ "$pushed" != "1" ]; then
+            echo "::error::push aggregazione fallito dopo 5 tentativi"; exit 1
           fi

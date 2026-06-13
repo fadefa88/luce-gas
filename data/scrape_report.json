@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T08:09:13Z",
+ "updated": "2026-06-13T08:16:10Z",
  "sources": {
   "gas/a2a": {
    "operatore": "a2a",
@@ -104,7 +104,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T08:08:18Z"
+   "updated": "2026-06-13T07:34:58Z"
   },
   "mobile/digi": {
    "operatore": "Digi Mobil",
@@ -129,10 +129,10 @@
   },
   "mobile/iliad": {
    "operatore": "Iliad",
-   "status": "ok",
-   "detail": "",
-   "n": 4,
-   "updated": "2026-06-13T08:05:51Z"
+   "status": "vuoto",
+   "detail": "da ripopolare al primo run reale",
+   "n": 0,
+   "updated": "2026-06-13T07:57:09Z"
   },
   "mobile/kena": {
    "operatore": "Kena Mobile",
@@ -230,7 +230,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T08:09:13Z"
+   "updated": "2026-06-13T07:34:28Z"
   }
  }
 }

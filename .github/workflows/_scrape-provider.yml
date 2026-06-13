@@ -32,32 +32,33 @@ jobs:
           echo "----- data/providers/${{ inputs.fragment }}.json -----"
           cat data/providers/${{ inputs.fragment }}.json || echo "FRAMMENTO NON TROVATO"
 
-      - name: Riaggrega i dati del sito
-        run: python -m lib.aggregate
-
       - name: Debug HTML artifact
         if: always()
         uses: actions/upload-artifact@v4
         with: {name: "debug-${{ inputs.fragment }}", path: debug/, if-no-files-found: ignore, retention-days: 3}
 
-      - name: Commit dei dati
+      - name: Commit del solo frammento
         run: |
           git config user.name  "tariffaradar-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/providers/${{ inputs.fragment }}.json \
-                  data/offers_mobile.json data/offers_energy.json \
-                  data/scrape_report.json data/history/ 2>/dev/null || true
+          # Si committa ESCLUSIVAMENTE il proprio frammento: file che nessun
+          # altro workflow tocca -> nessun conflitto di merge possibile.
+          git add data/providers/${{ inputs.fragment }}.json
           if git diff --cached --quiet; then
-            echo "Nessuna variazione nei dati."
-          else
-            git commit -m "dati(${{ inputs.fragment }}): aggiornamento $(date -u +'%F %H:%M UTC')"
-            pushed=0
-            for i in 1 2 3 4 5; do
-              if git pull --rebase origin main && git push; then pushed=1; break; fi
-              echo "push tentativo $i fallito, ritento..."; sleep $((RANDOM % 10 + 5))
-            done
-            if [ "$pushed" != "1" ]; then
-              echo "::error::push fallito dopo 5 tentativi"; exit 1
-            fi
-            echo "push riuscito."
+            echo "Nessuna variazione nel frammento."
+            exit 0
           fi
+          git commit -m "dati(${{ inputs.fragment }}): aggiornamento $(date -u +'%F %H:%M UTC')"
+          pushed=0
+          for i in 1 2 3 4 5; do
+            # rebase solo su un nostro file: in pratica non confligge mai,
+            # ma se il working tree fosse sporco lo ripuliamo prima di ritentare.
+            if git pull --rebase --autostash origin main && git push; then pushed=1; break; fi
+            echo "push tentativo $i fallito, ritento..."
+            git rebase --abort 2>/dev/null || true
+            sleep $((RANDOM % 10 + 5))
+          done
+          if [ "$pushed" != "1" ]; then
+            echo "::error::push del frammento fallito dopo 5 tentativi"; exit 1
+          fi
+          echo "frammento committato e pushato."
