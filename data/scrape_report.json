@@ -1,40 +1,40 @@
 {
- "updated": "2026-06-13T20:08:32Z",
+ "updated": "2026-06-13T21:54:00Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T18:57:22Z"
+   "updated": "2026-06-13T20:53:14Z"
   },
   "gas/edison": {
    "operatore": "Edison Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T14:54:11Z"
+   "updated": "2026-06-13T20:54:01Z"
   },
   "gas/enel": {
    "operatore": "Enel Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T12:11:45Z"
+   "updated": "2026-06-13T20:51:34Z"
   },
   "gas/iren": {
    "operatore": "Iren Luce Gas e Servizi",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T18:01:32Z"
+   "updated": "2026-06-13T20:09:54Z"
   },
   "gas/octopus": {
    "operatore": "Octopus Energy",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T19:22:38Z"
+   "updated": "2026-06-13T21:13:58Z"
   },
   "gas/plenitude": {
    "operatore": "Plenitude (Eni)",
@@ -48,7 +48,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T19:00:59Z"
+   "updated": "2026-06-13T20:55:49Z"
   },
   "luce/a2a": {
    "operatore": "A2A Energia",
@@ -62,14 +62,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T16:54:36Z"
+   "updated": "2026-06-13T20:45:37Z"
   },
   "luce/enel": {
    "operatore": "Enel Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T18:49:02Z"
+   "updated": "2026-06-13T20:43:29Z"
   },
   "luce/iren": {
    "operatore": "Iren Luce Gas e Servizi",
@@ -90,56 +90,56 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T13:00:48Z"
+   "updated": "2026-06-13T20:44:50Z"
   },
   "luce/sorgenia": {
    "operatore": "Sorgenia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T18:54:43Z"
+   "updated": "2026-06-13T20:50:47Z"
   },
   "mobile/coopvoce": {
    "operatore": "CoopVoce",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-13T18:51:28Z"
+   "updated": "2026-06-13T20:46:13Z"
   },
   "mobile/digi": {
    "operatore": "Digi Mobil",
    "status": "ok",
    "detail": "",
    "n": 3,
-   "updated": "2026-06-13T18:59:00Z"
+   "updated": "2026-06-13T20:54:44Z"
   },
   "mobile/fastweb": {
    "operatore": "Fastweb",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-13T18:43:52Z"
+   "updated": "2026-06-13T20:41:02Z"
   },
   "mobile/ho": {
    "operatore": "ho. Mobile",
    "status": "ok",
    "detail": "",
    "n": 7,
-   "updated": "2026-06-13T18:46:56Z"
+   "updated": "2026-06-13T20:42:17Z"
   },
   "mobile/iliad": {
    "operatore": "Iliad",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-13T19:49:36Z"
+   "updated": "2026-06-13T21:24:26Z"
   },
   "mobile/kena": {
    "operatore": "Kena Mobile",
    "status": "ok",
    "detail": "",
    "n": 6,
-   "updated": "2026-06-13T18:49:50Z"
+   "updated": "2026-06-13T20:44:05Z"
   },
   "mobile/lycamobile": {
    "operatore": "Lycamobile",
@@ -153,42 +153,42 @@
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-13T19:14:41Z"
+   "updated": "2026-06-13T21:06:49Z"
   },
   "mobile/optima": {
    "operatore": "Optima Mobile",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T19:07:14Z"
+   "status": "ok",
+   "detail": "",
+   "n": 1,
+   "updated": "2026-06-13T21:00:46Z"
   },
   "mobile/postemobile": {
    "operatore": "PosteMobile",
    "status": "ok",
    "detail": "",
    "n": 10,
-   "updated": "2026-06-13T19:00:12Z"
+   "updated": "2026-06-13T20:56:32Z"
   },
   "mobile/sky": {
    "operatore": "Sky Mobile",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-13T18:56:20Z"
+   "updated": "2026-06-13T20:52:19Z"
   },
   "mobile/spusu": {
    "operatore": "spusu",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T18:53:36Z"
+   "updated": "2026-06-13T20:49:43Z"
   },
   "mobile/tim": {
    "operatore": "TIM",
    "status": "ok",
    "detail": "",
    "n": 2,
-   "updated": "2026-06-13T18:43:10Z"
+   "updated": "2026-06-13T20:40:20Z"
   },
   "mobile/tiscali": {
    "operatore": "Tiscali Mobile",
@@ -213,24 +213,24 @@
   },
   "mobile/vianova": {
    "operatore": "Vianova",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T19:31:23Z"
+   "status": "ok",
+   "detail": "",
+   "n": 6,
+   "updated": "2026-06-13T21:16:43Z"
   },
   "mobile/vodafone": {
    "operatore": "Vodafone",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-13T18:22:39Z"
+   "updated": "2026-06-13T20:39:22Z"
   },
   "mobile/windtre": {
    "operatore": "WindTre",
    "status": "ok",
    "detail": "",
    "n": 6,
-   "updated": "2026-06-13T18:44:32Z"
+   "updated": "2026-06-13T20:41:40Z"
   }
  }
 }
