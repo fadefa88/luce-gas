@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T13:35:05Z",
+ "updated": "2026-06-13T14:15:17Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
@@ -108,10 +108,10 @@
   },
   "mobile/digi": {
    "operatore": "Digi Mobil",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T12:19:22Z"
+   "status": "ok",
+   "detail": "",
+   "n": 3,
+   "updated": "2026-06-13T13:41:08Z"
   },
   "mobile/fastweb": {
    "operatore": "Fastweb",
@@ -143,31 +143,31 @@
   },
   "mobile/lycamobile": {
    "operatore": "Lycamobile",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T10:14:20Z"
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-13T13:51:54Z"
   },
   "mobile/noitel": {
    "operatore": "Noitel",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T12:21:59Z"
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-13T13:53:12Z"
   },
   "mobile/optima": {
    "operatore": "Optima Mobile",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T12:21:00Z"
+   "status": "ok",
+   "detail": "",
+   "n": 1,
+   "updated": "2026-06-13T13:54:35Z"
   },
   "mobile/postemobile": {
    "operatore": "PosteMobile",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T07:35:34Z"
+   "status": "ok",
+   "detail": "",
+   "n": 10,
+   "updated": "2026-06-13T14:12:25Z"
   },
   "mobile/sky": {
    "operatore": "Sky Mobile",
@@ -181,14 +181,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T12:09:48Z"
+   "updated": "2026-06-13T14:04:47Z"
   },
   "mobile/tim": {
    "operatore": "TIM",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T12:57:51Z"
+   "status": "ok",
+   "detail": "",
+   "n": 2,
+   "updated": "2026-06-13T14:08:09Z"
   },
   "mobile/tiscali": {
    "operatore": "Tiscali Mobile",
