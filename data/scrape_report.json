@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T07:44:27Z",
+ "updated": "2026-06-13T07:57:10Z",
  "sources": {
   "gas/a2a": {
    "operatore": "a2a",
@@ -130,9 +130,9 @@
   "mobile/iliad": {
    "operatore": "Iliad",
    "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "detail": "da ripopolare al primo run reale",
    "n": 0,
-   "updated": "2026-06-13T07:34:02Z"
+   "updated": "2026-06-13T07:57:09Z"
   },
   "mobile/kena": {
    "operatore": "Kena Mobile",
