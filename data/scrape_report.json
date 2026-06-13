@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T08:05:51Z",
+ "updated": "2026-06-13T08:08:18Z",
  "sources": {
   "gas/a2a": {
    "operatore": "a2a",
@@ -104,7 +104,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:34:58Z"
+   "updated": "2026-06-13T08:08:18Z"
   },
   "mobile/digi": {
    "operatore": "Digi Mobil",
