@@ -2,30 +2,8 @@
  "operatore": "WindTre",
  "categoria": "mobile",
  "provider_id": "windtre",
- "status": "ok",
- "detail": "",
- "updated": "2026-06-13T07:24:16Z",
- "offers": [
-  {
-   "operatore": "WindTre",
-   "offerta": "200 Giga",
-   "url": "https://www.windtre.it/passa-a-windtre-offerte-cambio-operatore",
-   "prezzo_mese": 10.99,
-   "giga": 200,
-   "giga_illimitati": false,
-   "prezzo_per_gb": 0.055,
-   "attivazione": 0.0,
-   "minuti": "illimitati",
-   "sms": "50",
-   "rete_5g": true,
-   "commodity": "",
-   "prezzo_energia": null,
-   "quota_fissa_mese": null,
-   "tipo": "",
-   "indice": "",
-   "spread": null,
-   "note": "provenendo da altro operatore",
-   "fonte": "verificato"
-  }
- ]
+ "status": "vuoto",
+ "detail": "nessuna offerta estratta (vedi artifact debug)",
+ "updated": "2026-06-13T07:34:28Z",
+ "offers": []
 }

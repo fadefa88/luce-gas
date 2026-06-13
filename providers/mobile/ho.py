@@ -2,50 +2,52 @@
 
 Pagina: https://www.ho-mobile.it/tutte-le-offerte
 
-STATO: scraping DA CALIBRARE per questo fornitore. Finché il parser non è
-verificato, scrape() pubblica i VALORI VERIFICATI A MANO (sotto) così il
-sito resta corretto, e marca fonte="verificato". Quando vuoi attivare lo
-scraping reale, implementa parse_html() e togli il fallback.
+STATO: scraping DA CALIBRARE. parse_html() va implementata guardando
+l'artifact debug/ho.html prodotto dall'Action di questo fornitore.
+Finché parse_html() ritorna vuoto, il fornitore risulta "vuoto" nel report
+(NESSUN dato inventato: il sito mostra solo offerte realmente estratte).
 
-Per calibrare: lancia l'Action di questo fornitore, scarica l'artifact
-debug/ho.html e scrivi qui i selettori giusti in parse_html().
+Si pubblicano solo offerte 5G.
 """
 
 from __future__ import annotations
 
-from lib.base import Offer, cli_main, dump_debug, fetch_rendered
+from lib.base import Offer, cli_main, dump_debug, fetch_rendered, euro, giga
 
 URL = "https://www.ho-mobile.it/tutte-le-offerte"
 CLICKS = []
 
-# Valori verificati a mano (giugno 2026). (nome, giga|None, prezzo, attivazione, sms, note)
-VERIFIED = [('150 Giga 5G', 150, 9.95, 2.99, '200', ''), ('250 Giga 5G', 250, 11.95, 2.99, '200', '')]
 
+def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
+    """Estrazione reale per ho.
 
-def _verified_offers() -> list[Offer]:
-    out = []
-    for nome, giga, prezzo, att, sms, note in VERIFIED:
-        out.append(Offer(
-            operatore="ho. Mobile", offerta=nome, url=URL,
-            prezzo_mese=prezzo, giga=giga, giga_illimitati=(giga is None),
-            attivazione=att, minuti="illimitati", sms=str(sms),
-            rete_5g=True, note=note, fonte="verificato",
-        ))
-    return out
+    TODO: implementare sui selettori veri della pagina. Esempio di scheletro:
 
-
-def parse_html(html: str) -> list[Offer]:
-    """TODO: estrazione reale calibrata su ho. Vuoto finché non implementata."""
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(html, "html.parser")
+        offers = []
+        for card in soup.select("SELETTORE_CARD"):
+            testo = card.get_text(" ", strip=True)
+            if "5G" not in testo:            # solo 5G
+                continue
+            prezzo = euro(testo); g = giga(testo)
+            if prezzo is None or g is None:
+                continue
+            offers.append(Offer(
+                operatore="ho. Mobile", offerta="NOME_OFFERTA", url=URL,
+                prezzo_mese=prezzo, giga=g, minuti="illimitati", sms="",
+                rete_5g=True, fonte="scraping"))
+        return offers
+    """
     return []
 
 
 def scrape() -> list[Offer]:
-    html, _xhr = fetch_rendered(URL, clicks=CLICKS)
+    html, xhr = fetch_rendered(URL, clicks=CLICKS)
     dump_debug("ho", html)
-    scraped = parse_html(html) if html else []
-    # Quando parse_html sarà affidabile, qui si confronterà con VERIFIED e si
-    # restituiranno gli scraped. Per ora pubblichiamo i valori verificati.
-    return scraped or _verified_offers()
+    if not html:
+        return []
+    return parse_html(html, xhr)
 
 
 if __name__ == "__main__":

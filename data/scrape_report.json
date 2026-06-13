@@ -1,236 +1,236 @@
 {
- "updated": "2026-06-13T07:25:45Z",
+ "updated": "2026-06-13T07:37:20Z",
  "sources": {
   "gas/a2a": {
    "operatore": "a2a",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:56Z"
   },
   "gas/edison": {
    "operatore": "edison",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:37:02Z"
   },
   "gas/enel": {
    "operatore": "enel",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:45Z"
   },
   "gas/iren": {
    "operatore": "iren",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:37:14Z"
   },
   "gas/octopus": {
    "operatore": "octopus",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:37:19Z"
   },
   "gas/plenitude": {
    "operatore": "plenitude",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:50Z"
   },
   "gas/sorgenia": {
    "operatore": "sorgenia",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:37:08Z"
   },
   "luce/a2a": {
    "operatore": "a2a",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:16Z"
   },
   "luce/edison": {
    "operatore": "edison",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:22Z"
   },
   "luce/enel": {
    "operatore": "enel",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:04Z"
   },
   "luce/iren": {
    "operatore": "iren",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:33Z"
   },
   "luce/octopus": {
    "operatore": "octopus",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:39Z"
   },
   "luce/plenitude": {
    "operatore": "plenitude",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:10Z"
   },
   "luce/sorgenia": {
    "operatore": "sorgenia",
    "status": "vuoto",
-   "detail": "da calibrare",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:36:27Z"
   },
   "mobile/coopvoce": {
    "operatore": "CoopVoce",
-   "status": "ok",
-   "detail": "",
-   "n": 2,
-   "updated": "2026-06-13T07:24:45Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:58Z"
   },
   "mobile/digi": {
    "operatore": "Digi Mobil",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:27Z"
+   "updated": "2026-06-13T07:35:40Z"
   },
   "mobile/fastweb": {
    "operatore": "Fastweb",
-   "status": "ok",
-   "detail": "",
-   "n": 3,
-   "updated": "2026-06-13T07:24:22Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:34Z"
   },
   "mobile/ho": {
    "operatore": "ho. Mobile",
-   "status": "ok",
-   "detail": "",
-   "n": 2,
-   "updated": "2026-06-13T07:24:28Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:40Z"
   },
   "mobile/iliad": {
    "operatore": "Iliad",
-   "status": "ok",
-   "detail": "",
-   "n": 3,
-   "updated": "2026-06-13T07:23:50Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:02Z"
   },
   "mobile/kena": {
    "operatore": "Kena Mobile",
-   "status": "ok",
-   "detail": "",
-   "n": 6,
-   "updated": "2026-06-13T07:24:34Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:46Z"
   },
   "mobile/lycamobile": {
    "operatore": "Lycamobile",
-   "status": "ok",
-   "detail": "",
-   "n": 3,
-   "updated": "2026-06-13T07:24:58Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:09Z"
   },
   "mobile/noitel": {
    "operatore": "Noitel",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:39Z"
+   "updated": "2026-06-13T07:35:52Z"
   },
   "mobile/optima": {
    "operatore": "Optima Mobile",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:33Z"
+   "updated": "2026-06-13T07:35:46Z"
   },
   "mobile/postemobile": {
    "operatore": "PosteMobile",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:21Z"
+   "updated": "2026-06-13T07:35:34Z"
   },
   "mobile/sky": {
    "operatore": "Sky Mobile",
-   "status": "ok",
-   "detail": "",
-   "n": 4,
-   "updated": "2026-06-13T07:25:15Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:28Z"
   },
   "mobile/spusu": {
    "operatore": "spusu",
-   "status": "ok",
-   "detail": "",
-   "n": 2,
-   "updated": "2026-06-13T07:24:52Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:03Z"
   },
   "mobile/tim": {
    "operatore": "TIM",
-   "status": "ok",
-   "detail": "",
-   "n": 3,
-   "updated": "2026-06-13T07:24:06Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:18Z"
   },
   "mobile/tiscali": {
    "operatore": "Tiscali Mobile",
-   "status": "ok",
-   "detail": "",
-   "n": 3,
-   "updated": "2026-06-13T07:25:10Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:22Z"
   },
   "mobile/unomobile": {
    "operatore": "1Mobile",
-   "status": "ok",
-   "detail": "",
-   "n": 4,
-   "updated": "2026-06-13T07:25:03Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:16Z"
   },
   "mobile/very": {
    "operatore": "Very Mobile",
-   "status": "ok",
-   "detail": "",
-   "n": 4,
-   "updated": "2026-06-13T07:24:39Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:52Z"
   },
   "mobile/vianova": {
    "operatore": "Vianova",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:25:45Z"
+   "updated": "2026-06-13T07:35:58Z"
   },
   "mobile/vodafone": {
    "operatore": "Vodafone",
-   "status": "ok",
-   "detail": "",
-   "n": 3,
-   "updated": "2026-06-13T07:23:56Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:08Z"
   },
   "mobile/windtre": {
    "operatore": "WindTre",
-   "status": "ok",
-   "detail": "",
-   "n": 1,
-   "updated": "2026-06-13T07:24:16Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:28Z"
   }
  }
 }
