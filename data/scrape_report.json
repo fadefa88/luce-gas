@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T08:08:18Z",
+ "updated": "2026-06-13T08:09:13Z",
  "sources": {
   "gas/a2a": {
    "operatore": "a2a",
@@ -230,7 +230,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:34:28Z"
+   "updated": "2026-06-13T08:09:13Z"
   }
  }
 }
