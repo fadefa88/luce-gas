@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T09:59:14Z",
+ "updated": "2026-06-13T10:12:35Z",
  "sources": {
   "gas/a2a": {
    "operatore": "a2a",
@@ -111,7 +111,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:35:40Z"
+   "updated": "2026-06-13T10:10:25Z"
   },
   "mobile/fastweb": {
    "operatore": "Fastweb",
