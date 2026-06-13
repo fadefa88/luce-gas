@@ -1,18 +1,18 @@
-name: Aggiorna offerte e indici
+name: Diagnostica energia e indici legacy
 
 on:
-  schedule:
-    - cron: "17 * * * *"
   workflow_dispatch:
     inputs:
       backfill_from:
-        description: "Storico elettricità da questa data, formato YYYY-MM-DD, opzionale"
+        description: "Storico elettricita da questa data, formato YYYY-MM-DD, opzionale"
         required: false
         default: ""
   push:
     branches: [main]
     paths:
-      - "scraper/**"
+      - "scraper/main.py"
+      - "scraper/fetch_energy_offers.py"
+      - "scraper/fetch_commodity.py"
       - ".github/workflows/scrape.yml"
       - "data/manual_commodity.csv"
 
@@ -50,11 +50,11 @@ jobs:
           pip install -r scraper/requirements.txt
           python -m playwright install --with-deps chromium
 
-      - name: Backfill storico elettricità
+      - name: Backfill storico elettricita
         if: ${{ github.event.inputs.backfill_from != '' }}
         run: python -m scraper.backfill "${{ github.event.inputs.backfill_from }}"
 
-      - name: Esegui scraper
+      - name: Esegui diagnostica legacy
         env:
           PORTALE_OPEN_DATA_URL: ${{ vars.PORTALE_OPEN_DATA_URL }}
         run: python -m scraper.main
@@ -80,18 +80,18 @@ jobs:
           if-no-files-found: ignore
           retention-days: 3
 
-      - name: Commit dati aggiornati
+      - name: Commit dati diagnostici legacy
         run: |
           git config user.name "tariffaradar-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/
+          git add data/scrape_status.json data/scrape_report.json data/commodity_latest.json data/history/commodity_history.json data/history/energy_history.json data/offers_energy.json
 
           if git diff --cached --quiet; then
-            echo "Nessuna variazione nei dati."
+            echo "Nessuna variazione nei dati diagnostici."
             exit 0
           fi
 
-          git commit -m "dati: aggiornamento automatico $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git commit -m "dati: diagnostica energia e indici $(date -u +'%Y-%m-%d %H:%M UTC')"
 
           for attempt in 1 2 3; do
             echo "Tentativo push $attempt/3"
