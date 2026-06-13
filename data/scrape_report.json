@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T22:50:59Z",
+ "updated": "2026-06-13T23:53:06Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
@@ -13,7 +13,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T20:54:01Z"
+   "updated": "2026-06-13T23:49:59Z"
   },
   "gas/enel": {
    "operatore": "Enel Energia",
@@ -27,14 +27,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T21:54:56Z"
+   "updated": "2026-06-13T23:02:33Z"
   },
   "gas/octopus": {
    "operatore": "Octopus Energy",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T21:13:58Z"
+   "updated": "2026-06-13T23:03:21Z"
   },
   "gas/plenitude": {
    "operatore": "Plenitude (Eni)",
@@ -48,7 +48,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T22:49:42Z"
+   "updated": "2026-06-13T23:52:56Z"
   },
   "luce/a2a": {
    "operatore": "A2A Energia",
@@ -108,10 +108,10 @@
   },
   "mobile/digi": {
    "operatore": "Digi Mobil",
-   "status": "ok",
-   "detail": "",
-   "n": 3,
-   "updated": "2026-06-13T22:47:57Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T23:52:12Z"
   },
   "mobile/fastweb": {
    "operatore": "Fastweb",
@@ -132,7 +132,7 @@
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-13T21:24:26Z"
+   "updated": "2026-06-13T23:17:59Z"
   },
   "mobile/kena": {
    "operatore": "Kena Mobile",
@@ -153,14 +153,14 @@
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-13T21:06:49Z"
+   "updated": "2026-06-13T22:57:57Z"
   },
   "mobile/optima": {
    "operatore": "Optima Mobile",
    "status": "ok",
    "detail": "",
    "n": 1,
-   "updated": "2026-06-13T21:00:46Z"
+   "updated": "2026-06-13T22:53:00Z"
   },
   "mobile/postemobile": {
    "operatore": "PosteMobile",
@@ -216,7 +216,7 @@
    "status": "ok",
    "detail": "",
    "n": 6,
-   "updated": "2026-06-13T21:16:43Z"
+   "updated": "2026-06-13T23:06:34Z"
   },
   "mobile/vodafone": {
    "operatore": "Vodafone",
