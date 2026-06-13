@@ -33,36 +33,57 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
     offers: list[Offer] = []
     seen: set[tuple] = set()
 
-    # raccogli i blocchi-card: l'antenato di un link /prodotto/ che contiene "mese"
-    cards = []
+    # 2026: la pagina Kena non usa più URL /prodotto/ sulle CTA, ma link
+    # tipo /mso/?said=...; quindi il vecchio selettore per href non trova
+    # nessuna card. Usiamo prima i blocchi DOM se presenti, poi un fallback
+    # line-oriented sul testo visibile.
+    cards: list[tuple[str, str]] = []
     for a in soup.find_all("a", href=True):
-        if not PRODUCT.search(a["href"]):
+        href = a["href"]
+        if not (PRODUCT.search(href) or "/mso/" in href.lower() or "said=" in href.lower()):
             continue
         card = a
-        for _ in range(7):
+        for _ in range(8):
             if card.parent is None:
                 break
             card = card.parent
             if "mese" in card.get_text(" ", strip=True).lower():
                 break
-        cards.append((card, a["href"]))
+        txt = " ".join(card.get_text(" ", strip=True).split())
+        if "mese" in txt.lower():
+            cards.append((txt, href))
 
-    for card, href in cards:
-        text = " ".join(card.get_text(" ", strip=True).split())
+    if not cards:
+        lines = [x.strip() for x in soup.get_text("\n", strip=True).splitlines() if x.strip()]
+        price_idxs = [i for i, line in enumerate(lines) if PRICE_MONTH.search(line)]
+        for pos, i in enumerate(price_idxs):
+            prev_price = price_idxs[pos - 1] if pos else -1
+            next_price = price_idxs[pos + 1] if pos + 1 < len(price_idxs) else len(lines)
 
+            start = prev_price + 1
+            for j in range(prev_price + 1, i):
+                if "acquista online" in lines[j].lower():
+                    start = j + 1
+            end = min(next_price, i + 8)
+            for j in range(i + 1, min(next_price, i + 10)):
+                if "acquista online" in lines[j].lower():
+                    end = j
+                    break
+            block = " ".join(lines[start:end])
+            cards.append((" ".join(block.split()), URL))
+
+    for text, href in cards:
         if EXCLUDE_TXT.search(text):
             continue
         if re.search(r"ogni\s*\d+\s*mes", text, re.I):       # pack non mensile
             continue
 
-        # PREZZO: prima quello "al mese"; se assente, il primo €,99 che NON
-        # sia preceduto da "attivazione"
         price = None
         if (pm := PRICE_MONTH.search(text)):
             price = float(f"{pm.group(1)}.{pm.group(2)}")
         else:
             for m in PRICE_ANY.finditer(text):
-                before = text[max(0, m.start() - 20): m.start()].lower()
+                before = text[max(0, m.start() - 24): m.start()].lower()
                 if "attivazione" in before:
                     continue
                 price = float(f"{m.group(1)}.{m.group(2)}")
@@ -70,12 +91,14 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
         if price is None or not (1.0 <= price <= 60.0):
             continue
 
-        # GIGA: numero più alto prima di giga/GB (gestisce "200 300 giga")
         gigas = [int(n) for n in GIGA.findall(text) if 1 <= int(n) <= 2000]
-        # escludi "1 giga" della domotica già filtrata; se nessun giga, salta
         if not gigas:
             continue
         giga = max(gigas)
+
+        # Kena Voce / DomoKena sono prodotti non dati-mobile comparabili.
+        if giga < 50 or re.search(r"kena\s+voce|voce\s+e\s+dati", text, re.I):
+            continue
 
         is_5g = ("5g" in href.lower()) or ("five_g" in text.lower()) or bool(re.search(r"\b5G\b", text))
 
@@ -84,12 +107,12 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
             attiv = float(f"{am.group(1)}.{am.group(2)}")
         elif (am2 := re.search(r"attivazione\s*(\d{1,2})\s*€", text, re.I)):
             attiv = float(am2.group(1))
-        elif re.search(r"attivazione[,\s]+sim", text, re.I):
+        elif re.search(r"attivazione[^.;]{0,40}(gratis|sim)", text, re.I):
             attiv = 0.0
 
         sms = (sm.group(1) if (sm := re.search(r"(\d{2,4})\s*SMS", text, re.I)) else "")
 
-        key = (price, giga, href)
+        key = (price, giga)
         if key in seen:
             continue
         seen.add(key)
@@ -102,11 +125,13 @@ def parse_html(html: str, xhr: list | None = None) -> list[Offer]:
         ))
     return offers
 
-
 def scrape() -> list[Offer]:
     html = fetch_html(URL)
-    if not html or "/prodotto/" not in html:
+    if not html:
         html, _ = fetch_rendered(URL)
+    elif "giga" not in html.lower() and "mese" not in html.lower():
+        rendered, _ = fetch_rendered(URL)
+        html = rendered or html
     dump_debug("kena", html)
     if not html:
         return []

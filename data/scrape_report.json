@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T08:53:41Z",
+ "updated": "2026-06-13T09:03:57Z",
  "sources": {
   "gas/a2a": {
    "operatore": "a2a",
@@ -139,7 +139,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-13T07:34:46Z"
+   "updated": "2026-06-13T09:00:49Z"
   },
   "mobile/lycamobile": {
    "operatore": "Lycamobile",
@@ -231,6 +231,141 @@
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
    "updated": "2026-06-13T07:34:28Z"
+  },
+  "mobile_curated/iliad": {
+   "operatore": "iliad",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 3,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/vodafone": {
+   "operatore": "vodafone",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 3,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/tim": {
+   "operatore": "tim",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 3,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/windtre": {
+   "operatore": "windtre",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 1,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/fastweb": {
+   "operatore": "fastweb",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 3,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/ho": {
+   "operatore": "ho",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 2,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/kena": {
+   "operatore": "kena",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 6,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/very": {
+   "operatore": "very",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 4,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/coopvoce": {
+   "operatore": "coopvoce",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 2,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/spusu": {
+   "operatore": "spusu",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 2,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/lycamobile": {
+   "operatore": "lycamobile",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 3,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/unomobile": {
+   "operatore": "unomobile",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 4,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/tiscali": {
+   "operatore": "tiscali",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 3,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/sky": {
+   "operatore": "sky",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 4,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/postemobile": {
+   "operatore": "postemobile",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 0,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/digi": {
+   "operatore": "digi",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 0,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/optima": {
+   "operatore": "optima",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 0,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/noitel": {
+   "operatore": "noitel",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 0,
+   "updated": "2026-06-13T09:03:57Z"
+  },
+  "mobile_curated/vianova": {
+   "operatore": "vianova",
+   "status": "curated",
+   "detail": "pubblicata da scraper/config/curated_mobile.yaml",
+   "n": 0,
+   "updated": "2026-06-13T09:03:57Z"
   }
- }
+ },
+ "mobile_publication_source": "curated_mobile.yaml",
+ "mobile_curated_offers": 43
 }
