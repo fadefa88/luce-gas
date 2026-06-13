@@ -1,0 +1,46 @@
+name: ev-data · aggiorna costi auto elettrica
+
+on:
+  schedule: [{cron: "25 7 * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "scripts/update_ev_data.py"
+      - "data/ev_config.json"
+      - "data/electric_cars.json"
+
+permissions:
+  contents: write
+concurrency: {group: data-commit, cancel-in-progress: false}
+
+jobs:
+  update-ev-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - name: Dipendenze
+        run: pip install -r scraper/requirements.txt
+      - name: Aggiorna input costi EV
+        run: python scripts/update_ev_data.py
+      - name: Commit input EV
+        run: |
+          git config user.name  "tariffaradar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/vehicle_cost_inputs.json
+          if git diff --cached --quiet; then
+            echo "No EV data changes."
+            exit 0
+          fi
+          git commit -m "dati(ev): aggiornamento costi $(date -u +'%F %H:%M UTC')"
+          pushed=0
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin main && git push; then pushed=1; break; fi
+            git rebase --abort 2>/dev/null || true
+            sleep $((RANDOM % 8 + 4))
+          done
+          if [ "$pushed" != "1" ]; then
+            echo "::error::push EV data fallito dopo 5 tentativi"; exit 1
+          fi
