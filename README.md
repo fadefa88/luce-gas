@@ -1,91 +1,55 @@
-# TariffaRadar
+# ⚡📶 TariffaRadar — architettura per-fornitore
 
-Osservatorio automatico delle offerte **luce, gas e telefonia mobile** in Italia, con confronto storico rispetto al costo della **materia prima**.
+Ogni fornitore (mobile, luce, gas) ha **il suo modulo Python** e **la sua
+GitHub Action**: se un sito cambia si aggiusta *quel* fornitore senza toccare
+gli altri, e un fornitore rotto non blocca il resto.
 
-## Stato produzione
-
-Il sito non usa dati dimostrativi nel frontend. Le card vengono mostrate solo se i file JSON prodotti dallo scraper contengono offerte reali.
-
-File principali:
-
-- `index.html`: sito statico GitHub Pages
-- `scraper/`: scraper Python
-- `scraper/config/providers.yaml`: configurazione fonti
-- `data/offers_energy.json`: ultimo snapshot luce/gas
-- `data/offers_mobile.json`: ultimo snapshot mobile
-- `data/scrape_status.json`: esito generale dell'ultima scansione
-- `data/scrape_report.json`: stato dettagliato fonte per fonte
-- `data/history/*.json`: serie storiche per i grafici
-
-## Scraper v2.2
-
-La versione attuale integra solo le parti utili della v2.2, mantenendo la configurazione produzione già presente: niente dati demo, workflow robusto, backoff anti-429 e uso limitato di Energy-Charts.
-
-| Problema | Soluzione |
-|---|---|
-| URL fornitori che cambiano | più URL candidati per fonte + discovery su `sitemap.xml` |
-| Offerte caricate via JavaScript | Playwright/Chromium headless nel workflow |
-| Cookie banner e lazy-load | click automatico sui banner più comuni + scroll progressivo |
-| Markup fragile | prima JSON-LD schema.org, poi CSS + regex |
-| Prezzi in centesimi | conversione automatica da c€/kWh o c€/Smc a €/unità |
-| Offerte indicizzate | gestione formule `PUN + spread` e `PSV + spread` quando l'indice è disponibile |
-| Debug difficile | `data/scrape_report.json` + artifact `debug-html` per le pagine lette ma vuote |
-| 429 su Energy-Charts | backoff su HTTP 429 + una sola zona `IT-North` come proxy |
-| Fonti non compatibili | `enabled: false` in YAML, rispettando robots.txt |
-
-## Avvio rapido
-
-1. Attiva GitHub Pages su branch `main`, cartella `/`.
-2. Vai in **Actions** e lancia manualmente **Aggiorna offerte e indici**.
-3. Dopo il run controlla:
-   - `data/scrape_status.json`
-   - `data/scrape_report.json`
-   - artifact `debug-html`, se presente
-4. Per luce/gas, se disponibile, configura `PORTALE_OPEN_DATA_URL` in `Settings -> Secrets and variables -> Actions -> Variables`.
-
-## Workflow
+## Organizzazione
 
 ```
-.github/workflows/scrape.yml
-        |
-        v
-scraper/main.py
-  |- fetch_energy_offers.py   open data + pagine fornitori
-  |- fetch_mobile_offers.py   pagine operatori mobile
-  |- fetch_commodity.py       Energy-Charts + CSV manuale PSV/PUN
-        |
-        v
-data/*.json
-        |
-        v
-index.html
+lib/base.py        fetch (requests+Playwright), modello Offer, runner, frammenti
+lib/energy.py      helper prezzi luce/gas (€/kWh, centesimi, spread PUN/PSV)
+lib/aggregate.py   unisce i frammenti nei file del sito
+
+providers/mobile/<id>.py   uno per operatore -> scrape() -> [Offer]
+providers/luce/<id>.py  providers/gas/<id>.py
+
+data/providers/<cat>__<id>.json   "frammento" prodotto da ogni fornitore
+data/offers_mobile.json  offers_energy.json  scrape_report.json   ricomposti
+data/history/...          serie storiche per i grafici
+
+.github/workflows/_scrape-provider.yml   workflow RIUSABILE (1 fornitore)
+.github/workflows/mobile-<id>.yml ...     1 caller per fornitore
+.github/workflows/aggregate.yml           ricompone i JSON del sito
+.github/workflows/commodity.yml           PUN/PSV + backfill
 ```
 
-Il workflow installa Playwright, esegue lo scraper, salva il report fonti, carica eventuali HTML di debug come artifact e committa solo se i dati cambiano.
+### Flusso ogni ora
+1. Ogni caller `mobile-<id>.yml` parte a minuto sfalsato, esegue
+   `python -m providers.mobile.<id>` e committa SOLO il proprio frammento.
+2. `aggregate.yml` (minuto 55) ricompone offers_mobile/energy e scrape_report.
+3. `commodity.yml` (minuto 50) aggiorna PUN/PSV.
+I commit usano `concurrency: data-commit` + `git pull --rebase` con retry.
 
-## Backfill storico elettricità
+## Aggiustare UN fornitore (caso d'uso principale)
+1. Apri `providers/mobile/<id>.py`: ha URL, CLICKS, VERIFIED (valori a mano) e
+   `parse_html(html)` = dove scrivi l'estrazione vera.
+2. Lancia la sua Action, scarica l'artifact `debug-mobile__<id>` (HTML reale).
+3. Implementa `parse_html()`. Finché torna vuoto, `scrape()` pubblica i VERIFIED
+   (il sito resta corretto). Quando è pronto, `scrape()` restituisce i suoi dati.
 
-Dalla tab Actions puoi lanciare il workflow manuale compilando `backfill_from`, ad esempio:
+Iliad è già implementato: estrae GB e prezzo dallo slug dell'URL.
 
-```text
-2024-01-01
-```
+## Aggiungere un fornitore
+1. `providers/mobile/nuovo.py` (copia uno esistente).
+2. `.github/workflows/mobile-nuovo.yml` (copia un caller, cambia id/cron).
+L'aggregatore lo include da solo.
 
-Oppure in locale:
+## Valori mobile pubblicati (verificati giugno 2026, solo 5G)
+Iliad, Vodafone, TIM, WindTre, Fastweb, ho., Kena, Very, CoopVoce, spusu,
+Lycamobile, 1Mobile, Tiscali, Sky. PosteMobile/Digi/Optima/Noitel/Vianova
+predisposti, in attesa di dati.
 
-```bash
-python -m scraper.backfill 2024-01-01
-```
-
-Il dato Energy-Charts viene salvato usando la zona `IT-North` come proxy del PUN, per evitare eccesso di chiamate API. Per valori ufficiali al dettaglio si può importare un CSV manuale in `data/manual_commodity.csv` con intestazione:
-
-```csv
-date,pun,psv
-```
-
-## Note operative
-
-- Lo scraper legge solo pagine pubbliche o open data.
-- I prezzi sono indicativi e possono essere incompleti.
-- Prima di sottoscrivere un contratto, verificare sempre le condizioni ufficiali.
-- Se una fonte non restituisce offerte, controllare prima `scrape_report.json`, poi l'artifact HTML di debug.
+## Energia
+Moduli luce/ e gas/ sono scaffold con parse_html() da implementare. La via più
+robusta resta l'open data ARERA del Portale Offerte.

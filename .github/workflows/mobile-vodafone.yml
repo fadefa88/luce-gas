@@ -1,0 +1,13 @@
+name: mobile · vodafone
+
+on:
+  schedule: [{cron: "8 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/vodafone.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.vodafone", fragment: "mobile__vodafone"}

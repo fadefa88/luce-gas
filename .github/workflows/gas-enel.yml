@@ -1,0 +1,13 @@
+name: gas · enel
+
+on:
+  schedule: [{cron: "40 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/gas/enel.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.gas.enel", fragment: "gas__enel"}

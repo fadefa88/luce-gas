@@ -1,0 +1,40 @@
+name: _scrape-provider (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      module:   {required: true, type: string}   # es. providers.mobile.iliad
+      fragment: {required: true, type: string}   # es. mobile__iliad
+
+permissions:
+  contents: write
+concurrency:
+  group: data-commit          # un commit alla volta tra tutti i provider
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip, cache-dependency-path: scraper/requirements.txt}
+      - run: |
+          pip install -r scraper/requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Scrape ${{ inputs.module }}
+        run: python -m ${{ inputs.module }}
+      - name: Debug HTML artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with: {name: "debug-${{ inputs.fragment }}", path: debug/, if-no-files-found: ignore, retention-days: 3}
+      - name: Commit fragment
+        run: |
+          git config user.name  "tariffaradar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/providers/${{ inputs.fragment }}.json
+          if git diff --cached --quiet; then echo "nessuna variazione"; else
+            git commit -m "dati(${{ inputs.fragment }}): aggiornamento $(date -u +'%F %H:%M UTC')"
+            for i in 1 2 3 4 5; do git pull --rebase origin main && git push && break || sleep $((RANDOM%10+5)); done
+          fi

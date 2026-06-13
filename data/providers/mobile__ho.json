@@ -1,0 +1,52 @@
+{
+ "operatore": "ho. Mobile",
+ "categoria": "mobile",
+ "provider_id": "ho",
+ "status": "ok",
+ "detail": "",
+ "updated": "2026-06-13T07:24:28Z",
+ "offers": [
+  {
+   "operatore": "ho. Mobile",
+   "offerta": "150 Giga 5G",
+   "url": "https://www.ho-mobile.it/tutte-le-offerte",
+   "prezzo_mese": 9.95,
+   "giga": 150,
+   "giga_illimitati": false,
+   "prezzo_per_gb": 0.066,
+   "attivazione": 2.99,
+   "minuti": "illimitati",
+   "sms": "200",
+   "rete_5g": true,
+   "commodity": "",
+   "prezzo_energia": null,
+   "quota_fissa_mese": null,
+   "tipo": "",
+   "indice": "",
+   "spread": null,
+   "note": "",
+   "fonte": "verificato"
+  },
+  {
+   "operatore": "ho. Mobile",
+   "offerta": "250 Giga 5G",
+   "url": "https://www.ho-mobile.it/tutte-le-offerte",
+   "prezzo_mese": 11.95,
+   "giga": 250,
+   "giga_illimitati": false,
+   "prezzo_per_gb": 0.048,
+   "attivazione": 2.99,
+   "minuti": "illimitati",
+   "sms": "200",
+   "rete_5g": true,
+   "commodity": "",
+   "prezzo_energia": null,
+   "quota_fissa_mese": null,
+   "tipo": "",
+   "indice": "",
+   "spread": null,
+   "note": "",
+   "fonte": "verificato"
+  }
+ ]
+}

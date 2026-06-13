@@ -1,0 +1,13 @@
+name: gas · iren
+
+on:
+  schedule: [{cron: "55 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/gas/iren.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.gas.iren", fragment: "gas__iren"}

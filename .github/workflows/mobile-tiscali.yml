@@ -1,0 +1,13 @@
+name: mobile · tiscali
+
+on:
+  schedule: [{cron: "41 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/tiscali.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.tiscali", fragment: "mobile__tiscali"}

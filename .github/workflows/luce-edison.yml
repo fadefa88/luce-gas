@@ -1,0 +1,13 @@
+name: luce · edison
+
+on:
+  schedule: [{cron: "29 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/luce/edison.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.luce.edison", fragment: "luce__edison"}

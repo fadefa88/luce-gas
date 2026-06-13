@@ -1,0 +1,13 @@
+name: mobile · coopvoce
+
+on:
+  schedule: [{cron: "29 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/coopvoce.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.coopvoce", fragment: "mobile__coopvoce"}

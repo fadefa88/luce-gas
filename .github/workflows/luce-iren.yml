@@ -1,0 +1,13 @@
+name: luce · iren
+
+on:
+  schedule: [{cron: "35 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/luce/iren.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.luce.iren", fragment: "luce__iren"}

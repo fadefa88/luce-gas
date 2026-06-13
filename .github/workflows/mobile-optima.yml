@@ -1,0 +1,13 @@
+name: mobile · optima
+
+on:
+  schedule: [{cron: "53 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/optima.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.optima", fragment: "mobile__optima"}

@@ -1,0 +1,13 @@
+name: luce · enel
+
+on:
+  schedule: [{cron: "20 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/luce/enel.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.luce.enel", fragment: "luce__enel"}

@@ -1,0 +1,13 @@
+name: mobile · tim
+
+on:
+  schedule: [{cron: "11 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/tim.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.tim", fragment: "mobile__tim"}

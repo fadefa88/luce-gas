@@ -1,0 +1,13 @@
+name: gas · octopus
+
+on:
+  schedule: [{cron: "58 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/gas/octopus.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.gas.octopus", fragment: "gas__octopus"}

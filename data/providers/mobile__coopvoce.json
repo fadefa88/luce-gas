@@ -1,0 +1,52 @@
+{
+ "operatore": "CoopVoce",
+ "categoria": "mobile",
+ "provider_id": "coopvoce",
+ "status": "ok",
+ "detail": "",
+ "updated": "2026-06-13T07:24:45Z",
+ "offers": [
+  {
+   "operatore": "CoopVoce",
+   "offerta": "Turbo 200",
+   "url": "https://www.coopvoce.it/portale/offerte.html",
+   "prezzo_mese": 7.9,
+   "giga": 200,
+   "giga_illimitati": false,
+   "prezzo_per_gb": 0.04,
+   "attivazione": 0.0,
+   "minuti": "illimitati",
+   "sms": "1000",
+   "rete_5g": true,
+   "commodity": "",
+   "prezzo_energia": null,
+   "quota_fissa_mese": null,
+   "tipo": "",
+   "indice": "",
+   "spread": null,
+   "note": "attivazione + 1° mese gratuiti; promo fino all'01/07",
+   "fonte": "verificato"
+  },
+  {
+   "operatore": "CoopVoce",
+   "offerta": "Turbo 400",
+   "url": "https://www.coopvoce.it/portale/offerte.html",
+   "prezzo_mese": 9.9,
+   "giga": 400,
+   "giga_illimitati": false,
+   "prezzo_per_gb": 0.025,
+   "attivazione": 0.0,
+   "minuti": "illimitati",
+   "sms": "1000",
+   "rete_5g": true,
+   "commodity": "",
+   "prezzo_energia": null,
+   "quota_fissa_mese": null,
+   "tipo": "",
+   "indice": "",
+   "spread": null,
+   "note": "",
+   "fonte": "verificato"
+  }
+ ]
+}

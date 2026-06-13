@@ -1,0 +1,13 @@
+name: mobile · sky
+
+on:
+  schedule: [{cron: "44 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/sky.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.sky", fragment: "mobile__sky"}

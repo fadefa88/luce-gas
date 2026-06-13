@@ -1,0 +1,9 @@
+{
+ "operatore": "PosteMobile",
+ "categoria": "mobile",
+ "provider_id": "postemobile",
+ "status": "vuoto",
+ "detail": "nessuna offerta estratta (vedi artifact debug)",
+ "updated": "2026-06-13T07:25:21Z",
+ "offers": []
+}

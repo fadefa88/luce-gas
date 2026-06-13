@@ -1,0 +1,13 @@
+name: gas · edison
+
+on:
+  schedule: [{cron: "49 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/gas/edison.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.gas.edison", fragment: "gas__edison"}

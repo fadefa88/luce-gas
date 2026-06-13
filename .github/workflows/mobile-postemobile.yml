@@ -1,0 +1,13 @@
+name: mobile · postemobile
+
+on:
+  schedule: [{cron: "47 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/postemobile.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.postemobile", fragment: "mobile__postemobile"}

@@ -1,0 +1,13 @@
+name: mobile · fastweb
+
+on:
+  schedule: [{cron: "17 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/fastweb.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.fastweb", fragment: "mobile__fastweb"}

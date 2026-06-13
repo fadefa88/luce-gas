@@ -1,0 +1,13 @@
+name: luce · sorgenia
+
+on:
+  schedule: [{cron: "32 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/luce/sorgenia.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.luce.sorgenia", fragment: "luce__sorgenia"}

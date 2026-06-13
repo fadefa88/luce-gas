@@ -1,0 +1,13 @@
+name: mobile · digi
+
+on:
+  schedule: [{cron: "50 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/digi.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.digi", fragment: "mobile__digi"}

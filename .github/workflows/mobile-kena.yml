@@ -1,0 +1,13 @@
+name: mobile · kena
+
+on:
+  schedule: [{cron: "23 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/kena.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.kena", fragment: "mobile__kena"}

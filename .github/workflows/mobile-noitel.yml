@@ -1,0 +1,13 @@
+name: mobile · noitel
+
+on:
+  schedule: [{cron: "56 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/noitel.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.noitel", fragment: "mobile__noitel"}

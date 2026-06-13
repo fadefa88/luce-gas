@@ -98,3 +98,17 @@ def update_commodity(cfg: dict) -> None:
         if "pun" in latest and "psv" in latest:
             break
     save_json(DATA_DIR / "commodity_latest.json", latest)
+
+
+if __name__ == "__main__":
+    # Esecuzione standalone per l'Action "materia prima".
+    import yaml
+    from pathlib import Path
+    cfg_path = Path(__file__).parent / "config" / "providers.yaml"
+    commodity_cfg = {}
+    if cfg_path.exists():
+        commodity_cfg = (yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}).get("commodity", {})
+    if not commodity_cfg:
+        commodity_cfg = {"energy_charts_base": "https://api.energy-charts.info/price",
+                         "it_zones": ["IT-North"], "min_zones": 1}
+    update_commodity(commodity_cfg)

@@ -1,0 +1,13 @@
+name: luce · plenitude
+
+on:
+  schedule: [{cron: "23 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/luce/plenitude.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.luce.plenitude", fragment: "luce__plenitude"}

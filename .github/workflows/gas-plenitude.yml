@@ -1,0 +1,13 @@
+name: gas · plenitude
+
+on:
+  schedule: [{cron: "43 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/gas/plenitude.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.gas.plenitude", fragment: "gas__plenitude"}

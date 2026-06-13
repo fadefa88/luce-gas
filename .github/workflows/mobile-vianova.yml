@@ -1,0 +1,13 @@
+name: mobile · vianova
+
+on:
+  schedule: [{cron: "59 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/vianova.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.vianova", fragment: "mobile__vianova"}

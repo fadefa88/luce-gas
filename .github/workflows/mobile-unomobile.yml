@@ -1,0 +1,13 @@
+name: mobile · unomobile
+
+on:
+  schedule: [{cron: "38 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/unomobile.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.unomobile", fragment: "mobile__unomobile"}

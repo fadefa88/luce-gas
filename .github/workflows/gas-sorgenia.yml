@@ -1,0 +1,13 @@
+name: gas · sorgenia
+
+on:
+  schedule: [{cron: "52 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/gas/sorgenia.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.gas.sorgenia", fragment: "gas__sorgenia"}

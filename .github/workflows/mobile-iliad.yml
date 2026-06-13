@@ -1,0 +1,13 @@
+name: mobile · iliad
+
+on:
+  schedule: [{cron: "5 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/iliad.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.iliad", fragment: "mobile__iliad"}

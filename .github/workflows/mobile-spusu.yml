@@ -1,0 +1,13 @@
+name: mobile · spusu
+
+on:
+  schedule: [{cron: "32 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/spusu.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.spusu", fragment: "mobile__spusu"}

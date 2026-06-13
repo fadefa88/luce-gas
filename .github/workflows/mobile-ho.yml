@@ -1,0 +1,13 @@
+name: mobile · ho
+
+on:
+  schedule: [{cron: "20 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/ho.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.ho", fragment: "mobile__ho"}

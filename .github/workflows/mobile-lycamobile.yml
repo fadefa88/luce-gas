@@ -1,0 +1,13 @@
+name: mobile · lycamobile
+
+on:
+  schedule: [{cron: "35 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/mobile/lycamobile.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.mobile.lycamobile", fragment: "mobile__lycamobile"}

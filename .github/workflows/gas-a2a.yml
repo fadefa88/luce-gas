@@ -1,0 +1,13 @@
+name: gas · a2a
+
+on:
+  schedule: [{cron: "46 * * * *"}]
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths: ["providers/gas/a2a.py", "lib/**"]
+
+jobs:
+  run:
+    uses: ./.github/workflows/_scrape-provider.yml
+    with: {module: "providers.gas.a2a", fragment: "gas__a2a"}
