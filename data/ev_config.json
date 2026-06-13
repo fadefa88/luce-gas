@@ -1,0 +1,24 @@
+{
+ "km_year": 15000,
+ "ownership_years": 5,
+ "ev_real_world_factor": 1.18,
+ "charging_losses_factor": 1.10,
+ "diesel_l_100km": 5.5,
+ "benzina_l_100km": 6.5,
+ "ev_home_share": 0.75,
+ "ev_public_share": 0.25,
+ "ice_bollo_eur_year": 260,
+ "ev_bollo_eur_year_first_5": 0,
+ "diesel_maintenance_eur_year": 380,
+ "benzina_maintenance_eur_year": 330,
+ "ev_maintenance_eur_year": 190,
+ "solar_kwp_default": 3.0,
+ "solar_yield_kwh_per_kwp_year": 1200,
+ "solar_ev_self_consumption_share": 0.35,
+ "solar_opportunity_cost_eur_kwh": 0.11,
+ "notes": [
+  "Valori modificabili: servono come default della simulazione, non come preventivo.",
+  "Il bollo elettrico è considerato esente nei primi 5 anni; dopo dipende dalla Regione.",
+  "Il costo ricarica domestica all-in è stimato; per precisione usare la propria bolletta."
+ ]
+}
