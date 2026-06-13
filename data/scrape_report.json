@@ -1,167 +1,236 @@
 {
- "updated": "2026-06-13T08:40:38Z",
+ "updated": "2026-06-13T08:16:10Z",
  "sources": {
-  "octopus": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://octopusenergy.it/le-nostre-tariffe)",
+  "gas/a2a": {
+   "operatore": "a2a",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:33:25Z"
+   "updated": "2026-06-13T07:36:56Z"
   },
-  "enel": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.enel.it/it/luce-e-gas/luce/offerte)",
+  "gas/edison": {
+   "operatore": "edison",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:33:37Z"
+   "updated": "2026-06-13T07:37:02Z"
   },
-  "plenitude": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://eniplenitude.com/offerte/casa)",
+  "gas/enel": {
+   "operatore": "enel",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:33:46Z"
+   "updated": "2026-06-13T07:36:45Z"
   },
-  "a2a": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.a2aenergia.eu/offerte-luce-gas)",
+  "gas/iren": {
+   "operatore": "iren",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:33:57Z"
+   "updated": "2026-06-13T07:37:14Z"
   },
-  "edison": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.edisonenergia.it/edison/luce-gas-servizi)",
+  "gas/octopus": {
+   "operatore": "octopus",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:34:11Z"
+   "updated": "2026-06-13T07:37:19Z"
   },
-  "sorgenia": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.sorgenia.it/offerte-luce-gas-casa)",
+  "gas/plenitude": {
+   "operatore": "plenitude",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:34:21Z"
+   "updated": "2026-06-13T07:36:50Z"
   },
-  "iren": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.irenlucegas.it/casa)",
+  "gas/sorgenia": {
+   "operatore": "sorgenia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:34:30Z"
+   "updated": "2026-06-13T07:37:08Z"
   },
-  "iliad": {
-   "status": "ok",
-   "detail": "3 offerte curate",
-   "n": 3,
-   "checked": "2026-06-13T08:34:41Z"
-  },
-  "vodafone": {
-   "status": "ok",
-   "detail": "3 offerte curate",
-   "n": 3,
-   "checked": "2026-06-13T08:34:51Z"
-  },
-  "tim": {
-   "status": "ok",
-   "detail": "3 offerte curate",
-   "n": 3,
-   "checked": "2026-06-13T08:34:53Z"
-  },
-  "windtre": {
-   "status": "da_verificare",
-   "detail": "200GB: sito 9.99€ vs curato 10.99€",
-   "n": 1,
-   "checked": "2026-06-13T08:35:04Z"
-  },
-  "fastweb": {
-   "status": "ok",
-   "detail": "3 offerte curate",
-   "n": 3,
-   "checked": "2026-06-13T08:35:14Z"
-  },
-  "ho": {
-   "status": "ok",
-   "detail": "2 offerte curate",
-   "n": 2,
-   "checked": "2026-06-13T08:35:24Z"
-  },
-  "kena": {
-   "status": "ok",
-   "detail": "6 offerte curate",
-   "n": 6,
-   "checked": "2026-06-13T08:35:41Z"
-  },
-  "very": {
-   "status": "ok",
-   "detail": "4 offerte curate",
-   "n": 4,
-   "checked": "2026-06-13T08:35:51Z"
-  },
-  "coopvoce": {
-   "status": "ok",
-   "detail": "2 offerte curate",
-   "n": 2,
-   "checked": "2026-06-13T08:36:01Z"
-  },
-  "spusu": {
-   "status": "ok",
-   "detail": "2 offerte curate",
-   "n": 2,
-   "checked": "2026-06-13T08:36:13Z"
-  },
-  "lycamobile": {
-   "status": "ok",
-   "detail": "3 offerte curate",
-   "n": 3,
-   "checked": "2026-06-13T08:36:14Z"
-  },
-  "unomobile": {
-   "status": "ok",
-   "detail": "4 offerte curate",
-   "n": 4,
-   "checked": "2026-06-13T08:36:25Z"
-  },
-  "tiscali": {
-   "status": "ok",
-   "detail": "3 offerte curate",
-   "n": 3,
-   "checked": "2026-06-13T08:39:17Z"
-  },
-  "sky": {
-   "status": "ok",
-   "detail": "4 offerte curate",
-   "n": 4,
-   "checked": "2026-06-13T08:39:27Z"
-  },
-  "postemobile": {
-   "status": "vuota",
-   "detail": "né curate né rilevate",
+  "luce/a2a": {
+   "operatore": "a2a",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:39:39Z"
+   "updated": "2026-06-13T07:36:16Z"
   },
-  "digi": {
-   "status": "vuota",
-   "detail": "né curate né rilevate",
+  "luce/edison": {
+   "operatore": "edison",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:39:52Z"
+   "updated": "2026-06-13T07:36:22Z"
   },
-  "optima": {
-   "status": "vuota",
-   "detail": "né curate né rilevate",
+  "luce/enel": {
+   "operatore": "enel",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:40:02Z"
+   "updated": "2026-06-13T07:36:04Z"
   },
-  "noitel": {
-   "status": "vuota",
-   "detail": "né curate né rilevate",
+  "luce/iren": {
+   "operatore": "iren",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:40:18Z"
+   "updated": "2026-06-13T07:36:33Z"
   },
-  "vianova": {
-   "status": "vuota",
-   "detail": "né curate né rilevate",
+  "luce/octopus": {
+   "operatore": "octopus",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-06-13T08:40:34Z"
+   "updated": "2026-06-13T07:36:39Z"
   },
-  "energy_charts": {
-   "status": "ok",
-   "detail": "ultimo 2026-06-13: 0.09052 €/kWh",
-   "n": 9,
-   "checked": "2026-06-13T08:40:38Z"
+  "luce/plenitude": {
+   "operatore": "plenitude",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:36:10Z"
+  },
+  "luce/sorgenia": {
+   "operatore": "sorgenia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:36:27Z"
+  },
+  "mobile/coopvoce": {
+   "operatore": "CoopVoce",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:58Z"
+  },
+  "mobile/digi": {
+   "operatore": "Digi Mobil",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:40Z"
+  },
+  "mobile/fastweb": {
+   "operatore": "Fastweb",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:34Z"
+  },
+  "mobile/ho": {
+   "operatore": "ho. Mobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:40Z"
+  },
+  "mobile/iliad": {
+   "operatore": "Iliad",
+   "status": "vuoto",
+   "detail": "da ripopolare al primo run reale",
+   "n": 0,
+   "updated": "2026-06-13T07:57:09Z"
+  },
+  "mobile/kena": {
+   "operatore": "Kena Mobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:46Z"
+  },
+  "mobile/lycamobile": {
+   "operatore": "Lycamobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:09Z"
+  },
+  "mobile/noitel": {
+   "operatore": "Noitel",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:52Z"
+  },
+  "mobile/optima": {
+   "operatore": "Optima Mobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:46Z"
+  },
+  "mobile/postemobile": {
+   "operatore": "PosteMobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:34Z"
+  },
+  "mobile/sky": {
+   "operatore": "Sky Mobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:28Z"
+  },
+  "mobile/spusu": {
+   "operatore": "spusu",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:03Z"
+  },
+  "mobile/tim": {
+   "operatore": "TIM",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:18Z"
+  },
+  "mobile/tiscali": {
+   "operatore": "Tiscali Mobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:22Z"
+  },
+  "mobile/unomobile": {
+   "operatore": "1Mobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:16Z"
+  },
+  "mobile/very": {
+   "operatore": "Very Mobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:52Z"
+  },
+  "mobile/vianova": {
+   "operatore": "Vianova",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:35:58Z"
+  },
+  "mobile/vodafone": {
+   "operatore": "Vodafone",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:08Z"
+  },
+  "mobile/windtre": {
+   "operatore": "WindTre",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-13T07:34:28Z"
   }
  }
 }

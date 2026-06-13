@@ -1,9 +1,9 @@
 {
- "operatore": "Enel Energia",
+ "operatore": "enel",
  "categoria": "gas",
  "provider_id": "enel",
  "status": "vuoto",
  "detail": "nessuna offerta estratta (vedi artifact debug)",
- "updated": "2026-06-13T08:36:20Z",
+ "updated": "2026-06-13T07:36:45Z",
  "offers": []
 }
