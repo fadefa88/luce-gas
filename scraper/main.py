@@ -1,4 +1,9 @@
-"""Entry point: python -m scraper.main."""
+"""Entry point legacy: python -m scraper.main.
+
+Questo workflow non pubblica piu' offerte mobile.
+Le offerte mobile devono arrivare solo dai frammenti reali prodotti dai workflow
+providers/mobile/* e poi ricomposte da lib.aggregate.
+"""
 
 from __future__ import annotations
 
@@ -10,7 +15,6 @@ import yaml
 from .common import DATA_DIR, HISTORY_DIR, append_history, close_browser, load_json, now_iso, save_json, save_report, today
 from .fetch_commodity import update_commodity
 from .fetch_energy_offers import collect_energy_offers
-from .fetch_mobile_offers import collect_mobile_offers
 
 CONFIG = Path(__file__).parent / "config" / "providers.yaml"
 
@@ -49,24 +53,12 @@ def main() -> None:
             print("  nessuna offerta energia: mantengo l'ultimo dato valido")
 
         print("== Offerte mobile ==")
-        mobile = collect_mobile_offers(cfg.get("mobile", []))
-        status["mobile_count"] = len(mobile.get("offers", []))
-        status["mobile_source"] = mobile.get("source")
-        if mobile.get("offers"):
-            save_json(DATA_DIR / "offers_mobile.json", mobile)
-            append_history(HISTORY_DIR / "mobile_history.json", {
-                "date": today(),
-                "prezzo_mese": _agg([o["prezzo_mese"] for o in mobile["offers"]]),
-                "prezzo_per_gb": _agg([o["prezzo_per_gb"] for o in mobile["offers"] if o.get("prezzo_per_gb") is not None]),
-            })
-            status["mobile_saved"] = True
-            print(f"  totale: {len(mobile['offers'])} offerte")
-        else:
-            previous = load_json(DATA_DIR / "offers_mobile.json", {})
-            if previous.get("updated") == "DEMO":
-                save_json(DATA_DIR / "offers_mobile.json", {"updated": None, "source": "pending", "offers": []})
-            status["notes"].append("Nessuna offerta mobile rilevata; mantenuto ultimo snapshot valido se presente.")
-            print("  nessuna offerta mobile: mantengo l'ultimo dato valido")
+        status["mobile_count"] = None
+        status["mobile_source"] = "provider_fragments_only"
+        status["notes"].append(
+            "Offerte mobile non pubblicate da scraper.main: usare workflow mobile-* + aggregate."
+        )
+        print("  mobile gestito solo dai workflow per-provider e da lib.aggregate")
 
         print("== Indici materia prima ==")
         update_commodity(cfg.get("commodity", {}))
