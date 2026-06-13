@@ -1,9 +1,9 @@
 {
- "operatore": "a2a",
+ "operatore": "A2A Energia",
  "categoria": "gas",
  "provider_id": "a2a",
  "status": "vuoto",
  "detail": "nessuna offerta estratta (vedi artifact debug)",
- "updated": "2026-06-13T07:36:56Z",
+ "updated": "2026-06-13T10:17:25Z",
  "offers": []
 }
