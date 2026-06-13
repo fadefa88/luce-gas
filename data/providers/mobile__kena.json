@@ -2,8 +2,30 @@
  "operatore": "Kena Mobile",
  "categoria": "mobile",
  "provider_id": "kena",
- "status": "vuoto",
- "detail": "nessuna offerta estratta (vedi artifact debug)",
- "updated": "2026-06-13T07:34:46Z",
- "offers": []
+ "status": "ok",
+ "detail": "",
+ "updated": "2026-06-13T08:38:11Z",
+ "offers": [
+  {
+   "operatore": "Kena Mobile",
+   "offerta": "10 GB",
+   "url": "https://www.kenamobile.it/offerte/",
+   "prezzo_mese": 5.0,
+   "giga": 10,
+   "giga_illimitati": false,
+   "prezzo_per_gb": 0.5,
+   "attivazione": 0.0,
+   "minuti": "illimitati",
+   "sms": "200",
+   "rete_5g": false,
+   "commodity": "",
+   "prezzo_energia": null,
+   "quota_fissa_mese": null,
+   "tipo": "",
+   "indice": "",
+   "spread": null,
+   "note": "",
+   "fonte": "scraping"
+  }
+ ]
 }
