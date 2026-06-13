@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T13:08:21Z",
+ "updated": "2026-06-13T13:35:05Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
@@ -220,10 +220,10 @@
   },
   "mobile/vodafone": {
    "operatore": "Vodafone",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-13T12:57:11Z"
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-13T13:34:01Z"
   },
   "mobile/windtre": {
    "operatore": "WindTre",
