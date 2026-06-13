@@ -6,6 +6,7 @@ on:
   push:
     branches: [main]
     paths:
+      - ".github/workflows/ev-data.yml"
       - "scripts/update_ev_data.py"
       - "data/ev_config.json"
       - "data/electric_cars.json"
