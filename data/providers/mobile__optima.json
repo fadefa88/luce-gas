@@ -2,30 +2,8 @@
  "operatore": "Optima Mobile",
  "categoria": "mobile",
  "provider_id": "optima",
- "status": "ok",
- "detail": "",
- "updated": "2026-06-14T05:23:44Z",
- "offers": [
-  {
-   "operatore": "Optima Mobile",
-   "offerta": "MOBILE",
-   "url": "https://www.optimaitalia.com/mobile",
-   "prezzo_mese": 4.95,
-   "giga": 100,
-   "giga_illimitati": false,
-   "prezzo_per_gb": 0.05,
-   "attivazione": null,
-   "minuti": "illimitati",
-   "sms": "",
-   "rete_5g": false,
-   "commodity": "",
-   "prezzo_energia": null,
-   "quota_fissa_mese": null,
-   "tipo": "",
-   "indice": "",
-   "spread": null,
-   "note": "",
-   "fonte": "scraping"
-  }
- ]
+ "status": "vuoto",
+ "detail": "nessuna offerta estratta (vedi artifact debug)",
+ "updated": "2026-06-14T09:01:45Z",
+ "offers": []
 }
