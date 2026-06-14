@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-13T10:58:58Z",
+ "updated": "2026-06-14T10:37:09Z",
  "fuel": {
   "source": "seed",
   "benzina_eur_l": 1.85,
@@ -8,7 +8,7 @@
  },
  "home_charging": {
   "status": "estimated_from_pun",
-  "estimated_all_in_eur_kwh": 0.271,
+  "estimated_all_in_eur_kwh": 0.266,
   "note": "PUN/proxy + costi regolati stimati."
  },
  "public_charging": {
