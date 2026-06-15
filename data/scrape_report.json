@@ -1,12 +1,12 @@
 {
- "updated": "2026-06-15T20:40:32Z",
+ "updated": "2026-06-15T22:51:28Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-15T19:33:47Z"
+   "updated": "2026-06-15T22:06:16Z"
   },
   "gas/edison": {
    "operatore": "Edison Energia",
@@ -27,7 +27,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-15T18:59:23Z"
+   "updated": "2026-06-15T22:08:27Z"
   },
   "gas/octopus": {
    "operatore": "Octopus Energy",
@@ -69,7 +69,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-15T18:04:51Z"
+   "updated": "2026-06-15T21:28:31Z"
   },
   "luce/iren": {
    "operatore": "Iren Luce Gas e Servizi",
@@ -83,7 +83,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-15T15:32:23Z"
+   "updated": "2026-06-15T22:04:11Z"
   },
   "luce/plenitude": {
    "operatore": "Plenitude (Eni)",
@@ -104,63 +104,63 @@
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-15T19:12:04Z"
+   "updated": "2026-06-15T22:00:08Z"
   },
   "mobile/digi": {
    "operatore": "Digi Mobil",
    "status": "ok",
    "detail": "",
    "n": 3,
-   "updated": "2026-06-15T14:49:44Z"
+   "updated": "2026-06-15T22:07:01Z"
   },
   "mobile/fastweb": {
    "operatore": "Fastweb",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-15T19:09:15Z"
+   "updated": "2026-06-15T21:50:20Z"
   },
   "mobile/ho": {
    "operatore": "ho. Mobile",
    "status": "ok",
    "detail": "",
    "n": 7,
-   "updated": "2026-06-15T12:45:46Z"
+   "updated": "2026-06-15T21:26:27Z"
   },
   "mobile/iliad": {
    "operatore": "Iliad",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-15T18:45:25Z"
+   "updated": "2026-06-15T21:49:42Z"
   },
   "mobile/kena": {
    "operatore": "Kena Mobile",
    "status": "ok",
    "detail": "",
    "n": 6,
-   "updated": "2026-06-15T07:42:49Z"
+   "updated": "2026-06-15T21:59:26Z"
   },
   "mobile/lycamobile": {
    "operatore": "Lycamobile",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-15T19:31:03Z"
+   "updated": "2026-06-15T22:02:34Z"
   },
   "mobile/noitel": {
    "operatore": "Noitel",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-15T19:41:08Z"
+   "updated": "2026-06-15T22:12:48Z"
   },
   "mobile/optima": {
    "operatore": "Optima Mobile",
-   "status": "vuoto",
-   "detail": "nessuna offerta estratta (vedi artifact debug)",
-   "n": 0,
-   "updated": "2026-06-15T19:39:06Z"
+   "status": "ok",
+   "detail": "",
+   "n": 1,
+   "updated": "2026-06-15T22:09:38Z"
   },
   "mobile/postemobile": {
    "operatore": "PosteMobile",
@@ -174,21 +174,21 @@
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-15T19:32:32Z"
+   "updated": "2026-06-15T22:04:54Z"
   },
   "mobile/spusu": {
    "operatore": "spusu",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-15T19:13:26Z"
+   "updated": "2026-06-15T22:01:25Z"
   },
   "mobile/tim": {
    "operatore": "TIM",
    "status": "ok",
    "detail": "",
    "n": 2,
-   "updated": "2026-06-15T18:02:57Z"
+   "updated": "2026-06-15T21:20:29Z"
   },
   "mobile/tiscali": {
    "operatore": "Tiscali Mobile",
@@ -202,7 +202,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-14T22:48:16Z"
+   "updated": "2026-06-15T22:03:15Z"
   },
   "mobile/very": {
    "operatore": "Very Mobile",
@@ -213,24 +213,24 @@
   },
   "mobile/vianova": {
    "operatore": "Vianova",
-   "status": "ok",
-   "detail": "",
-   "n": 6,
-   "updated": "2026-06-15T18:27:35Z"
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-15T21:48:57Z"
   },
   "mobile/vodafone": {
    "operatore": "Vodafone",
    "status": "ok",
    "detail": "",
    "n": 4,
-   "updated": "2026-06-15T18:01:50Z"
+   "updated": "2026-06-15T21:19:07Z"
   },
   "mobile/windtre": {
    "operatore": "WindTre",
    "status": "ok",
    "detail": "",
    "n": 6,
-   "updated": "2026-06-15T18:03:54Z"
+   "updated": "2026-06-15T21:22:38Z"
   }
  }
 }
