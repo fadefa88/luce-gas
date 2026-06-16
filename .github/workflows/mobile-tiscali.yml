@@ -1,7 +1,6 @@
 name: mobile · tiscali
 
 on:
-  schedule: [{cron: "41 * * * *"}]
   workflow_dispatch: {}
   push:
     branches: [main]
