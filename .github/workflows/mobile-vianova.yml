@@ -1,7 +1,6 @@
 name: mobile · vianova
 
 on:
-  schedule: [{cron: "59 * * * *"}]
   workflow_dispatch: {}
   push:
     branches: [main]
