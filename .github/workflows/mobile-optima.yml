@@ -1,7 +1,6 @@
 name: mobile · optima
 
 on:
-  schedule: [{cron: "53 * * * *"}]
   workflow_dispatch: {}
   push:
     branches: [main]
