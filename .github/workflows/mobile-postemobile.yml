@@ -1,7 +1,6 @@
 name: mobile · postemobile
 
 on:
-  schedule: [{cron: "47 * * * *"}]
   workflow_dispatch: {}
   push:
     branches: [main]
