@@ -1,7 +1,6 @@
 name: mobile · sky
 
 on:
-  schedule: [{cron: "44 * * * *"}]
   workflow_dispatch: {}
   push:
     branches: [main]
