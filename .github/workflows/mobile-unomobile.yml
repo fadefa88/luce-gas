@@ -1,7 +1,6 @@
 name: mobile · unomobile
 
 on:
-  schedule: [{cron: "38 * * * *"}]
   workflow_dispatch: {}
   push:
     branches: [main]
