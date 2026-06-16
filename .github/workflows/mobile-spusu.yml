@@ -1,7 +1,6 @@
 name: mobile · spusu
 
 on:
-  schedule: [{cron: "32 * * * *"}]
   workflow_dispatch: {}
   push:
     branches: [main]
