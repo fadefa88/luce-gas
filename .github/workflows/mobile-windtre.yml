@@ -1,7 +1,6 @@
 name: mobile · windtre
 
 on:
-  schedule: [{cron: "14 * * * *"}]
   workflow_dispatch: {}
   push:
     branches: [main]
