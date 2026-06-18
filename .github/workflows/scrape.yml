@@ -7,6 +7,9 @@ on:
         description: "Storico elettricita da questa data, formato YYYY-MM-DD, opzionale"
         required: false
         default: ""
+  schedule:
+    # Daily diagnostic refresh, off the exact hour to avoid scheduler congestion.
+    - cron: "27 3 * * *"
   push:
     branches: [main]
     paths:
