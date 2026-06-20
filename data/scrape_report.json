@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-20T22:53:08Z",
+ "updated": "2026-06-20T23:54:54Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
@@ -27,14 +27,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-20T20:59:59Z"
+   "updated": "2026-06-20T22:55:09Z"
   },
   "gas/octopus": {
    "operatore": "Octopus Energy",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-20T21:15:57Z"
+   "updated": "2026-06-20T23:05:51Z"
   },
   "gas/plenitude": {
    "operatore": "Plenitude (Eni)",
