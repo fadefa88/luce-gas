@@ -1,19 +1,19 @@
 {
- "updated": "2026-06-24T11:33:13Z",
+ "updated": "2026-06-24T13:55:09Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T05:49:47Z"
+   "updated": "2026-06-24T12:37:29Z"
   },
   "gas/edison": {
    "operatore": "Edison Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T05:50:33Z"
+   "updated": "2026-06-24T13:07:29Z"
   },
   "gas/enel": {
    "operatore": "Enel Energia",
@@ -27,56 +27,56 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T09:00:00Z"
+   "updated": "2026-06-24T12:12:07Z"
   },
   "gas/octopus": {
    "operatore": "Octopus Energy",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T10:47:11Z"
+   "updated": "2026-06-24T13:21:11Z"
   },
   "gas/plenitude": {
    "operatore": "Plenitude (Eni)",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T10:02:14Z"
+   "updated": "2026-06-24T13:08:17Z"
   },
   "gas/sorgenia": {
    "operatore": "Sorgenia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T10:03:06Z"
+   "updated": "2026-06-24T13:09:14Z"
   },
   "luce/a2a": {
    "operatore": "A2A Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T08:37:47Z"
+   "updated": "2026-06-24T12:04:33Z"
   },
   "luce/edison": {
    "operatore": "Edison Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T08:38:40Z"
+   "updated": "2026-06-24T12:05:17Z"
   },
   "luce/enel": {
    "operatore": "Enel Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T08:36:11Z"
+   "updated": "2026-06-24T12:03:44Z"
   },
   "luce/iren": {
    "operatore": "Iren Luce Gas e Servizi",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T05:48:00Z"
+   "updated": "2026-06-24T12:36:14Z"
   },
   "luce/octopus": {
    "operatore": "Octopus Energy",
@@ -90,14 +90,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T09:54:41Z"
+   "updated": "2026-06-24T12:31:58Z"
   },
   "luce/sorgenia": {
    "operatore": "Sorgenia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-24T09:59:50Z"
+   "updated": "2026-06-24T12:35:14Z"
   },
   "mobile/coopvoce": {
    "operatore": "CoopVoce",
