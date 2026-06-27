@@ -1,47 +1,47 @@
 {
- "updated": "2026-06-26T23:48:48Z",
+ "updated": "2026-06-27T01:46:56Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:49:55Z"
+   "updated": "2026-06-27T01:34:21Z"
   },
   "gas/edison": {
    "operatore": "Edison Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:50:46Z"
+   "updated": "2026-06-27T01:35:18Z"
   },
   "gas/enel": {
    "operatore": "Enel Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:48:22Z"
+   "updated": "2026-06-27T01:31:37Z"
   },
   "gas/iren": {
    "operatore": "Iren Luce Gas e Servizi",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T21:58:08Z"
+   "updated": "2026-06-26T23:51:34Z"
   },
   "gas/octopus": {
    "operatore": "Octopus Energy",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:11:53Z"
+   "updated": "2026-06-27T00:05:05Z"
   },
   "gas/plenitude": {
    "operatore": "Plenitude (Eni)",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:51:31Z"
+   "updated": "2026-06-27T01:36:09Z"
   },
   "gas/sorgenia": {
    "operatore": "Sorgenia",
@@ -55,7 +55,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:41:00Z"
+   "updated": "2026-06-27T01:27:30Z"
   },
   "luce/edison": {
    "operatore": "Edison Energia",
@@ -69,7 +69,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:39:18Z"
+   "updated": "2026-06-27T01:25:40Z"
   },
   "luce/iren": {
    "operatore": "Iren Luce Gas e Servizi",
@@ -83,21 +83,21 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:49:03Z"
+   "updated": "2026-06-27T01:32:25Z"
   },
   "luce/plenitude": {
    "operatore": "Plenitude (Eni)",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:40:10Z"
+   "updated": "2026-06-27T01:26:47Z"
   },
   "luce/sorgenia": {
    "operatore": "Sorgenia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-26T22:47:43Z"
+   "updated": "2026-06-27T01:30:51Z"
   },
   "mobile/coopvoce": {
    "operatore": "CoopVoce",
