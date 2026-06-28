@@ -1,5 +1,5 @@
 {
- "updated": "2026-06-28T17:53:47Z",
+ "updated": "2026-06-28T18:56:55Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
@@ -27,7 +27,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-28T16:53:32Z"
+   "updated": "2026-06-28T18:00:29Z"
   },
   "gas/octopus": {
    "operatore": "Octopus Energy",
@@ -48,7 +48,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-28T16:50:55Z"
+   "updated": "2026-06-28T17:55:31Z"
   },
   "luce/a2a": {
    "operatore": "A2A Energia",
@@ -76,14 +76,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-28T16:45:18Z"
+   "updated": "2026-06-28T18:47:31Z"
   },
   "luce/octopus": {
    "operatore": "Octopus Energy",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-06-28T16:46:39Z"
+   "updated": "2026-06-28T18:48:38Z"
   },
   "luce/plenitude": {
    "operatore": "Plenitude (Eni)",
