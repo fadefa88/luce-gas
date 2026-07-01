@@ -1,53 +1,236 @@
 {
- "updated": "2026-07-01T07:54:41Z",
+ "updated": "2026-07-01T10:58:20Z",
  "sources": {
-  "octopus": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://octopusenergy.it/le-nostre-tariffe)",
+  "gas/a2a": {
+   "operatore": "A2A Energia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-07-01T07:53:38Z"
+   "updated": "2026-07-01T06:58:32Z"
   },
-  "enel": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.enel.it/it/luce-e-gas/luce/offerte)",
+  "gas/edison": {
+   "operatore": "Edison Energia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-07-01T07:53:50Z"
+   "updated": "2026-07-01T10:58:09Z"
   },
-  "plenitude": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://eniplenitude.com/offerte/casa)",
+  "gas/enel": {
+   "operatore": "Enel Energia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-07-01T07:54:00Z"
+   "updated": "2026-07-01T01:54:17Z"
   },
-  "a2a": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.a2aenergia.eu/offerte-luce-gas)",
+  "gas/iren": {
+   "operatore": "Iren Luce Gas e Servizi",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-07-01T07:54:09Z"
+   "updated": "2026-07-01T08:00:25Z"
   },
-  "edison": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.edisonenergia.it/edison/luce-gas-servizi)",
+  "gas/octopus": {
+   "operatore": "Octopus Energy",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-07-01T07:54:22Z"
+   "updated": "2026-07-01T08:10:34Z"
   },
-  "sorgenia": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.sorgenia.it/offerte-luce-gas-casa)",
+  "gas/plenitude": {
+   "operatore": "Plenitude (Eni)",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-07-01T07:54:31Z"
+   "updated": "2026-07-01T06:59:25Z"
   },
-  "iren": {
-   "status": "vuota",
-   "detail": "pagina letta ma 0 offerte (https://www.irenlucegas.it/casa)",
+  "gas/sorgenia": {
+   "operatore": "Sorgenia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "checked": "2026-07-01T07:54:39Z"
+   "updated": "2026-07-01T07:00:17Z"
   },
-  "energy_charts": {
+  "luce/a2a": {
+   "operatore": "A2A Energia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-30T22:47:14Z"
+  },
+  "luce/edison": {
+   "operatore": "Edison Energia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-07-01T10:53:01Z"
+  },
+  "luce/enel": {
+   "operatore": "Enel Energia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-07-01T10:51:16Z"
+  },
+  "luce/iren": {
+   "operatore": "Iren Luce Gas e Servizi",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-07-01T10:56:27Z"
+  },
+  "luce/octopus": {
+   "operatore": "Octopus Energy",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-07-01T10:57:18Z"
+  },
+  "luce/plenitude": {
+   "operatore": "Plenitude (Eni)",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-07-01T10:52:00Z"
+  },
+  "luce/sorgenia": {
+   "operatore": "Sorgenia",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-07-01T10:55:30Z"
+  },
+  "mobile/coopvoce": {
+   "operatore": "CoopVoce",
    "status": "ok",
-   "detail": "ultimo 2026-07-01: 0.14869 €/kWh",
-   "n": 9,
-   "checked": "2026-07-01T07:54:41Z"
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-16T17:28:49Z"
+  },
+  "mobile/digi": {
+   "operatore": "Digi Mobil",
+   "status": "ok",
+   "detail": "",
+   "n": 3,
+   "updated": "2026-06-16T17:51:06Z"
+  },
+  "mobile/fastweb": {
+   "operatore": "Fastweb",
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-16T17:21:31Z"
+  },
+  "mobile/ho": {
+   "operatore": "ho. Mobile",
+   "status": "ok",
+   "detail": "",
+   "n": 7,
+   "updated": "2026-06-16T17:23:57Z"
+  },
+  "mobile/iliad": {
+   "operatore": "Iliad",
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-16T17:18:33Z"
+  },
+  "mobile/kena": {
+   "operatore": "Kena Mobile",
+   "status": "ok",
+   "detail": "",
+   "n": 6,
+   "updated": "2026-06-16T17:27:19Z"
+  },
+  "mobile/lycamobile": {
+   "operatore": "Lycamobile",
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-16T17:36:13Z"
+  },
+  "mobile/noitel": {
+   "operatore": "Noitel",
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-16T18:02:49Z"
+  },
+  "mobile/optima": {
+   "operatore": "Optima Mobile",
+   "status": "ok",
+   "detail": "",
+   "n": 1,
+   "updated": "2026-06-16T17:53:16Z"
+  },
+  "mobile/postemobile": {
+   "operatore": "PosteMobile",
+   "status": "ok",
+   "detail": "",
+   "n": 10,
+   "updated": "2026-06-16T06:18:30Z"
+  },
+  "mobile/sky": {
+   "operatore": "Sky Mobile",
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-16T17:38:51Z"
+  },
+  "mobile/spusu": {
+   "operatore": "spusu",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-16T17:33:12Z"
+  },
+  "mobile/tim": {
+   "operatore": "TIM",
+   "status": "ok",
+   "detail": "",
+   "n": 2,
+   "updated": "2026-06-16T17:20:44Z"
+  },
+  "mobile/tiscali": {
+   "operatore": "Tiscali Mobile",
+   "status": "ok",
+   "detail": "",
+   "n": 3,
+   "updated": "2026-06-16T17:36:57Z"
+  },
+  "mobile/unomobile": {
+   "operatore": "1Mobile",
+   "status": "vuoto",
+   "detail": "nessuna offerta estratta (vedi artifact debug)",
+   "n": 0,
+   "updated": "2026-06-16T11:56:15Z"
+  },
+  "mobile/very": {
+   "operatore": "Very Mobile",
+   "status": "ok",
+   "detail": "",
+   "n": 2,
+   "updated": "2026-06-16T05:41:01Z"
+  },
+  "mobile/vianova": {
+   "operatore": "Vianova",
+   "status": "ok",
+   "detail": "",
+   "n": 6,
+   "updated": "2026-06-16T19:36:42Z"
+  },
+  "mobile/vodafone": {
+   "operatore": "Vodafone",
+   "status": "ok",
+   "detail": "",
+   "n": 4,
+   "updated": "2026-06-16T17:19:41Z"
+  },
+  "mobile/windtre": {
+   "operatore": "WindTre",
+   "status": "ok",
+   "detail": "",
+   "n": 6,
+   "updated": "2026-06-16T17:22:12Z"
   }
  }
 }
