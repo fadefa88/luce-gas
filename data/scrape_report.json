@@ -1,5 +1,5 @@
 {
- "updated": "2026-07-01T10:58:20Z",
+ "updated": "2026-07-01T13:56:42Z",
  "sources": {
   "gas/a2a": {
    "operatore": "A2A Energia",
@@ -13,7 +13,7 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-07-01T10:58:09Z"
+   "updated": "2026-07-01T13:55:32Z"
   },
   "gas/enel": {
    "operatore": "Enel Energia",
@@ -27,14 +27,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-07-01T08:00:25Z"
+   "updated": "2026-07-01T11:48:12Z"
   },
   "gas/octopus": {
    "operatore": "Octopus Energy",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-07-01T08:10:34Z"
+   "updated": "2026-07-01T12:01:56Z"
   },
   "gas/plenitude": {
    "operatore": "Plenitude (Eni)",
@@ -62,14 +62,14 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-07-01T10:53:01Z"
+   "updated": "2026-07-01T13:44:23Z"
   },
   "luce/enel": {
    "operatore": "Enel Energia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-07-01T10:51:16Z"
+   "updated": "2026-07-01T13:42:41Z"
   },
   "luce/iren": {
    "operatore": "Iren Luce Gas e Servizi",
@@ -83,21 +83,21 @@
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-07-01T10:57:18Z"
+   "updated": "2026-07-01T13:54:36Z"
   },
   "luce/plenitude": {
    "operatore": "Plenitude (Eni)",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-07-01T10:52:00Z"
+   "updated": "2026-07-01T13:43:34Z"
   },
   "luce/sorgenia": {
    "operatore": "Sorgenia",
    "status": "vuoto",
    "detail": "nessuna offerta estratta (vedi artifact debug)",
    "n": 0,
-   "updated": "2026-07-01T10:55:30Z"
+   "updated": "2026-07-01T13:53:42Z"
   },
   "mobile/coopvoce": {
    "operatore": "CoopVoce",
